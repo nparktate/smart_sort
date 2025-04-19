@@ -2,6 +2,10 @@
 
 package smartsort;
 
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.*;
+import okhttp3.*;
 import org.bukkit.*;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,15 +18,11 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
-
-import okhttp3.*;
 import org.json.*;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.*;
-
 public class SmartSortPlugin extends JavaPlugin implements Listener {
+
+    private boolean debugMode = false;
 
     private String apiKey;
     private String model;
@@ -43,13 +43,31 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         sortCooldown = config.getInt("smart_sort.delay_seconds", 3);
 
         if (apiKey.isEmpty()) {
-            getLogger().severe("OpenAI API key not set in config.yml! Plugin will not work.");
+            getLogger()
+                .severe(
+                    "OpenAI API key not set in config.yml! Plugin will not work."
+                );
             return;
         }
 
         Bukkit.getPluginManager().registerEvents(this, this);
-        getCommand("testsortchests").setExecutor((sender, command, label, args) -> {
-            if (sender instanceof Player player) generateTestChests(player);
+        getCommand("testsortchests").setExecutor(
+            (sender, command, label, args) -> {
+                if (sender instanceof Player player) generateTestChests(player);
+                return true;
+            }
+        );
+        getCommand("smartsort").setExecutor((sender, command, label, args) -> {
+            if (args.length > 0 && args[0].equalsIgnoreCase("debug")) {
+                debugMode = !debugMode;
+                sender.sendMessage(
+                    ChatColor.YELLOW +
+                    "[SmartSort] Debug mode is now " +
+                    (debugMode ? "enabled" : "disabled")
+                );
+                return true;
+            }
+            sender.sendMessage(ChatColor.RED + "Usage: /smartsort debug");
             return true;
         });
 
@@ -58,27 +76,45 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
+        if (!(event.getPlayer() instanceof Player player)) return;
+        long sinceJoin = System.currentTimeMillis() - player.getFirstPlayed();
+        if (debugMode) getLogger()
+            .info(
+                "[SmartSort] [DEBUG] Inventory open triggered by " +
+                player.getName() +
+                ", time since join: " +
+                sinceJoin +
+                "ms"
+            );
+        if (sinceJoin < 3000) return;
+
         Inventory inv = event.getInventory();
         Location loc = inv.getLocation();
         if (loc == null) return;
-        if (activelySorting.contains(loc) || recentlySorted.contains(loc)) return;
+        if (
+            activelySorting.contains(loc) || recentlySorted.contains(loc)
+        ) return;
         sortInventory(inv, event.getPlayer());
     }
 
     private void sortInventory(Inventory inventory, HumanEntity player) {
-        if (inventory.getType() != InventoryType.CHEST &&
+        if (
+            inventory.getType() != InventoryType.CHEST &&
             inventory.getType() != InventoryType.BARREL &&
-            inventory.getType() != InventoryType.SHULKER_BOX) return;
+            inventory.getType() != InventoryType.SHULKER_BOX
+        ) return;
 
         List<ItemStack> originalItems = Arrays.stream(inventory.getContents())
-                .filter(item -> item != null && item.getType() != Material.AIR)
-                .map(ItemStack::clone)
-                .toList();
+            .filter(item -> item != null && item.getType() != Material.AIR)
+            .map(ItemStack::clone)
+            .toList();
 
         if (originalItems.isEmpty()) return;
 
         Location loc = inventory.getLocation();
-        String locKey = loc != null ? loc.toString() : player.getUniqueId().toString();
+        String locKey = loc != null
+            ? loc.toString()
+            : player.getUniqueId().toString();
         long now = System.currentTimeMillis();
 
         Map<String, Integer> counts = new HashMap<>();
@@ -86,7 +122,9 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         for (ItemStack item : originalItems) {
             String key = item.getType().name();
             counts.put(key, counts.getOrDefault(key, 0) + item.getAmount());
-            itemMap.computeIfAbsent(key, k -> new LinkedList<>()).add(item.clone());
+            itemMap
+                .computeIfAbsent(key, k -> new LinkedList<>())
+                .add(item.clone());
         }
 
         List<String> itemDescriptions = new ArrayList<>();
@@ -95,7 +133,10 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         }
 
         String signature = String.join(",", itemDescriptions);
-        if (inventorySignatures.containsKey(locKey) && inventorySignatures.get(locKey).equals(signature)) {
+        if (
+            inventorySignatures.containsKey(locKey) &&
+            inventorySignatures.get(locKey).equals(signature)
+        ) {
             long last = inventoryTimestamps.getOrDefault(locKey, 0L);
             if (now - last < sortCooldown * 1000L) return;
         }
@@ -107,14 +148,29 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         if (player instanceof Player p) {
             startTickSound(p);
 
-            String prompt = "You are an AI assistant that sorts Minecraft inventories. Make deliberate choices. " +
-                    "ONLY reply with a clean list in this format: 'amount x ITEM', one per line. " +
-                    "Input: " + String.join(", ", itemDescriptions);
+            String prompt =
+                "You are an AI assistant that sorts Minecraft inventories. Make deliberate choices. " +
+                "ONLY reply with a clean list in this format: 'amount x ITEM', one per line. " +
+                "Input: " +
+                String.join(", ", itemDescriptions);
 
-            getLogger().info("[SmartSort] AI Prompt: " + prompt);
+            if (debugMode) getLogger()
+                .info("[SmartSort] [DEBUG] AI Prompt: " + prompt);
+            else getLogger().info("[SmartSort] AI Prompt: " + prompt);
 
             sendToOpenAI(prompt).thenAccept(response -> {
-                getLogger().info("[SmartSort] AI Response:\n" + response);
+                if (response.trim().isEmpty()) {
+                    getLogger()
+                        .warning(
+                            "[SmartSort] ⚠️ AI response was empty — skipping sort for: " +
+                            loc
+                        );
+                    activelySorting.remove(loc);
+                    return;
+                }
+                if (debugMode) getLogger()
+                    .info("[SmartSort] [DEBUG] AI Response:\n" + response);
+                else getLogger().info("[SmartSort] AI Response:\n" + response);
 
                 List<ItemStack> sortedItems = new ArrayList<>();
                 List<ItemStack> unmatched = new ArrayList<>();
@@ -135,7 +191,9 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                     if (mat == null) continue;
 
                     Queue<ItemStack> stackList = itemMap.get(mat.name());
-                    while (amt > 0 && stackList != null && !stackList.isEmpty()) {
+                    while (
+                        amt > 0 && stackList != null && !stackList.isEmpty()
+                    ) {
                         ItemStack is = stackList.poll();
                         if (is != null) {
                             int take = Math.min(is.getAmount(), amt);
@@ -152,18 +210,27 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                 }
 
                 for (Queue<ItemStack> leftovers : itemMap.values()) {
-                    while (!leftovers.isEmpty()) unmatched.add(leftovers.poll());
+                    while (!leftovers.isEmpty()) unmatched.add(
+                        leftovers.poll()
+                    );
                 }
 
-                List<ItemStack> currentContents = Arrays.stream(inventory.getContents())
-                        .filter(item -> item != null && item.getType() != Material.AIR)
-                        .toList();
+                List<ItemStack> currentContents = Arrays.stream(
+                    inventory.getContents()
+                )
+                    .filter(
+                        item -> item != null && item.getType() != Material.AIR
+                    )
+                    .toList();
 
                 List<ItemStack> finalItems = new ArrayList<>();
                 Map<String, Integer> liveCounts = new HashMap<>();
                 for (ItemStack item : currentContents) {
                     String key = item.getType().name();
-                    liveCounts.put(key, liveCounts.getOrDefault(key, 0) + item.getAmount());
+                    liveCounts.put(
+                        key,
+                        liveCounts.getOrDefault(key, 0) + item.getAmount()
+                    );
                 }
 
                 for (ItemStack item : sortedItems) {
@@ -182,7 +249,10 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                 for (ItemStack item : currentContents) {
                     boolean isNew = true;
                     for (ItemStack orig : originalItems) {
-                        if (item.isSimilar(orig) && item.getAmount() == orig.getAmount()) {
+                        if (
+                            item.isSimilar(orig) &&
+                            item.getAmount() == orig.getAmount()
+                        ) {
                             isNew = false;
                             break;
                         }
@@ -190,29 +260,51 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                     if (isNew) finalItems.add(item);
                 }
 
-                Bukkit.getScheduler().runTask(this, () -> {
-                    inventory.clear();
-                    for (int i = 0; i < finalItems.size(); i++) {
-                        inventory.setItem(i, finalItems.get(i));
-                    }
+                Bukkit.getScheduler()
+                    .runTask(this, () -> {
+                        inventory.clear();
+                        for (int i = 0; i < finalItems.size(); i++) {
+                            inventory.setItem(i, finalItems.get(i));
+                        }
 
-                    stopTickSound(p);
-                    p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.7f, 1.1f);
+                        stopTickSound(p);
+                        p.playSound(
+                            p.getLocation(),
+                            Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
+                            0.7f,
+                            1.1f
+                        );
 
-                    if (loc != null) {
-                        activelySorting.remove(loc);
-                        recentlySorted.add(loc);
-                        Bukkit.getScheduler().runTaskLater(this, () -> recentlySorted.remove(loc), 80L);
-                    }
-                    getLogger().info("[SmartSort] Sorted: " + loc);
-                });
+                        if (loc != null) {
+                            activelySorting.remove(loc);
+                            recentlySorted.add(loc);
+                            Bukkit.getScheduler()
+                                .runTaskLater(
+                                    this,
+                                    () -> recentlySorted.remove(loc),
+                                    80L
+                                );
+                        }
+                        getLogger().info("[SmartSort] Sorted: " + loc);
+                    });
             });
         }
     }
 
     private void startTickSound(Player player) {
-        BukkitTask task = Bukkit.getScheduler().runTaskTimer(this, () ->
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.3f, 1.5f), 0L, 8L);
+        BukkitTask task = Bukkit.getScheduler()
+            .runTaskTimer(
+                this,
+                () ->
+                    player.playSound(
+                        player.getLocation(),
+                        Sound.UI_BUTTON_CLICK,
+                        0.3f,
+                        1.5f
+                    ),
+                0L,
+                8L
+            );
         tickTasks.put(player.getUniqueId(), task);
     }
 
@@ -226,29 +318,46 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
 
         OkHttpClient client = new OkHttpClient();
         JSONObject json = new JSONObject()
-                .put("model", model)
-                .put("messages", List.of(new JSONObject().put("role", "user").put("content", prompt)))
-                .put("temperature", 0.3);
+            .put("model", model)
+            .put(
+                "messages",
+                List.of(
+                    new JSONObject().put("role", "user").put("content", prompt)
+                )
+            )
+            .put("temperature", 0.3);
 
-        RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json"));
+        RequestBody body = RequestBody.create(
+            json.toString(),
+            MediaType.parse("application/json")
+        );
         Request request = new Request.Builder()
-                .url("https://api.openai.com/v1/chat/completions")
-                .post(body)
-                .addHeader("Authorization", "Bearer " + apiKey)
-                .build();
+            .url("https://api.openai.com/v1/chat/completions")
+            .post(body)
+            .addHeader("Authorization", "Bearer " + apiKey)
+            .build();
 
-        client.newCall(request).enqueue(new Callback() {
-            public void onFailure(Call call, IOException e) {
-                future.complete("");
-            }
+        client
+            .newCall(request)
+            .enqueue(
+                new Callback() {
+                    public void onFailure(Call call, IOException e) {
+                        future.complete("");
+                    }
 
-            public void onResponse(Call call, Response response) throws IOException {
-                String jsonResponse = response.body().string();
-                JSONObject res = new JSONObject(jsonResponse);
-                String content = res.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
-                future.complete(content);
-            }
-        });
+                    public void onResponse(Call call, Response response)
+                        throws IOException {
+                        String jsonResponse = response.body().string();
+                        JSONObject res = new JSONObject(jsonResponse);
+                        String content = res
+                            .getJSONArray("choices")
+                            .getJSONObject(0)
+                            .getJSONObject("message")
+                            .getString("content");
+                        future.complete(content);
+                    }
+                }
+            );
 
         return future;
     }
@@ -257,7 +366,17 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         Location base = player.getLocation().add(2, 0, 0);
         Random random = new Random();
 
-        String[] themes = {"combat gear", "miner haul", "farming loot", "base supplies", "loot chest", "tool stash", "potion chest", "building blocks", "exploration kit"};
+        String[] themes = {
+            "combat gear",
+            "miner haul",
+            "farming loot",
+            "base supplies",
+            "loot chest",
+            "tool stash",
+            "potion chest",
+            "building blocks",
+            "exploration kit",
+        };
 
         for (int x = 0; x < 3; x++) {
             for (int z = 0; z < 3; z++) {
@@ -267,37 +386,55 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                 Chest chest = (Chest) chestLoc.getBlock().getState();
                 Inventory inv = chest.getInventory();
 
-                String prompt = "Generate a Minecraft chest inventory with a theme: '" + theme + "'. " +
-                        "ONLY output in 'amount x ITEM' format, one per line.";
+                String prompt =
+                    "Generate a Minecraft chest inventory with a theme: '" +
+                    theme +
+                    "'. " +
+                    "ONLY output in 'amount x ITEM' format, one per line.";
 
-                sendToOpenAI(prompt).thenAccept(response -> Bukkit.getScheduler().runTask(this, () -> {
-                    List<ItemStack> stacks = new ArrayList<>();
-                    for (String line : response.split("\n")) {
-                        String[] parts = line.trim().split(" x ", 2);
-                        if (parts.length != 2) continue;
-                        try {
-                            int amt = Integer.parseInt(parts[0]);
-                            Material mat = Material.matchMaterial(parts[1]);
-                            if (mat != null && mat.isItem()) {
-                                stacks.add(new ItemStack(mat, Math.min(amt, mat.getMaxStackSize())));
+                sendToOpenAI(prompt).thenAccept(response ->
+                    Bukkit.getScheduler()
+                        .runTask(this, () -> {
+                            List<ItemStack> stacks = new ArrayList<>();
+                            for (String line : response.split("\n")) {
+                                String[] parts = line.trim().split(" x ", 2);
+                                if (parts.length != 2) continue;
+                                try {
+                                    int amt = Integer.parseInt(parts[0]);
+                                    Material mat = Material.matchMaterial(
+                                        parts[1]
+                                    );
+                                    if (mat != null && mat.isItem()) {
+                                        stacks.add(
+                                            new ItemStack(
+                                                mat,
+                                                Math.min(
+                                                    amt,
+                                                    mat.getMaxStackSize()
+                                                )
+                                            )
+                                        );
+                                    }
+                                } catch (Exception ignored) {}
                             }
-                        } catch (Exception ignored) {}
-                    }
-                    Collections.shuffle(stacks);
-                    Set<Integer> usedSlots = new HashSet<>();
-                    for (ItemStack stack : stacks) {
-                        int slot;
-                        int tries = 0;
-                        do {
-                            slot = random.nextInt(inv.getSize());
-                            tries++;
-                        } while (usedSlots.contains(slot) && tries < 10);
-                        if (!usedSlots.contains(slot)) {
-                            inv.setItem(slot, stack);
-                            usedSlots.add(slot);
-                        }
-                    }
-                }));
+                            Collections.shuffle(stacks);
+                            Set<Integer> usedSlots = new HashSet<>();
+                            for (ItemStack stack : stacks) {
+                                int slot;
+                                int tries = 0;
+                                do {
+                                    slot = random.nextInt(inv.getSize());
+                                    tries++;
+                                } while (
+                                    usedSlots.contains(slot) && tries < 10
+                                );
+                                if (!usedSlots.contains(slot)) {
+                                    inv.setItem(slot, stack);
+                                    usedSlots.add(slot);
+                                }
+                            }
+                        })
+                );
             }
         }
     }

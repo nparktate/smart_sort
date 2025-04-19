@@ -8,3 +8,6 @@ commands:
   testsortchests:
     description: Generates test chests filled with random items
     usage: /testsortchests
+  smartsort:
+    description: Toggles debug mode (console or in-game)
+    usage: /smartsort debug
