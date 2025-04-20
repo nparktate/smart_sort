@@ -1,10 +1,12 @@
-// SmartSortPlugin.java — v1.2.3: Chest debounce improvements + messy test chest slot fill
+// SmartSortPlugin.java — v1.2.4: Chest debounce improvements + improved test chest generation
 
 package smartsort;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import okhttp3.*;
 import org.bukkit.*;
 import org.bukkit.block.Chest;
@@ -61,17 +63,25 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
             if (args.length > 0 && args[0].equalsIgnoreCase("debug")) {
                 debugMode = !debugMode;
                 sender.sendMessage(
-                    ChatColor.YELLOW +
-                    "[SmartSort] Debug mode is now " +
-                    (debugMode ? "enabled" : "disabled")
+                    Component.text("[SmartSort] Debug mode is now ")
+                        .color(NamedTextColor.YELLOW)
+                        .append(
+                            Component.text(
+                                debugMode ? "enabled" : "disabled"
+                            ).color(NamedTextColor.YELLOW)
+                        )
                 );
                 return true;
             }
-            sender.sendMessage(ChatColor.RED + "Usage: /smartsort debug");
+            sender.sendMessage(
+                Component.text("Usage: /smartsort debug").color(
+                    NamedTextColor.RED
+                )
+            );
             return true;
         });
 
-        getLogger().info("SmartSort v1.2.3 activated.");
+        getLogger().info("SmartSort v1.2.5 activated.");
     }
 
     @EventHandler
@@ -362,6 +372,93 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         return future;
     }
 
+    private Map<String, List<ItemStack>> getThemeFallbacks() {
+        Map<String, List<ItemStack>> fallbacks = new HashMap<>();
+
+        // Combat gear
+        List<ItemStack> combat = new ArrayList<>();
+        combat.add(new ItemStack(Material.IRON_SWORD));
+        combat.add(new ItemStack(Material.BOW));
+        combat.add(new ItemStack(Material.ARROW, 32));
+        combat.add(new ItemStack(Material.SHIELD));
+        combat.add(new ItemStack(Material.IRON_HELMET));
+        fallbacks.put("combat gear", combat);
+
+        // Miner haul
+        List<ItemStack> mining = new ArrayList<>();
+        mining.add(new ItemStack(Material.IRON_PICKAXE));
+        mining.add(new ItemStack(Material.COAL, 16));
+        mining.add(new ItemStack(Material.IRON_ORE, 8));
+        mining.add(new ItemStack(Material.GOLD_ORE, 4));
+        mining.add(new ItemStack(Material.DIAMOND, 2));
+        fallbacks.put("miner haul", mining);
+
+        // Farming loot
+        List<ItemStack> farming = new ArrayList<>();
+        farming.add(new ItemStack(Material.WHEAT, 24));
+        farming.add(new ItemStack(Material.CARROT, 16));
+        farming.add(new ItemStack(Material.POTATO, 16));
+        farming.add(new ItemStack(Material.BEETROOT_SEEDS, 8));
+        farming.add(new ItemStack(Material.BONE_MEAL, 12));
+        fallbacks.put("farming loot", farming);
+
+        // Base supplies
+        List<ItemStack> baseSupplies = new ArrayList<>();
+        baseSupplies.add(new ItemStack(Material.OAK_LOG, 32));
+        baseSupplies.add(new ItemStack(Material.COBBLESTONE, 64));
+        baseSupplies.add(new ItemStack(Material.TORCH, 16));
+        baseSupplies.add(new ItemStack(Material.CRAFTING_TABLE));
+        baseSupplies.add(new ItemStack(Material.FURNACE));
+        fallbacks.put("base supplies", baseSupplies);
+
+        // Loot chest
+        List<ItemStack> loot = new ArrayList<>();
+        loot.add(new ItemStack(Material.GOLD_INGOT, 6));
+        loot.add(new ItemStack(Material.IRON_INGOT, 12));
+        loot.add(new ItemStack(Material.DIAMOND, 3));
+        loot.add(new ItemStack(Material.EMERALD, 4));
+        loot.add(new ItemStack(Material.GOLDEN_APPLE, 2));
+        fallbacks.put("loot chest", loot);
+
+        // Tool stash
+        List<ItemStack> tools = new ArrayList<>();
+        tools.add(new ItemStack(Material.IRON_PICKAXE));
+        tools.add(new ItemStack(Material.IRON_AXE));
+        tools.add(new ItemStack(Material.IRON_SHOVEL));
+        tools.add(new ItemStack(Material.SHEARS));
+        tools.add(new ItemStack(Material.FISHING_ROD));
+        fallbacks.put("tool stash", tools);
+
+        // Potion chest
+        List<ItemStack> potions = new ArrayList<>();
+        potions.add(new ItemStack(Material.GLASS_BOTTLE, 8));
+        potions.add(new ItemStack(Material.NETHER_WART, 12));
+        potions.add(new ItemStack(Material.BLAZE_POWDER, 6));
+        potions.add(new ItemStack(Material.SPIDER_EYE, 4));
+        potions.add(new ItemStack(Material.GLISTERING_MELON_SLICE, 3));
+        fallbacks.put("potion chest", potions);
+
+        // Building blocks
+        List<ItemStack> blocks = new ArrayList<>();
+        blocks.add(new ItemStack(Material.OAK_PLANKS, 64));
+        blocks.add(new ItemStack(Material.STONE_BRICKS, 48));
+        blocks.add(new ItemStack(Material.GLASS, 24));
+        blocks.add(new ItemStack(Material.LANTERN, 8));
+        blocks.add(new ItemStack(Material.BOOKSHELF, 6));
+        fallbacks.put("building blocks", blocks);
+
+        // Exploration kit
+        List<ItemStack> exploration = new ArrayList<>();
+        exploration.add(new ItemStack(Material.COMPASS));
+        exploration.add(new ItemStack(Material.MAP));
+        exploration.add(new ItemStack(Material.BREAD, 12));
+        exploration.add(new ItemStack(Material.TORCH, 24));
+        exploration.add(new ItemStack(Material.OAK_BOAT));
+        fallbacks.put("exploration kit", exploration);
+
+        return fallbacks;
+    }
+
     private void generateTestChests(Player player) {
         Location base = player.getLocation().add(2, 0, 0);
         Random random = new Random();
@@ -377,6 +474,9 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
             "building blocks",
             "exploration kit",
         };
+
+        // Prepare fallback items map
+        Map<String, List<ItemStack>> fallbackItems = getThemeFallbacks();
 
         for (int x = 0; x < 3; x++) {
             for (int z = 0; z < 3; z++) {
@@ -404,7 +504,12 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                                     Material mat = Material.matchMaterial(
                                         parts[1]
                                     );
-                                    if (mat != null && mat.isItem()) {
+                                    if (
+                                        mat != null &&
+                                        mat.isItem() &&
+                                        !mat.isAir() &&
+                                        !mat.name().contains("COMMAND")
+                                    ) {
                                         stacks.add(
                                             new ItemStack(
                                                 mat,
@@ -417,22 +522,90 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                                     }
                                 } catch (Exception ignored) {}
                             }
+
+                            // Use fallback items if AI response didn't yield usable items
+                            if (
+                                stacks.isEmpty() &&
+                                fallbackItems.containsKey(theme)
+                            ) {
+                                stacks.addAll(fallbackItems.get(theme));
+                                getLogger()
+                                    .info(
+                                        "Using fallback items for theme: " +
+                                        theme
+                                    );
+                            } else if (stacks.isEmpty()) {
+                                // Generic fallback if no theme-specific items
+                                stacks.add(new ItemStack(Material.STONE, 32));
+                                stacks.add(new ItemStack(Material.BREAD, 16));
+                                stacks.add(
+                                    new ItemStack(Material.IRON_INGOT, 8)
+                                );
+                                getLogger()
+                                    .warning(
+                                        "AI response produced no valid items. Using generic fallbacks."
+                                    );
+                            }
+
+                            // Shuffle items for random placement
                             Collections.shuffle(stacks);
                             Set<Integer> usedSlots = new HashSet<>();
+
+                            // Place items in inventory
                             for (ItemStack stack : stacks) {
-                                int slot;
-                                int tries = 0;
-                                do {
-                                    slot = random.nextInt(inv.getSize());
-                                    tries++;
-                                } while (
-                                    usedSlots.contains(slot) && tries < 10
-                                );
-                                if (!usedSlots.contains(slot)) {
+                                if (usedSlots.size() >= inv.getSize()) {
+                                    // All slots used, replace a random one
+                                    inv.setItem(
+                                        random.nextInt(inv.getSize()),
+                                        stack
+                                    );
+                                } else {
+                                    // Find an unused slot
+                                    int slot;
+                                    do {
+                                        slot = random.nextInt(inv.getSize());
+                                    } while (usedSlots.contains(slot));
+
                                     inv.setItem(slot, stack);
                                     usedSlots.add(slot);
                                 }
                             }
+
+                            // Ensure minimum number of items
+                            if (usedSlots.size() < 5) {
+                                Material[] basics = {
+                                    Material.STONE,
+                                    Material.OAK_LOG,
+                                    Material.BREAD,
+                                    Material.COAL,
+                                    Material.IRON_INGOT,
+                                };
+
+                                for (int i = 0; i < 5 - usedSlots.size(); i++) {
+                                    int slot;
+                                    do {
+                                        slot = random.nextInt(inv.getSize());
+                                    } while (usedSlots.contains(slot));
+
+                                    Material mat =
+                                        basics[random.nextInt(basics.length)];
+                                    inv.setItem(
+                                        slot,
+                                        new ItemStack(
+                                            mat,
+                                            4 + random.nextInt(12)
+                                        )
+                                    );
+                                    usedSlots.add(slot);
+                                }
+                            }
+
+                            // Notify player
+                            player.sendMessage(
+                                Component.text(
+                                    "Created test chest with theme: " + theme
+                                ).color(NamedTextColor.GREEN)
+                            );
                         })
                 );
             }
