@@ -59,6 +59,13 @@ server/
 # Uncomment if you don't want to track the config with API keys
 # src/main/resources/config.yml
 
-# OS specific files
+# OS specific files - more comprehensive
 .DS_Store
+**/.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
 Thumbs.db
