@@ -22,8 +22,8 @@ build.sh
 *.rar
 
 # Keep plugin JARs and versions directory
-!Plugin/target/
-!Plugin/target/smartsort-*.jar
+!plugin/target/
+!plugin/target/smartsort-*.jar
 !versions/
 !versions/*.jar
 

@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://json.schemastore.org/bukkit-plugin.json
+name: SmartSort
+main: smartsort.SmartSortPlugin
+version: 1.2.6-SNAPSHOT+013
+api-version: 1.21
+description: AI-driven inventory organizer plugin
+author: nickp
+commands:
+  testsortchests:
+    description: Generates test chests filled with random items
+    usage: /testsortchests
+    permission: smartsort.test
+  smartsort:
+    description: Manage SmartSort plugin settings
+    usage: /smartsort <debug|subscribe|output|help>
+    permission: smartsort.admin
+permissions:
+  smartsort.admin:
+    description: Access to SmartSort admin commands
+    default: op
+  smartsort.test:
+    description: Access to test chest generation
+    default: op

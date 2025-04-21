@@ -1,0 +1,10 @@
+openai:
+  api_key: "your-api-key-here"
+  model: "gpt-4o"
+
+smart_sort:
+  delay_seconds: 3
+
+debug:
+  enabled: false
+  to_console: true
