@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/bukkit-plugin.json
 name: SmartSort
 main: smartsort.SmartSortPlugin
-version: 1.2.6
+version: 1.2.6-SNAPSHOT+012
 api-version: 1.21
 description: AI-driven inventory organizer plugin
 author: nickp

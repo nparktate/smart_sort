@@ -74,7 +74,7 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
             smartSortCommand.setTabCompleter(new SmartSortTabCompleter());
         }
 
-        getLogger().info("SmartSort v1.2.6 activated.");
+        getLogger().info("SmartSort v1.2.6-SNAPSHOT+012 activated.");
     }
 
     // Command classes for better organization
