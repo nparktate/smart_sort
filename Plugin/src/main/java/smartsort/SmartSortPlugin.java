@@ -1,4 +1,4 @@
-// SmartSortPlugin.java — v1.2.4: Chest debounce improvements + improved test chest generation
+// SmartSortPlugin.java — v1.2.6: Improved command handling and debug system
 
 package smartsort;
 
@@ -7,9 +7,11 @@ import java.util.*;
 import java.util.concurrent.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import okhttp3.*;
 import org.bukkit.*;
 import org.bukkit.block.Chest;
+import org.bukkit.command.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -25,6 +27,9 @@ import org.json.*;
 public class SmartSortPlugin extends JavaPlugin implements Listener {
 
     private boolean debugMode = false;
+    // New setting: should debug messages go to console (true) or player (false)
+    private boolean debugToConsole = true;
+    private Set<UUID> debugSubscribers = new HashSet<>();
 
     private String apiKey;
     private String model;
@@ -43,6 +48,8 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         apiKey = config.getString("openai.api_key", "");
         model = config.getString("openai.model", "gpt-4o");
         sortCooldown = config.getInt("smart_sort.delay_seconds", 3);
+        debugMode = config.getBoolean("debug.enabled", false);
+        debugToConsole = config.getBoolean("debug.to_console", true);
 
         if (apiKey.isEmpty()) {
             getLogger()
@@ -53,49 +60,312 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         }
 
         Bukkit.getPluginManager().registerEvents(this, this);
-        getCommand("testsortchests").setExecutor(
-            (sender, command, label, args) -> {
-                if (sender instanceof Player player) generateTestChests(player);
-                return true;
-            }
-        );
-        getCommand("smartsort").setExecutor((sender, command, label, args) -> {
-            if (args.length > 0 && args[0].equalsIgnoreCase("debug")) {
-                debugMode = !debugMode;
-                sender.sendMessage(
-                    Component.text("[SmartSort] Debug mode is now ")
-                        .color(NamedTextColor.YELLOW)
-                        .append(
-                            Component.text(
-                                debugMode ? "enabled" : "disabled"
-                            ).color(NamedTextColor.YELLOW)
-                        )
-                );
-                return true;
-            }
-            sender.sendMessage(
-                Component.text("Usage: /smartsort debug").color(
-                    NamedTextColor.RED
-                )
-            );
-            return true;
-        });
 
-        getLogger().info("SmartSort v1.2.5 activated.");
+        // Register commands with better handling
+        PluginCommand testCommand = getCommand("testsortchests");
+        if (testCommand != null) {
+            testCommand.setExecutor(new TestChestCommand());
+            testCommand.setTabCompleter(new TestChestTabCompleter());
+        }
+
+        PluginCommand smartSortCommand = getCommand("smartsort");
+        if (smartSortCommand != null) {
+            smartSortCommand.setExecutor(new SmartSortCommand());
+            smartSortCommand.setTabCompleter(new SmartSortTabCompleter());
+        }
+
+        getLogger().info("SmartSort v1.2.6 activated.");
+    }
+
+    // Command classes for better organization
+    private class TestChestCommand implements CommandExecutor {
+
+        @Override
+        public boolean onCommand(
+            CommandSender sender,
+            Command command,
+            String label,
+            String[] args
+        ) {
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage(
+                    Component.text(
+                        "This command can only be used by players"
+                    ).color(NamedTextColor.RED)
+                );
+                return false;
+            }
+
+            if (!player.hasPermission("smartsort.test")) {
+                player.sendMessage(
+                    Component.text(
+                        "You don't have permission to use this command"
+                    ).color(NamedTextColor.RED)
+                );
+                return false;
+            }
+
+            logDebug("Generating test chests for " + player.getName());
+            generateTestChests(player);
+            return true;
+        }
+    }
+
+    private class TestChestTabCompleter implements TabCompleter {
+
+        @Override
+        public List<String> onTabComplete(
+            CommandSender sender,
+            Command command,
+            String alias,
+            String[] args
+        ) {
+            return Collections.emptyList(); // No arguments for this command
+        }
+    }
+
+    private class SmartSortCommand implements CommandExecutor {
+
+        @Override
+        public boolean onCommand(
+            CommandSender sender,
+            Command command,
+            String label,
+            String[] args
+        ) {
+            if (!sender.hasPermission("smartsort.admin")) {
+                sender.sendMessage(
+                    Component.text(
+                        "You don't have permission to use this command"
+                    ).color(NamedTextColor.RED)
+                );
+                return false;
+            }
+
+            if (args.length == 0) {
+                sendHelpMessage(sender);
+                return true;
+            }
+
+            switch (args[0].toLowerCase()) {
+                case "debug":
+                    toggleDebugMode(sender);
+                    return true;
+                case "subscribe":
+                    if (sender instanceof Player player) {
+                        toggleDebugSubscription(player);
+                    } else {
+                        sender.sendMessage(
+                            Component.text(
+                                "Only players can subscribe to debug messages"
+                            ).color(NamedTextColor.RED)
+                        );
+                    }
+                    return true;
+                case "output":
+                    if (
+                        args.length > 1 &&
+                        (args[1].equalsIgnoreCase("console") ||
+                            args[1].equalsIgnoreCase("player"))
+                    ) {
+                        setDebugOutput(
+                            sender,
+                            args[1].equalsIgnoreCase("console")
+                        );
+                    } else {
+                        sender.sendMessage(
+                            Component.text(
+                                "Usage: /smartsort output <console|player>"
+                            ).color(NamedTextColor.RED)
+                        );
+                    }
+                    return true;
+                case "help":
+                default:
+                    sendHelpMessage(sender);
+                    return true;
+            }
+        }
+
+        private void sendHelpMessage(CommandSender sender) {
+            sender.sendMessage(
+                Component.text("SmartSort Commands:")
+                    .color(NamedTextColor.GOLD)
+                    .decorate(TextDecoration.BOLD)
+            );
+            sender.sendMessage(
+                Component.text(" • /smartsort debug")
+                    .color(NamedTextColor.YELLOW)
+                    .append(
+                        Component.text(" - Toggle debug mode on/off").color(
+                            NamedTextColor.GRAY
+                        )
+                    )
+            );
+            sender.sendMessage(
+                Component.text(" • /smartsort subscribe")
+                    .color(NamedTextColor.YELLOW)
+                    .append(
+                        Component.text(" - Subscribe to debug messages").color(
+                            NamedTextColor.GRAY
+                        )
+                    )
+            );
+            sender.sendMessage(
+                Component.text(" • /smartsort output <console|player>")
+                    .color(NamedTextColor.YELLOW)
+                    .append(
+                        Component.text(" - Set debug output destination").color(
+                            NamedTextColor.GRAY
+                        )
+                    )
+            );
+            sender.sendMessage(
+                Component.text(" • /testsortchests")
+                    .color(NamedTextColor.YELLOW)
+                    .append(
+                        Component.text(" - Generate test chests").color(
+                            NamedTextColor.GRAY
+                        )
+                    )
+            );
+        }
+
+        private void toggleDebugMode(CommandSender sender) {
+            debugMode = !debugMode;
+            Component message = Component.text("[SmartSort] Debug mode is now ")
+                .color(NamedTextColor.YELLOW)
+                .append(
+                    Component.text(debugMode ? "enabled" : "disabled").color(
+                        debugMode ? NamedTextColor.GREEN : NamedTextColor.RED
+                    )
+                );
+            sender.sendMessage(message);
+
+            // Update config
+            getConfig().set("debug.enabled", debugMode);
+            saveConfig();
+
+            logDebug(
+                "Debug mode changed to: " +
+                debugMode +
+                " by " +
+                sender.getName()
+            );
+        }
+
+        private void toggleDebugSubscription(Player player) {
+            UUID playerId = player.getUniqueId();
+            if (debugSubscribers.contains(playerId)) {
+                debugSubscribers.remove(playerId);
+                player.sendMessage(
+                    Component.text(
+                        "[SmartSort] You are no longer subscribed to debug messages"
+                    ).color(NamedTextColor.YELLOW)
+                );
+            } else {
+                debugSubscribers.add(playerId);
+                player.sendMessage(
+                    Component.text(
+                        "[SmartSort] You are now subscribed to debug messages"
+                    ).color(NamedTextColor.GREEN)
+                );
+            }
+        }
+
+        private void setDebugOutput(CommandSender sender, boolean toConsole) {
+            debugToConsole = toConsole;
+            Component message = Component.text(
+                "[SmartSort] Debug output will now go to "
+            )
+                .color(NamedTextColor.YELLOW)
+                .append(
+                    Component.text(
+                        debugToConsole ? "console" : "players"
+                    ).color(NamedTextColor.AQUA)
+                );
+            sender.sendMessage(message);
+
+            // Update config
+            getConfig().set("debug.to_console", debugToConsole);
+            saveConfig();
+        }
+    }
+
+    private class SmartSortTabCompleter implements TabCompleter {
+
+        @Override
+        public List<String> onTabComplete(
+            CommandSender sender,
+            Command command,
+            String alias,
+            String[] args
+        ) {
+            if (args.length == 1) {
+                List<String> completions = new ArrayList<>(
+                    Arrays.asList("debug", "subscribe", "output", "help")
+                );
+                return completions
+                    .stream()
+                    .filter(s ->
+                        s.toLowerCase().startsWith(args[0].toLowerCase())
+                    )
+                    .toList();
+            } else if (args.length == 2 && args[0].equalsIgnoreCase("output")) {
+                List<String> completions = new ArrayList<>(
+                    Arrays.asList("console", "player")
+                );
+                return completions
+                    .stream()
+                    .filter(s ->
+                        s.toLowerCase().startsWith(args[1].toLowerCase())
+                    )
+                    .toList();
+            }
+            return Collections.emptyList();
+        }
+    }
+
+    // Centralized debug logging method
+    private void logDebug(String message) {
+        if (!debugMode) return;
+
+        // Always log to console at fine level for server logs
+        getLogger().fine("[DEBUG] " + message);
+
+        // If debug is set to console and it's a significant message, log at info level
+        if (debugToConsole) {
+            getLogger().info("[SmartSort] [DEBUG] " + message);
+        }
+
+        // If debug should go to players, send to all subscribers
+        if (!debugToConsole || !debugSubscribers.isEmpty()) {
+            Component debugComponent = Component.text("[SmartSort] [DEBUG] ")
+                .color(NamedTextColor.DARK_AQUA)
+                .append(Component.text(message).color(NamedTextColor.WHITE));
+
+            // Send to all subscribed players
+            for (UUID playerId : debugSubscribers) {
+                Player player = Bukkit.getPlayer(playerId);
+                if (player != null && player.isOnline()) {
+                    player.sendMessage(debugComponent);
+                }
+            }
+        }
     }
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
         if (!(event.getPlayer() instanceof Player player)) return;
         long sinceJoin = System.currentTimeMillis() - player.getFirstPlayed();
-        if (debugMode) getLogger()
-            .info(
-                "[SmartSort] [DEBUG] Inventory open triggered by " +
-                player.getName() +
-                ", time since join: " +
-                sinceJoin +
-                "ms"
-            );
+
+        logDebug(
+            "Inventory open triggered by " +
+            player.getName() +
+            ", time since join: " +
+            sinceJoin +
+            "ms"
+        );
         if (sinceJoin < 3000) return;
 
         Inventory inv = event.getInventory();
@@ -151,7 +421,7 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
             if (now - last < sortCooldown * 1000L) return;
         }
 
-        activelySorting.add(loc);
+        if (loc != null) activelySorting.add(loc);
         inventorySignatures.put(locKey, signature);
         inventoryTimestamps.put(locKey, now);
 
@@ -164,9 +434,7 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                 "Input: " +
                 String.join(", ", itemDescriptions);
 
-            if (debugMode) getLogger()
-                .info("[SmartSort] [DEBUG] AI Prompt: " + prompt);
-            else getLogger().info("[SmartSort] AI Prompt: " + prompt);
+            logDebug("AI Prompt: " + prompt);
 
             sendToOpenAI(prompt).thenAccept(response -> {
                 if (response.trim().isEmpty()) {
@@ -175,12 +443,11 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                             "[SmartSort] ⚠️ AI response was empty — skipping sort for: " +
                             loc
                         );
-                    activelySorting.remove(loc);
+                    if (loc != null) activelySorting.remove(loc);
                     return;
                 }
-                if (debugMode) getLogger()
-                    .info("[SmartSort] [DEBUG] AI Response:\n" + response);
-                else getLogger().info("[SmartSort] AI Response:\n" + response);
+
+                logDebug("AI Response:\n" + response);
 
                 List<ItemStack> sortedItems = new ArrayList<>();
                 List<ItemStack> unmatched = new ArrayList<>();
@@ -295,7 +562,8 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                                     80L
                                 );
                         }
-                        getLogger().info("[SmartSort] Sorted: " + loc);
+
+                        logDebug("Sorted: " + loc);
                     });
             });
         }
@@ -352,19 +620,30 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
             .enqueue(
                 new Callback() {
                     public void onFailure(Call call, IOException e) {
+                        logDebug("API call failed: " + e.getMessage());
                         future.complete("");
                     }
 
                     public void onResponse(Call call, Response response)
                         throws IOException {
                         String jsonResponse = response.body().string();
-                        JSONObject res = new JSONObject(jsonResponse);
-                        String content = res
-                            .getJSONArray("choices")
-                            .getJSONObject(0)
-                            .getJSONObject("message")
-                            .getString("content");
-                        future.complete(content);
+                        try {
+                            JSONObject res = new JSONObject(jsonResponse);
+                            String content = res
+                                .getJSONArray("choices")
+                                .getJSONObject(0)
+                                .getJSONObject("message")
+                                .getString("content");
+                            future.complete(content);
+                        } catch (Exception e) {
+                            logDebug(
+                                "Failed to parse OpenAI response: " +
+                                e.getMessage() +
+                                "\nResponse: " +
+                                jsonResponse
+                            );
+                            future.complete("");
+                        }
                     }
                 }
             );

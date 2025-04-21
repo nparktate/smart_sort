@@ -4,3 +4,7 @@ openai:
 
 smart_sort:
   delay_seconds: 3
+
+debug:
+  enabled: false
+  to_console: true
