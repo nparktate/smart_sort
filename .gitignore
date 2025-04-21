@@ -10,7 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files - exclude most but allow specific JAR files
+# Package Files - generally exclude but with specific exceptions below
 *.jar
 *.war
 *.nar
@@ -19,19 +19,17 @@
 *.tar.gz
 *.rar
 
-# But keep our built plugin JAR
+# Keep plugin JARs and versions directory
+!Plugin/target/
 !Plugin/target/smartsort-*.jar
+!versions/
+!versions/*.jar
 
 # virtual machine crash logs
 hs_err_pid*
 replay_pid*
 
-# Maven specific - exclude most of target but keep specific JARs
-target/
-!Plugin/target/
-Plugin/target/*
-!Plugin/target/smartsort-*.jar
-
+# Maven specific files
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
