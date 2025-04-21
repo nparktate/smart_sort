@@ -1,3 +1,5 @@
+# Build script
+build.sh
 # Compiled class files
 *.class
 
