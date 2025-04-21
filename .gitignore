@@ -51,6 +51,7 @@ buildNumber.properties
 .classpath
 .project
 .vscode/
+.factorypath
 
 # Exclude server test directory if you have one
 server/
