@@ -26,10 +26,10 @@ import org.json.*;
 
 public class SmartSortPlugin extends JavaPlugin implements Listener {
 
+    // Debug settings - false by default
     private boolean debugMode = false;
-    // New setting: should debug messages go to console (true) or player (false)
-    private boolean debugToConsole = true;
-    private Set<UUID> debugSubscribers = new HashSet<>();
+    private boolean consoleLogging = false;
+    private final Set<UUID> debugPlayers = new HashSet<>();
 
     private String apiKey;
     private String model;
@@ -48,8 +48,7 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         apiKey = config.getString("openai.api_key", "");
         model = config.getString("openai.model", "gpt-4o");
         sortCooldown = config.getInt("smart_sort.delay_seconds", 3);
-        debugMode = config.getBoolean("debug.enabled", false);
-        debugToConsole = config.getBoolean("debug.to_console", true);
+        consoleLogging = config.getBoolean("logging.console_debug", false);
 
         if (apiKey.isEmpty()) {
             getLogger()
@@ -74,7 +73,7 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
             smartSortCommand.setTabCompleter(new SmartSortTabCompleter());
         }
 
-        getLogger().info("SmartSort v1.2.6-SNAPSHOT+013 activated.");
+        getLogger().info("SmartSort v1.2.6-SNAPSHOT+014 activated.");
     }
 
     // Command classes for better organization
@@ -142,49 +141,34 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                 return false;
             }
 
-            if (args.length == 0) {
+            if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
                 sendHelpMessage(sender);
                 return true;
             }
 
-            switch (args[0].toLowerCase()) {
-                case "debug":
-                    toggleDebugMode(sender);
-                    return true;
-                case "subscribe":
-                    if (sender instanceof Player player) {
-                        toggleDebugSubscription(player);
-                    } else {
-                        sender.sendMessage(
-                            Component.text(
-                                "Only players can subscribe to debug messages"
-                            ).color(NamedTextColor.RED)
-                        );
-                    }
-                    return true;
-                case "output":
-                    if (
-                        args.length > 1 &&
-                        (args[1].equalsIgnoreCase("console") ||
-                            args[1].equalsIgnoreCase("player"))
-                    ) {
-                        setDebugOutput(
-                            sender,
-                            args[1].equalsIgnoreCase("console")
-                        );
-                    } else {
-                        sender.sendMessage(
-                            Component.text(
-                                "Usage: /smartsort output <console|player>"
-                            ).color(NamedTextColor.RED)
-                        );
-                    }
-                    return true;
-                case "help":
-                default:
-                    sendHelpMessage(sender);
-                    return true;
+            if (args[0].equalsIgnoreCase("debug")) {
+                toggleDebugForSender(sender);
+                return true;
             }
+
+            if (args[0].equalsIgnoreCase("console")) {
+                if (
+                    !(sender instanceof ConsoleCommandSender) &&
+                    !sender.hasPermission("smartsort.admin.console")
+                ) {
+                    sender.sendMessage(
+                        Component.text(
+                            "You don't have permission to toggle console logging"
+                        ).color(NamedTextColor.RED)
+                    );
+                    return false;
+                }
+                toggleConsoleLogging(sender);
+                return true;
+            }
+
+            sendHelpMessage(sender);
+            return true;
         }
 
         private void sendHelpMessage(CommandSender sender) {
@@ -197,27 +181,18 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
                 Component.text(" • /smartsort debug")
                     .color(NamedTextColor.YELLOW)
                     .append(
-                        Component.text(" - Toggle debug mode on/off").color(
-                            NamedTextColor.GRAY
-                        )
+                        Component.text(
+                            " - Toggle debug messages in chat"
+                        ).color(NamedTextColor.GRAY)
                     )
             );
             sender.sendMessage(
-                Component.text(" • /smartsort subscribe")
+                Component.text(" • /smartsort console")
                     .color(NamedTextColor.YELLOW)
                     .append(
-                        Component.text(" - Subscribe to debug messages").color(
-                            NamedTextColor.GRAY
-                        )
-                    )
-            );
-            sender.sendMessage(
-                Component.text(" • /smartsort output <console|player>")
-                    .color(NamedTextColor.YELLOW)
-                    .append(
-                        Component.text(" - Set debug output destination").color(
-                            NamedTextColor.GRAY
-                        )
+                        Component.text(
+                            " - Toggle console debug logging (admin only)"
+                        ).color(NamedTextColor.GRAY)
                     )
             );
             sender.sendMessage(
@@ -231,64 +206,48 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
             );
         }
 
-        private void toggleDebugMode(CommandSender sender) {
-            debugMode = !debugMode;
-            Component message = Component.text("[SmartSort] Debug mode is now ")
-                .color(NamedTextColor.YELLOW)
-                .append(
-                    Component.text(debugMode ? "enabled" : "disabled").color(
-                        debugMode ? NamedTextColor.GREEN : NamedTextColor.RED
-                    )
-                );
-            sender.sendMessage(message);
+        private void toggleDebugForSender(CommandSender sender) {
+            if (sender instanceof Player player) {
+                UUID playerId = player.getUniqueId();
 
-            // Update config
-            getConfig().set("debug.enabled", debugMode);
-            saveConfig();
-
-            logDebug(
-                "Debug mode changed to: " +
-                debugMode +
-                " by " +
-                sender.getName()
-            );
-        }
-
-        private void toggleDebugSubscription(Player player) {
-            UUID playerId = player.getUniqueId();
-            if (debugSubscribers.contains(playerId)) {
-                debugSubscribers.remove(playerId);
-                player.sendMessage(
-                    Component.text(
-                        "[SmartSort] You are no longer subscribed to debug messages"
-                    ).color(NamedTextColor.YELLOW)
-                );
+                if (debugPlayers.contains(playerId)) {
+                    debugPlayers.remove(playerId);
+                    player.sendMessage(
+                        Component.text(
+                            "[SmartSort] Debug messages disabled"
+                        ).color(NamedTextColor.YELLOW)
+                    );
+                } else {
+                    debugPlayers.add(playerId);
+                    player.sendMessage(
+                        Component.text(
+                            "[SmartSort] Debug messages enabled"
+                        ).color(NamedTextColor.GREEN)
+                    );
+                }
             } else {
-                debugSubscribers.add(playerId);
-                player.sendMessage(
+                // For console, toggle global debug mode
+                debugMode = !debugMode;
+                sender.sendMessage(
                     Component.text(
-                        "[SmartSort] You are now subscribed to debug messages"
-                    ).color(NamedTextColor.GREEN)
+                        "[SmartSort] Debug mode is now " +
+                        (debugMode ? "enabled" : "disabled")
+                    ).color(NamedTextColor.YELLOW)
                 );
             }
         }
 
-        private void setDebugOutput(CommandSender sender, boolean toConsole) {
-            debugToConsole = toConsole;
-            Component message = Component.text(
-                "[SmartSort] Debug output will now go to "
-            )
-                .color(NamedTextColor.YELLOW)
-                .append(
-                    Component.text(
-                        debugToConsole ? "console" : "players"
-                    ).color(NamedTextColor.AQUA)
-                );
-            sender.sendMessage(message);
-
-            // Update config
-            getConfig().set("debug.to_console", debugToConsole);
+        private void toggleConsoleLogging(CommandSender sender) {
+            consoleLogging = !consoleLogging;
+            getConfig().set("logging.console_debug", consoleLogging);
             saveConfig();
+
+            sender.sendMessage(
+                Component.text(
+                    "[SmartSort] Console debug logging is now " +
+                    (consoleLogging ? "enabled" : "disabled")
+                ).color(NamedTextColor.YELLOW)
+            );
         }
     }
 
@@ -303,22 +262,12 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
         ) {
             if (args.length == 1) {
                 List<String> completions = new ArrayList<>(
-                    Arrays.asList("debug", "subscribe", "output", "help")
+                    Arrays.asList("debug", "console", "help")
                 );
                 return completions
                     .stream()
                     .filter(s ->
                         s.toLowerCase().startsWith(args[0].toLowerCase())
-                    )
-                    .toList();
-            } else if (args.length == 2 && args[0].equalsIgnoreCase("output")) {
-                List<String> completions = new ArrayList<>(
-                    Arrays.asList("console", "player")
-                );
-                return completions
-                    .stream()
-                    .filter(s ->
-                        s.toLowerCase().startsWith(args[1].toLowerCase())
                     )
                     .toList();
             }
@@ -328,28 +277,26 @@ public class SmartSortPlugin extends JavaPlugin implements Listener {
 
     // Centralized debug logging method
     private void logDebug(String message) {
-        if (!debugMode) return;
-
-        // Always log to console at fine level for server logs
-        getLogger().fine("[DEBUG] " + message);
-
-        // If debug is set to console and it's a significant message, log at info level
-        if (debugToConsole) {
-            getLogger().info("[SmartSort] [DEBUG] " + message);
+        // Console logging based on config
+        if (consoleLogging) {
+            getLogger().info("[DEBUG] " + message);
         }
 
-        // If debug should go to players, send to all subscribers
-        if (!debugToConsole || !debugSubscribers.isEmpty()) {
-            Component debugComponent = Component.text("[SmartSort] [DEBUG] ")
-                .color(NamedTextColor.DARK_AQUA)
-                .append(Component.text(message).color(NamedTextColor.WHITE));
+        // Send to players with debug enabled
+        Component debugComponent = Component.text("[SmartSort] ")
+            .color(NamedTextColor.AQUA)
+            .append(Component.text(message).color(NamedTextColor.WHITE));
 
-            // Send to all subscribed players
-            for (UUID playerId : debugSubscribers) {
-                Player player = Bukkit.getPlayer(playerId);
-                if (player != null && player.isOnline()) {
-                    player.sendMessage(debugComponent);
-                }
+        // Send to console if global debug mode is on
+        if (debugMode && Bukkit.getConsoleSender() != null) {
+            Bukkit.getConsoleSender().sendMessage(debugComponent);
+        }
+
+        // Send to all players with debug enabled
+        for (UUID playerId : debugPlayers) {
+            Player player = Bukkit.getPlayer(playerId);
+            if (player != null && player.isOnline()) {
+                player.sendMessage(debugComponent);
             }
         }
     }

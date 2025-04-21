@@ -1,7 +1,7 @@
 # SmartSort - AI-Powered Inventory Organization for Minecraft
 
 ## Development Status
-**Current Version:** 1.2.6-SNAPSHOT+013
+**Current Version:** 1.2.6-SNAPSHOT+014
 **Environment:** Personal server (Paper 1.21.4)
 **Stage:** Implementation phase
 
@@ -24,17 +24,16 @@ When you open a container, SmartSort automatically:
 - **Cooldown System**: Avoids redundant sorting for performance
 
 ## Admin & Dev Tools
-- **Debug System**: Toggle with `/smartsort debug`
-- **Player Subscription**: Get debug in-game with `/smartsort subscribe`
-- **Output Control**: Choose between console/player with `/smartsort output`
+- **Debug System**: Toggle with `/smartsort debug` to see detailed logs in chat
+- **Console Debug**: Toggle with `/smartsort console` to control server logs
 - **Test Generation**: Create sample chests with `/testsortchests`
 
 ## Recent Changes
+- **1.2.6-SNAPSHOT+014**: Simplified debug system for easier use
 - **1.2.6-SNAPSHOT+013**: Implementation phase and version control improvements
 - **1.2.6-SNAPSHOT+012**: Improved debug system, removed sensitive tokens
 - **1.2.6**: Added comprehensive in-game debugging tools
 - **1.2.5**: Fixed chest debounce system and test chest generation
-- **1.2.4**: Added test chest command for faster testing
 
 ## Setup Notes
 1. Drop the JAR into the server's plugins folder
@@ -42,6 +41,7 @@ When you open a container, SmartSort automatically:
 3. Edit `config.yml` to add my API key
 4. Key permissions are:
    - `smartsort.admin` - For plugin management
+   - `smartsort.admin.console` - For controlling console logging
    - `smartsort.test` - For test chest creation
 
 ## Configuration
@@ -53,15 +53,13 @@ openai:
 smart_sort:
   delay_seconds: 3
 
-debug:
-  enabled: false
-  to_console: true
+logging:
+  console_debug: false  # Controls console debug logging
 ```
 
 ## Commands (As Server Op)
-- `/smartsort debug` - Toggle debug mode
-- `/smartsort subscribe` - Get debug messages in chat
-- `/smartsort output <console|player>` - Where debug goes
+- `/smartsort debug` - Toggle debug messages in your chat
+- `/smartsort console` - Toggle console debug logging (admin only)
 - `/smartsort help` - Show command list
 - `/testsortchests` - Generate 9 themed test chests
 
