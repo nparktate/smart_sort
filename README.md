@@ -3,7 +3,7 @@
 ![SmartSort Banner](https://via.placeholder.com/800x200?text=SmartSort)
 
 ## Development Status
-**Current Version:** 1.3.5
+**Current Version:** 1.3.6
 **Environment:** Paper 1.21.4
 **Stage:** Release
 
@@ -26,7 +26,7 @@ SmartSort is a Minecraft plugin that uses OpenAI's GPT-4o to intelligently organ
 - OpenAI API Key
 
 ### Setup Steps
-1. Download the latest `smartsort-1.3.5.jar` from the releases
+1. Download the latest `smartsort-1.3.6.jar` from the releases
 2. Place the JAR in your server's `plugins` folder
 3. Restart your server
 4. Set your OpenAI API key using one of these methods:
@@ -136,6 +136,13 @@ The plugin uses carefully crafted prompts that instruct the AI to:
 Use `/smartsort debug` to see detailed logs in your chat, which can help identify issues.
 
 ## Changelog
+
+### 1.3.6 (2023-06-10)
+- Implemented automated GitHub Actions-based build system
+- Added Maven Release Plugin support for streamlined versioning
+- Improved plugin.yml version handling with resource filtering
+- Enhanced project documentation with detailed release process
+- Fixed minor inventory handling bugs
 
 ### 1.3.5 (2025-04-27)
 - Improved thread safety and concurrent operation
