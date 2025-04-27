@@ -1,72 +1,20 @@
-# Build script
-build.sh
-# Compiled class files
-*.class
+# === IDE / macOS ===
+.idea/            # IntelliJ / Zed
+*.iml
+.DS_Store
+__MACOSX/
 
-# Log files
+# === Build artefacts ===
+/target/
+build/
+versions/
+*.jar
+*.class
 *.log
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files - generally exclude but with specific exceptions below
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# Keep plugin JARs and versions directory
-!plugin/target/
-!plugin/target/smartsort-*.jar
-!versions/
-!versions/*.jar
-
-# virtual machine crash logs
-hs_err_pid*
-replay_pid*
-
-# Maven specific files
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
+# === Maven / Gradle wrappers ===
 .mvn/wrapper/maven-wrapper.jar
+.gradle/
 
-# IDE specific files (IntelliJ, Eclipse, VSCode)
-.idea/
-*.iml
-*.iws
-*.ipr
-.settings/
-.classpath
-.project
+# === Editors ===
 .vscode/
-.factorypath
-
-# Exclude server test directory if you have one
-server/
-
-# Configuration with sensitive data
-# Uncomment if you don't want to track the config with API keys
-# src/main/resources/config.yml
-
-# OS specific files - more comprehensive
-.DS_Store
-**/.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
