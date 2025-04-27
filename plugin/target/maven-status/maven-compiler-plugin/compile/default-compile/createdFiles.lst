@@ -1,6 +1,11 @@
+smartsort/util/DebugLogger.class
+smartsort/ai/AIService$2.class
+smartsort/ai/AIService$1.class
 smartsort/SmartSortPlugin.class
-smartsort/SmartSortPlugin$SmartSortTabCompleter.class
-smartsort/SmartSortPlugin$SmartSortCommand.class
-smartsort/SmartSortPlugin$TestChestTabCompleter.class
-smartsort/SmartSortPlugin$TestChestCommand.class
-smartsort/SmartSortPlugin$1.class
+smartsort/command/TestChestCommand.class
+smartsort/ai/AIService.class
+smartsort/util/TickSoundManager.class
+smartsort/command/SmartSortCommand.class
+smartsort/util/TickSoundManager$1.class
+smartsort/sorting/InventorySorter.class
+smartsort/util/RateLimiter.class

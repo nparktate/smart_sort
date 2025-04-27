@@ -1,9 +1,23 @@
 openai:
-  api_key: "your-api-key-here"
+  api_key: "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"
   model: "gpt-4o"
+  dynamic_model: true
+  model_thresholds:
+    small: 12
+    medium: 27
+  models:
+    small: "gpt-3.5-turbo"
+    medium: "gpt-4o"
+    large: "gpt-4-turbo-preview"
 
 smart_sort:
   delay_seconds: 3
+
+performance:
+  max_requests: 3
+  per_seconds: 2
+  cache_size: 500
+  skip_small_containers: true
 
 logging:
   console_debug: false

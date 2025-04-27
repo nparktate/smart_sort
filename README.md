@@ -1,75 +1,147 @@
 # SmartSort - AI-Powered Inventory Organization for Minecraft
 
+![SmartSort Banner](https://via.placeholder.com/800x200?text=SmartSort)
+
 ## Development Status
-**Current Version:** 1.2.6-SNAPSHOT+014
-**Environment:** Personal server (Paper 1.21.4)
-**Stage:** Implementation phase
+**Current Version:** 1.3.0
+**Environment:** Paper 1.21.4
+**Stage:** Release
 
 ## About
-SmartSort is my custom Minecraft plugin that uses OpenAI's GPT-4o to intelligently organize chest, barrel, and shulker box inventories. It's currently being implemented on my private server.
+SmartSort is a Minecraft plugin that uses OpenAI's GPT-4o to intelligently organize chest, barrel, and shulker box inventories. When you open a container, the plugin analyzes its contents, sends the data to an AI model, and arranges items in a logical, intuitive way.
 
-## How It Works
-When you open a container, SmartSort automatically:
-1. Analyzes your chest/barrel/shulker contents
-2. Sends item data to the OpenAI model
-3. Gets a suggested organization scheme
-4. Rearranges your items logically
-5. Provides sound feedback during sorting
+## Key Features
+- **AI-Powered Organization**: Uses OpenAI's models to determine the most intuitive item arrangement
+- **Multiple Container Support**: Works with chests, barrels, and shulker boxes
+- **Automatic Operation**: Just open a container and sorting happens automatically
+- **Visual & Audio Feedback**: Sound cues indicate when sorting is in progress
+- **Item Protection**: Robust safeguards ensure no items are duplicated or lost
+- **Performance Optimizations**: Caching, rate limiting, and cooldown systems
 
-## Features I've Built
-- **Automatic Sorting**: Just open a container and it happens
-- **Compatible Containers**: Works with chests, barrels, and shulker boxes
-- **Visual Feedback**: Sound cues tell you when sorting is happening
-- **Item Protection**: Won't duplicate or lose items during sorting
-- **Cooldown System**: Avoids redundant sorting for performance
+## Installation
 
-## Admin & Dev Tools
-- **Debug System**: Toggle with `/smartsort debug` to see detailed logs in chat
-- **Console Debug**: Toggle with `/smartsort console` to control server logs
-- **Test Generation**: Create sample chests with `/testsortchests`
+### Requirements
+- Paper/Spigot server 1.21+
+- Java 21+
+- OpenAI API Key
 
-## Recent Changes
-- **1.2.6-SNAPSHOT+014**: Simplified debug system for easier use
-- **1.2.6-SNAPSHOT+013**: Implementation phase and version control improvements
-- **1.2.6-SNAPSHOT+012**: Improved debug system, removed sensitive tokens
-- **1.2.6**: Added comprehensive in-game debugging tools
-- **1.2.5**: Fixed chest debounce system and test chest generation
+### Setup Steps
+1. Download the latest `smartsort-1.3.0.jar` from the releases
+2. Place the JAR in your server's `plugins` folder
+3. Restart your server
+4. Edit `plugins/SmartSort/config.yml` to add your OpenAI API key
+5. Restart again or use `/reload confirm`
 
-## Setup Notes
-1. Drop the JAR into the server's plugins folder
-2. Restart the server
-3. Edit `config.yml` to add my API key
-4. Key permissions are:
-   - `smartsort.admin` - For plugin management
-   - `smartsort.admin.console` - For controlling console logging
-   - `smartsort.test` - For test chest creation
+## Usage
+
+### Basic Usage
+Simply open a chest, barrel, or shulker box. SmartSort will automatically detect the contents and organize them intelligently based on Minecraft gameplay logic.
+
+### Commands
+- `/smartsort debug` - Toggle debug messages in your chat
+- `/smartsort console` - Toggle console debug logging (admin only)
+- `/smartsort help` - Show command list
+- `/testsortchests [theme]` - Generate 4 themed test chests
+
+### Permissions
+- `smartsort.admin` - Access to plugin management commands
+- `smartsort.admin.console` - Control server-side debug logging
+- `smartsort.test` - Create test chests with sample inventories
 
 ## Configuration
 ```yaml
 openai:
-  api_key: "my-api-key-here"
+  # Your OpenAI API key (required)
+  api_key: "your-api-key-here"
+
+  # Default model to use
   model: "gpt-4o"
 
+  # Enable dynamic model selection based on inventory size
+  dynamic_model: true
+
+  # Thresholds for model selection
+  model_thresholds:
+    small: 12    # Use small model for <= 12 items
+    medium: 27   # Use medium model for <= 27 items
+                 # Use large model for > 27 items
+
+  # Model definitions
+  models:
+    small: "gpt-3.5-turbo"
+    medium: "gpt-4o"
+    large: "gpt-4-turbo-preview"
+
 smart_sort:
+  # Cooldown between sorts (seconds)
   delay_seconds: 3
 
+performance:
+  # API rate limiting (requests per time period)
+  max_requests: 3
+  per_seconds: 2
+
+  # Maximum sorted inventories to keep in memory
+  cache_size: 500
+
+  # Skip small containers for performance
+  skip_small_containers: true
+
 logging:
-  console_debug: false  # Controls console debug logging
+  # Enable detailed console logging
+  console_debug: false
 ```
 
-## Commands (As Server Op)
-- `/smartsort debug` - Toggle debug messages in your chat
-- `/smartsort console` - Toggle console debug logging (admin only)
-- `/smartsort help` - Show command list
-- `/testsortchests` - Generate 9 themed test chests
+## Technical Details
 
-## Dev Notes
-- Plugin works best with Paper/Spigot 1.21+
-- Uses Java 21+ features
-- Current test server: Paper 1.21.4-R0.1-SNAPSHOT
-- Built with Maven (use `mvn package` to build)
-- Debug mode helps identify sorting issues
+### How It Works
+1. **Detection**: Plugin detects when a player opens a compatible container
+2. **Analysis**: Creates an inventory signature based on contained items
+3. **Caching**: Checks if this exact inventory has been sorted before
+4. **AI Processing**: If not cached, sends inventory data to OpenAI
+5. **Sorting**: Receives and applies the AI's suggested organization
+6. **Verification**: Ensures all items are preserved during sorting
+
+### Performance Considerations
+- **Caching**: Previously sorted inventories are cached to avoid redundant API calls
+- **Rate Limiting**: Built-in rate limiter prevents API overuse
+- **Request Queuing**: Requests are queued when rate limits are reached
+- **Cooldowns**: Prevents repeated sorting of the same inventory
+
+### AI Prompting
+The plugin uses carefully crafted prompts that instruct the AI to:
+- Group similar items together (blocks, tools, resources)
+- Put commonly used items at the top of inventories
+- Sort tools and weapons by material quality
+- Arrange items in a way that's intuitive for Minecraft players
+
+## Troubleshooting
+
+### Common Issues
+- **No Sorting Happens**: Check if your API key is set correctly
+- **Slow Sorting**: Large inventories require more powerful models, which take longer
+- **Rate Limiting**: If you see rate limit errors, adjust performance settings
+
+### Debug Mode
+Use `/smartsort debug` to see detailed logs in your chat, which can help identify issues.
+
+## Changelog
+
+### 1.3.0 (2023-04-27)
+- Fixed test chest command with improved regex handling
+- Enhanced sorting quality with better AI prompting
+- Added robust error handling for API responses
+- Reduced test chest count from 9 to 4 to avoid rate limiting
+
+### 1.2.6
+- Added comprehensive in-game debugging tools
+- Fixed chest debounce system and test chest generation
+
+## License & Credits
+- **Author**: Nicholas Tate Park
+- **Status**: Private project - not for distribution
+- **OpenAI Integration**: Uses OpenAI's GPT models for intelligent sorting
 
 ---
 
-*Private project by Nicholas Tate Park (Nick Park) - not for distribution.*
+*SmartSort is a private project by Nicholas Tate Park. API costs are managed by the author.*
