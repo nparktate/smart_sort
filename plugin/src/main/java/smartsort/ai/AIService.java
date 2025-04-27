@@ -1,10 +1,15 @@
 package smartsort.ai;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 import okhttp3.*;
+import org.bukkit.Bukkit;
 import org.json.JSONObject;
 import smartsort.SmartSortPlugin;
 import smartsort.util.DebugLogger;
@@ -20,11 +25,13 @@ public class AIService {
     private final DebugLogger debug;
     private final SmartSortPlugin plugin;
     private final RateLimiter rateLimiter;
+    private final Deque<PendingRequest> requestQueue;
+    private final int queueMaxSize;
 
     public AIService(SmartSortPlugin plugin, DebugLogger debug) {
         this.plugin = plugin;
         this.debug = debug;
-        this.apiKey = plugin.getConfig().getString("openai.api_key", "");
+        this.apiKey = loadApiKey();
         int maxRequests = plugin
             .getConfig()
             .getInt("performance.max_requests", 3); // Reduced from 5 to 3
@@ -32,6 +39,13 @@ public class AIService {
             .getConfig()
             .getInt("performance.per_seconds", 2); // Increased from 1 to 2
         this.rateLimiter = new RateLimiter(maxRequests, perSeconds, debug);
+        this.queueMaxSize = plugin
+            .getConfig()
+            .getInt("performance.queue_size", 20);
+        this.requestQueue = new LinkedBlockingDeque<>(queueMaxSize);
+
+        // Start queue processor
+        startQueueProcessor();
 
         if (apiKey.isEmpty() || apiKey.equals("your-api-key-here")) {
             plugin
@@ -42,9 +56,64 @@ public class AIService {
         }
     }
 
+    private String loadApiKey() {
+        // Try environment variable first
+        String key = System.getenv("OPENAI_API_KEY");
+        if (key != null && !key.isEmpty()) return key;
+
+        // Try separate file
+        File keyFile = new File(plugin.getDataFolder(), "apikey.txt");
+        if (keyFile.exists()) {
+            try {
+                return Files.readString(keyFile.toPath()).trim();
+            } catch (IOException e) {
+                plugin
+                    .getLogger()
+                    .severe("Failed to read API key: " + e.getMessage());
+            }
+        }
+
+        // Fall back to config
+        return plugin.getConfig().getString("openai.api_key", "");
+    }
+
     public void shutdown() {
         http.dispatcher().executorService().shutdownNow();
         http.connectionPool().evictAll();
+    }
+
+    private void startQueueProcessor() {
+        plugin
+            .getServer()
+            .getScheduler()
+            .runTaskTimer(plugin, this::processQueue, 20L, 20L);
+    }
+
+    private void processQueue() {
+        if (requestQueue.isEmpty() || !rateLimiter.tryAcquire()) {
+            return;
+        }
+
+        PendingRequest request = requestQueue.poll();
+        if (request != null) {
+            executeRequest(request);
+        }
+    }
+
+    private void executeRequest(PendingRequest request) {
+        if (request.forcedModel != null) {
+            executeModelRequest(
+                request.prompt,
+                request.future,
+                request.forcedModel
+            );
+        } else {
+            executeCountRequest(
+                request.prompt,
+                request.future,
+                request.itemCount
+            );
+        }
     }
 
     public String selectModel(int itemCount) {
@@ -79,36 +148,61 @@ public class AIService {
 
     public CompletableFuture<String> chat(String prompt, int itemCount) {
         if (apiKey.isEmpty() || apiKey.equals("your-api-key-here")) {
-            debug.console(
-                "[AI] ERROR: API key is missing or using default value. Please set a valid key in config.yml"
-            );
+            Bukkit.getScheduler()
+                .runTask(plugin, () -> {
+                    debug.console(
+                        "[AI] ERROR: API key is missing or using default value. Please set a valid key in config.yml"
+                    );
+                });
             return CompletableFuture.completedFuture("");
         }
 
+        CompletableFuture<String> future = new CompletableFuture<>();
+
         if (!rateLimiter.tryAcquire()) {
-            debug.console(
-                "[AI] Rate limit reached, request queued for later execution"
+            Bukkit.getScheduler()
+                .runTask(plugin, () -> {
+                    debug.console(
+                        "[AI] Rate limit reached, request queued for later execution"
+                    );
+                });
+
+            // Instead of recursive scheduling, add to bounded queue
+            PendingRequest request = new PendingRequest(
+                prompt,
+                future,
+                itemCount
             );
-            CompletableFuture<String> future = new CompletableFuture<>();
-            plugin
-                .getServer()
-                .getScheduler()
-                .runTaskLater(
-                    plugin,
-                    () -> chat(prompt, itemCount).thenAccept(future::complete),
-                    40L // Increased from 20L to 40L (2 seconds)
-                );
+            if (!requestQueue.offer(request)) {
+                Bukkit.getScheduler()
+                    .runTask(plugin, () -> {
+                        debug.console("[AI] Queue full, request dropped");
+                        future.complete("");
+                    });
+            }
             return future;
         }
 
+        executeCountRequest(prompt, future, itemCount);
+        return future;
+    }
+
+    private void executeCountRequest(
+        String prompt,
+        CompletableFuture<String> future,
+        int itemCount
+    ) {
         String selectedModel = selectModel(itemCount);
-        debug.console(
-            "[AI] Using model: " +
-            selectedModel +
-            " for " +
-            itemCount +
-            " items"
-        );
+        Bukkit.getScheduler()
+            .runTask(plugin, () -> {
+                debug.console(
+                    "[AI] Using model: " +
+                    selectedModel +
+                    " for " +
+                    itemCount +
+                    " items"
+                );
+            });
 
         JSONObject json = new JSONObject()
             .put("model", selectedModel)
@@ -130,88 +224,139 @@ public class AIService {
             .post(body)
             .build();
 
-        CompletableFuture<String> future = new CompletableFuture<>();
         http
             .newCall(request)
             .enqueue(
                 new Callback() {
                     public void onFailure(Call call, IOException e) {
-                        debug.console("[AI] Call failed: " + e.getMessage());
-                        future.complete("");
+                        Bukkit.getScheduler()
+                            .runTask(plugin, () -> {
+                                debug.console(
+                                    "[AI] Call failed: " + e.getMessage()
+                                );
+                                future.complete("");
+                            });
                     }
 
                     public void onResponse(Call call, Response rsp)
                         throws IOException {
                         try {
                             String responseBody = rsp.body().string();
-                            debug.console("[AI] Response code: " + rsp.code());
+                            final int responseCode = rsp.code();
 
-                            if (rsp.code() != 200) {
-                                debug.console(
-                                    "[AI] Error response: " + responseBody
-                                );
-                                future.complete("");
-                                return;
-                            }
+                            Bukkit.getScheduler()
+                                .runTask(plugin, () -> {
+                                    debug.console(
+                                        "[AI] Response code: " + responseCode
+                                    );
 
-                            JSONObject json = new JSONObject(responseBody);
-                            if (
-                                !json.has("choices") ||
-                                json.getJSONArray("choices").length() == 0
-                            ) {
-                                debug.console(
-                                    "[AI] Invalid response format: " +
-                                    responseBody
-                                );
-                                future.complete("");
-                                return;
-                            }
+                                    if (responseCode != 200) {
+                                        debug.console(
+                                            "[AI] Error response: " +
+                                            responseBody
+                                        );
+                                        future.complete("");
+                                        return;
+                                    }
 
-                            String content = json
-                                .getJSONArray("choices")
-                                .getJSONObject(0)
-                                .getJSONObject("message")
-                                .getString("content");
-                            future.complete(content);
+                                    try {
+                                        JSONObject json = new JSONObject(
+                                            responseBody
+                                        );
+                                        if (
+                                            !json.has("choices") ||
+                                            json
+                                                .getJSONArray("choices")
+                                                .length() ==
+                                            0
+                                        ) {
+                                            debug.console(
+                                                "[AI] Invalid response format: " +
+                                                responseBody
+                                            );
+                                            future.complete("");
+                                            return;
+                                        }
+
+                                        String content = json
+                                            .getJSONArray("choices")
+                                            .getJSONObject(0)
+                                            .getJSONObject("message")
+                                            .getString("content");
+                                        future.complete(content);
+                                    } catch (Exception ex) {
+                                        debug.console(
+                                            "[AI] Response parsing error: " +
+                                            ex.getMessage()
+                                        );
+                                        future.complete("");
+                                    }
+                                });
                         } catch (Exception ex) {
-                            debug.console(
-                                "[AI] Response parsing error: " +
-                                ex.getMessage()
-                            );
-                            future.complete("");
+                            Bukkit.getScheduler()
+                                .runTask(plugin, () -> {
+                                    debug.console(
+                                        "[AI] Response reading error: " +
+                                        ex.getMessage()
+                                    );
+                                    future.complete("");
+                                });
                         }
                     }
                 }
             );
-        return future;
     }
 
     public CompletableFuture<String> chat(String prompt, String forcedModel) {
         if (apiKey.isEmpty() || apiKey.equals("your-api-key-here")) {
-            debug.console(
-                "[AI] ERROR: API key is missing or using default value. Please set a valid key in config.yml"
-            );
+            Bukkit.getScheduler()
+                .runTask(plugin, () -> {
+                    debug.console(
+                        "[AI] ERROR: API key is missing or using default value. Please set a valid key in config.yml"
+                    );
+                });
             return CompletableFuture.completedFuture("");
         }
 
+        CompletableFuture<String> future = new CompletableFuture<>();
+
         if (!rateLimiter.tryAcquire()) {
-            debug.console(
-                "[AI] Rate limit reached, request queued for later execution"
+            Bukkit.getScheduler()
+                .runTask(plugin, () -> {
+                    debug.console(
+                        "[AI] Rate limit reached, request queued for later execution"
+                    );
+                });
+
+            // Add to bounded queue instead of recursive scheduling
+            PendingRequest request = new PendingRequest(
+                prompt,
+                future,
+                forcedModel
             );
-            CompletableFuture<String> future = new CompletableFuture<>();
-            plugin
-                .getServer()
-                .getScheduler()
-                .runTaskLater(
-                    plugin,
-                    () ->
-                        chat(prompt, forcedModel).thenAccept(future::complete),
-                    40L // Increased from 20L to 40L (2 seconds)
-                );
+            if (!requestQueue.offer(request)) {
+                Bukkit.getScheduler()
+                    .runTask(plugin, () -> {
+                        debug.console("[AI] Queue full, request dropped");
+                        future.complete("");
+                    });
+            }
             return future;
         }
 
-        debug.console("[AI] Using forced model: " + forcedModel);
+        executeModelRequest(prompt, future, forcedModel);
+        return future;
+    }
+
+    private void executeModelRequest(
+        String prompt,
+        CompletableFuture<String> future,
+        String forcedModel
+    ) {
+        Bukkit.getScheduler()
+            .runTask(plugin, () -> {
+                debug.console("[AI] Using forced model: " + forcedModel);
+            });
 
         JSONObject json = new JSONObject()
             .put("model", forcedModel)
@@ -233,59 +378,117 @@ public class AIService {
             .post(body)
             .build();
 
-        CompletableFuture<String> future = new CompletableFuture<>();
         http
             .newCall(request)
             .enqueue(
                 new Callback() {
                     public void onFailure(Call call, IOException e) {
-                        debug.console("[AI] Call failed: " + e.getMessage());
-                        future.complete("");
+                        Bukkit.getScheduler()
+                            .runTask(plugin, () -> {
+                                debug.console(
+                                    "[AI] Call failed: " + e.getMessage()
+                                );
+                                future.complete("");
+                            });
                     }
 
                     public void onResponse(Call call, Response rsp)
                         throws IOException {
                         try {
                             String responseBody = rsp.body().string();
-                            debug.console("[AI] Response code: " + rsp.code());
+                            final int responseCode = rsp.code();
 
-                            if (rsp.code() != 200) {
-                                debug.console(
-                                    "[AI] Error response: " + responseBody
-                                );
-                                future.complete("");
-                                return;
-                            }
+                            Bukkit.getScheduler()
+                                .runTask(plugin, () -> {
+                                    debug.console(
+                                        "[AI] Response code: " + responseCode
+                                    );
 
-                            JSONObject json = new JSONObject(responseBody);
-                            if (
-                                !json.has("choices") ||
-                                json.getJSONArray("choices").length() == 0
-                            ) {
-                                debug.console(
-                                    "[AI] Invalid response format: " +
-                                    responseBody
-                                );
-                                future.complete("");
-                                return;
-                            }
+                                    if (responseCode != 200) {
+                                        debug.console(
+                                            "[AI] Error response: " +
+                                            responseBody
+                                        );
+                                        future.complete("");
+                                        return;
+                                    }
 
-                            String content = json
-                                .getJSONArray("choices")
-                                .getJSONObject(0)
-                                .getJSONObject("message")
-                                .getString("content");
-                            future.complete(content);
+                                    try {
+                                        JSONObject json = new JSONObject(
+                                            responseBody
+                                        );
+                                        if (
+                                            !json.has("choices") ||
+                                            json
+                                                .getJSONArray("choices")
+                                                .length() ==
+                                            0
+                                        ) {
+                                            debug.console(
+                                                "[AI] Invalid response format: " +
+                                                responseBody
+                                            );
+                                            future.complete("");
+                                            return;
+                                        }
+
+                                        String content = json
+                                            .getJSONArray("choices")
+                                            .getJSONObject(0)
+                                            .getJSONObject("message")
+                                            .getString("content");
+                                        future.complete(content);
+                                    } catch (Exception ex) {
+                                        debug.console(
+                                            "[AI] Response parsing error: " +
+                                            ex.getMessage()
+                                        );
+                                        future.complete("");
+                                    }
+                                });
                         } catch (Exception ex) {
-                            debug.console(
-                                "[AI] Response parsing error: " +
-                                ex.getMessage()
-                            );
-                            future.complete("");
+                            Bukkit.getScheduler()
+                                .runTask(plugin, () -> {
+                                    debug.console(
+                                        "[AI] Response reading error: " +
+                                        ex.getMessage()
+                                    );
+                                    future.complete("");
+                                });
                         }
                     }
                 }
             );
-        return future;
+    }
+
+    // Helper class to store pending requests in the queue
+    private class PendingRequest {
+
+        final String prompt;
+        final CompletableFuture<String> future;
+        final int itemCount;
+        final String forcedModel;
+
+        PendingRequest(
+            String prompt,
+            CompletableFuture<String> future,
+            int itemCount
+        ) {
+            this.prompt = prompt;
+            this.future = future;
+            this.itemCount = itemCount;
+            this.forcedModel = null;
+        }
+
+        PendingRequest(
+            String prompt,
+            CompletableFuture<String> future,
+            String forcedModel
+        ) {
+            this.prompt = prompt;
+            this.future = future;
+            this.itemCount = 0;
+            this.forcedModel = forcedModel;
+        }
     }
 }

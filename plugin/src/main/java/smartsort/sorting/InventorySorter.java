@@ -15,7 +15,12 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import smartsort.SmartSortPlugin;
+import smartsort.ai.AIPromptBuilder;
+import smartsort.ai.AIResponseParser;
 import smartsort.ai.AIService;
+import smartsort.event.InventorySortEvent;
+import smartsort.event.SortCompletedEvent;
+import smartsort.event.SortFailedEvent;
 import smartsort.util.DebugLogger;
 import smartsort.util.TickSoundManager;
 
@@ -31,6 +36,10 @@ public class InventorySorter implements Listener {
     private final AIService ai;
     private final TickSoundManager tick;
     private final DebugLogger debug;
+    private final AIPromptBuilder promptBuilder;
+    private final AIResponseParser responseParser;
+    private final InventoryAnalyzer inventoryAnalyzer;
+    private final SortResultApplier resultApplier;
 
     public InventorySorter(
         SmartSortPlugin pl,
@@ -42,6 +51,10 @@ public class InventorySorter implements Listener {
         this.ai = ai;
         this.tick = tick;
         this.debug = dbg;
+        this.promptBuilder = new AIPromptBuilder();
+        this.responseParser = new AIResponseParser();
+        this.inventoryAnalyzer = new InventoryAnalyzer();
+        this.resultApplier = new SortResultApplier(tick);
         this.cooldownTicks =
             pl.getConfig().getInt("smart_sort.delay_seconds", 3) * 20;
         this.cache = Caffeine.newBuilder()
@@ -74,9 +87,15 @@ public class InventorySorter implements Listener {
             .toList();
         if (items.isEmpty()) return;
 
-        String signature = signature(items);
+        // Fire event to allow cancellation
+        InventorySortEvent sortEvent = new InventorySortEvent(inv, p);
+        Bukkit.getPluginManager().callEvent(sortEvent);
+        if (sortEvent.isCancelled()) return;
+
+        // Continue with the sorting process
+        String signature = inventoryAnalyzer.createInventorySignature(inv);
         String key =
-            (loc != null ? loc.toString() : p.getUniqueId().toString());
+            (loc != null ? getLocationKey(loc) : p.getUniqueId().toString());
         if (
             signature.equals(signatures.get(key)) &&
             System.currentTimeMillis() - lastSorted.getOrDefault(key, 0L) <
@@ -91,12 +110,31 @@ public class InventorySorter implements Listener {
         List<ItemStack> cached = cache.getIfPresent(signature);
         if (cached != null) {
             debug.console("[CACHE] Using cached sorting for " + key);
-            applySorting(
-                cached.stream().map(ItemStack::clone).toList(),
+            List<ItemStack> clonedItems = cached
+                .stream()
+                .map(ItemStack::clone)
+                .toList();
+
+            boolean success = resultApplier.applySortedItems(
                 inv,
-                p,
-                loc
+                clonedItems,
+                p
             );
+            if (success) {
+                Bukkit.getPluginManager()
+                    .callEvent(new SortCompletedEvent(inv, p, clonedItems));
+                if (loc != null) inProgress.remove(loc);
+            } else {
+                Bukkit.getPluginManager()
+                    .callEvent(
+                        new SortFailedEvent(
+                            inv,
+                            p,
+                            "Failed to apply cached sorting"
+                        )
+                    );
+                if (loc != null) inProgress.remove(loc);
+            }
             return;
         }
 
@@ -105,6 +143,18 @@ public class InventorySorter implements Listener {
     }
 
     /* ---------- helpers ---------- */
+
+    private String getLocationKey(Location loc) {
+        return (
+            loc.getWorld().getName() +
+            ":" +
+            loc.getBlockX() +
+            ":" +
+            loc.getBlockY() +
+            ":" +
+            loc.getBlockZ()
+        );
+    }
 
     private boolean shouldSkipSort(Inventory inv) {
         return (
@@ -115,27 +165,6 @@ public class InventorySorter implements Listener {
         );
     }
 
-    private String signature(List<ItemStack> items) {
-        // Optimized signature generation
-        Map<Material, Integer> map = new HashMap<>();
-        items.forEach(i -> map.merge(i.getType(), i.getAmount(), Integer::sum));
-
-        StringBuilder sb = new StringBuilder();
-        map
-            .entrySet()
-            .stream()
-            .sorted(Comparator.comparing(e -> e.getKey().name())) // More stable sorting
-            .forEach(e ->
-                sb
-                    .append(e.getValue())
-                    .append("x")
-                    .append(e.getKey())
-                    .append(",")
-            );
-
-        return sb.length() > 0 ? sb.substring(0, sb.length() - 1) : "";
-    }
-
     private void callAI(
         String sig,
         List<ItemStack> items,
@@ -143,6 +172,10 @@ public class InventorySorter implements Listener {
         Player p,
         Location loc
     ) {
+        // Use the AIPromptBuilder to generate the prompt
+        String prompt = promptBuilder.buildSortingPrompt(items);
+        debug.console("[AI prompt] " + prompt);
+
         // Select model based on inventory size if enabled
         String model = plugin.getConfig().getString("openai.model", "gpt-4o");
         if (plugin.getConfig().getBoolean("openai.dynamic_model", false)) {
@@ -152,21 +185,6 @@ public class InventorySorter implements Listener {
             );
         }
 
-        // More efficient prompt for better sorting
-        String prompt =
-            "[SMARTSORT v4] Inventory: " +
-            sig.replace(",", ", ") +
-            "\n" +
-            "RULES:\n" +
-            "1. You're a Minecraft expert organizing inventory in the most intuitive way possible\n" +
-            "2. Group similar items together (blocks with blocks, tools with tools)\n" +
-            "3. Put most commonly used items at the top/beginning of inventory\n" +
-            "4. Stack to maximum amounts first\n" +
-            "5. For tools and weapons, sort by material quality (wood→stone→iron→gold→diamond)\n" +
-            "6. Output ONLY lines like \"12xSTONE\" with no comments or explanations\n" +
-            "7. Consider what an experienced Minecraft player would expect";
-
-        debug.console("[AI prompt] " + prompt);
         ai
             .chat(prompt, items.size())
             .thenAcceptAsync(reply ->
@@ -174,7 +192,11 @@ public class InventorySorter implements Listener {
                     .runTask(plugin, () -> {
                         debug.console("[AI reply]\n" + reply);
 
-                        List<ItemStack> sorted = parseReply(reply, items);
+                        // Use AIResponseParser to parse the reply
+                        List<ItemStack> sorted = responseParser.parseResponse(
+                            reply,
+                            items
+                        );
 
                         if (sorted.isEmpty()) {
                             // Sorting failed - clear feedback
@@ -190,6 +212,16 @@ public class InventorySorter implements Listener {
                                     "[SmartSort] Sorting failed - items unchanged"
                                 ).color(NamedTextColor.RED)
                             );
+
+                            // Fire sort failed event
+                            Bukkit.getPluginManager()
+                                .callEvent(
+                                    new SortFailedEvent(
+                                        inv,
+                                        p,
+                                        "Empty response from AI"
+                                    )
+                                );
 
                             if (loc != null) inProgress.remove(loc);
                             return;
@@ -213,6 +245,16 @@ public class InventorySorter implements Listener {
                                 "[SORT ERROR] Item count mismatch - original vs sorted"
                             );
 
+                            // Fire sort failed event
+                            Bukkit.getPluginManager()
+                                .callEvent(
+                                    new SortFailedEvent(
+                                        inv,
+                                        p,
+                                        "Item count mismatch"
+                                    )
+                                );
+
                             if (loc != null) inProgress.remove(loc);
                             return;
                         }
@@ -224,110 +266,33 @@ public class InventorySorter implements Listener {
                         );
 
                         // Apply the sorted items
-                        applySorting(sorted, inv, p, loc);
+                        boolean success = resultApplier.applySortedItems(
+                            inv,
+                            sorted,
+                            p
+                        );
+
+                        if (success) {
+                            // Fire sort completed event
+                            Bukkit.getPluginManager()
+                                .callEvent(
+                                    new SortCompletedEvent(inv, p, sorted)
+                                );
+                            if (loc != null) inProgress.remove(loc);
+                        } else {
+                            // Handle failure case
+                            Bukkit.getPluginManager()
+                                .callEvent(
+                                    new SortFailedEvent(
+                                        inv,
+                                        p,
+                                        "Failed to apply sorting"
+                                    )
+                                );
+                            if (loc != null) inProgress.remove(loc);
+                        }
                     })
             );
-    }
-
-    private void applySorting(
-        List<ItemStack> sorted,
-        Inventory inv,
-        Player p,
-        Location loc
-    ) {
-        // Clear and apply sorted items
-        inv.clear();
-
-        // Apply sorted items with stacking
-        Map<String, ItemStack> stackMap = new LinkedHashMap<>();
-
-        for (ItemStack item : sorted) {
-            if (item == null || item.getType() == Material.AIR) continue;
-
-            // Create key based on material and metadata
-            String key = item.getType().toString();
-            if (item.hasItemMeta()) key += ":" + item.getItemMeta().hashCode();
-
-            if (stackMap.containsKey(key)) {
-                ItemStack existing = stackMap.get(key);
-                int maxSize = existing.getType().getMaxStackSize();
-
-                if (existing.getAmount() < maxSize) {
-                    int canAdd = maxSize - existing.getAmount();
-                    int toAdd = Math.min(canAdd, item.getAmount());
-
-                    existing.setAmount(existing.getAmount() + toAdd);
-
-                    if (toAdd < item.getAmount()) {
-                        ItemStack remainder = item.clone();
-                        remainder.setAmount(item.getAmount() - toAdd);
-                        // Create a new unique key for the remainder
-                        stackMap.put(key + ":" + UUID.randomUUID(), remainder);
-                    }
-                } else {
-                    // Stack is full, create new one with unique key
-                    stackMap.put(key + ":" + UUID.randomUUID(), item);
-                }
-            } else {
-                stackMap.put(key, item);
-            }
-        }
-
-        // Place stacked items in inventory
-        int slot = 0;
-        for (ItemStack item : stackMap.values()) {
-            if (slot < inv.getSize()) {
-                inv.setItem(slot++, item);
-            }
-        }
-
-        // Success feedback
-        tick.stop(p);
-        p.playSound(
-            p.getLocation(),
-            Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
-            0.7f,
-            1.1f
-        );
-        if (loc != null) inProgress.remove(loc);
-    }
-
-    private List<ItemStack> parseReply(String reply, List<ItemStack> items) {
-        Map<Material, Queue<ItemStack>> stash = new HashMap<>();
-        items.forEach(it ->
-            stash
-                .computeIfAbsent(it.getType(), k -> new LinkedList<>())
-                .add(it.clone())
-        );
-
-        List<ItemStack> result = new ArrayList<>();
-        for (String line : reply.split("\n")) {
-            line = line.trim().toUpperCase();
-            // Updated regex to support both "12xSTONE" and "12 x STONE" formats with case-insensitive x
-            if (!line.matches("(?i)\\d+\\s*[xX]\\s*[A-Z0-9_]+")) continue;
-
-            // Split on x with optional whitespace, case-insensitive
-            String[] parts = line.split("(?i)\\s*[xX]\\s*");
-
-            int amt = Integer.parseInt(parts[0]);
-            Material m = Material.matchMaterial(parts[1]);
-            Queue<ItemStack> q = m == null ? null : stash.get(m);
-            while (amt > 0 && q != null && !q.isEmpty()) {
-                ItemStack is = q.poll();
-                int take = Math.min(amt, is.getAmount());
-                ItemStack slice = is.clone();
-                slice.setAmount(take);
-                result.add(slice);
-                amt -= take;
-                if (is.getAmount() > take) {
-                    is.setAmount(is.getAmount() - take);
-                    q.add(is);
-                }
-            }
-        }
-        // leftovers
-        stash.values().forEach(q -> q.forEach(result::add));
-        return result;
     }
 
     // Add validation method to ensure item count consistency

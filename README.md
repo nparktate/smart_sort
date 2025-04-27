@@ -3,7 +3,7 @@
 ![SmartSort Banner](https://via.placeholder.com/800x200?text=SmartSort)
 
 ## Development Status
-**Current Version:** 1.3.0
+**Current Version:** 1.3.5
 **Environment:** Paper 1.21.4
 **Stage:** Release
 
@@ -16,7 +16,7 @@ SmartSort is a Minecraft plugin that uses OpenAI's GPT-4o to intelligently organ
 - **Automatic Operation**: Just open a container and sorting happens automatically
 - **Visual & Audio Feedback**: Sound cues indicate when sorting is in progress
 - **Item Protection**: Robust safeguards ensure no items are duplicated or lost
-- **Performance Optimizations**: Caching, rate limiting, and cooldown systems
+- **Performance Optimizations**: Caching, rate limiting, and thread-safe operations
 
 ## Installation
 
@@ -26,10 +26,13 @@ SmartSort is a Minecraft plugin that uses OpenAI's GPT-4o to intelligently organ
 - OpenAI API Key
 
 ### Setup Steps
-1. Download the latest `smartsort-1.3.0.jar` from the releases
+1. Download the latest `smartsort-1.3.5.jar` from the releases
 2. Place the JAR in your server's `plugins` folder
 3. Restart your server
-4. Edit `plugins/SmartSort/config.yml` to add your OpenAI API key
+4. Set your OpenAI API key using one of these methods:
+   - Environment variable: `OPENAI_API_KEY=your-key-here`
+   - File: Create `plugins/SmartSort/apikey.txt` with just your key
+   - Config: Edit `plugins/SmartSort/config.yml`
 5. Restart again or use `/reload confirm`
 
 ## Usage
@@ -51,7 +54,7 @@ Simply open a chest, barrel, or shulker box. SmartSort will automatically detect
 ## Configuration
 ```yaml
 openai:
-  # Your OpenAI API key (required)
+  # Your OpenAI API key (can also be set via environment or apikey.txt)
   api_key: "your-api-key-here"
 
   # Default model to use
@@ -106,7 +109,14 @@ logging:
 - **Caching**: Previously sorted inventories are cached to avoid redundant API calls
 - **Rate Limiting**: Built-in rate limiter prevents API overuse
 - **Request Queuing**: Requests are queued when rate limits are reached
+- **Thread Safety**: Components designed for concurrent operation
 - **Cooldowns**: Prevents repeated sorting of the same inventory
+
+### API Key Security
+The plugin offers three ways to configure your OpenAI API key:
+1. **Environment Variable**: Set OPENAI_API_KEY in your server environment (most secure)
+2. **Separate File**: Create plugins/SmartSort/apikey.txt containing just the key
+3. **Config File**: Set in config.yml (least secure)
 
 ### AI Prompting
 The plugin uses carefully crafted prompts that instruct the AI to:
@@ -126,6 +136,13 @@ The plugin uses carefully crafted prompts that instruct the AI to:
 Use `/smartsort debug` to see detailed logs in your chat, which can help identify issues.
 
 ## Changelog
+
+### 1.3.5 (2025-04-27)
+- Improved thread safety and concurrent operation
+- Added multiple secure options for API key management
+- Enhanced error handling and recovery mechanisms
+- Implemented proper request queuing for rate limiting
+- Fixed potential item loss in certain sorting scenarios
 
 ### 1.3.0 (2023-04-27)
 - Fixed test chest command with improved regex handling

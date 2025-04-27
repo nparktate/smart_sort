@@ -10,6 +10,7 @@ import smartsort.util.TickSoundManager;
 public final class SmartSortPlugin extends JavaPlugin {
 
     private static SmartSortPlugin instance;
+    private ServiceContainer services;
     private AIService aiService;
     private InventorySorter sorter;
     private TickSoundManager tickSoundManager;
@@ -24,10 +25,23 @@ public final class SmartSortPlugin extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
 
+        // Create service container
+        services = new ServiceContainer();
+
+        // Initialize and register components
         debug = new DebugLogger(this);
+        debug.initialize(); // Start message queue processing
+        services.register(DebugLogger.class, debug);
+
         aiService = new AIService(this, debug);
+        services.register(AIService.class, aiService);
+
         tickSoundManager = new TickSoundManager(this);
+        services.register(TickSoundManager.class, tickSoundManager);
+
+        // Create remaining components
         sorter = new InventorySorter(this, aiService, tickSoundManager, debug);
+        services.register(InventorySorter.class, sorter);
 
         // listeners
         getServer().getPluginManager().registerEvents(sorter, this);
@@ -44,8 +58,14 @@ public final class SmartSortPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        debug.shutdown(); // Add shutdown call to properly cancel processing task
         tickSoundManager.shutdown();
         aiService.shutdown();
         instance = null;
+    }
+
+    // Add access method for services
+    public <T> T getService(Class<T> type) {
+        return services.get(type);
     }
 }
