@@ -47,9 +47,8 @@ public final class SmartSortPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(sorter, this);
         getServer().getPluginManager().registerEvents(tickSoundManager, this);
 
-        // commands
-        new SmartSortCommand(this, debug).register();
-        new TestChestCommand(this, aiService, debug).register();
+        // commands - unified under SmartSortCommand
+        new SmartSortCommand(this, aiService, debug).register();
 
         @SuppressWarnings("deprecation")
         String version = getDescription().getVersion();
