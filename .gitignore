@@ -4,14 +4,6 @@
 .DS_Store
 __MACOSX/
 
-# === Build artefacts ===
-/target/
-build/
-versions/
-*.jar
-*.class
-*.log
-
 # === Maven / Gradle wrappers ===
 .mvn/wrapper/maven-wrapper.jar
 .gradle/
