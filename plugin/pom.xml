@@ -62,9 +62,9 @@
   </dependencies>
 
   <scm>
-    <connection>scm:git:https://github.com/nicholastatepark/smart_sort.git</connection>
-    <developerConnection>scm:git:https://github.com/nicholastatepark/smart_sort.git</developerConnection>
-    <url>https://github.com/nicholastatepark/smart_sort</url>
+    <connection>scm:git:https://github.com/nparktate/smart_sort.git</connection>
+    <developerConnection>scm:git:https://github.com/nparktate/smart_sort.git</developerConnection>
+    <url>https://github.com/nparktate/smart_sort</url>
     <tag>HEAD</tag>
   </scm>
 
