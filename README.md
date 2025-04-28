@@ -1,4 +1,4 @@
-![SMARTSORT (1)_high](https://github.com/user-attachments/assets/5d7c3c05-60a7-4cb4-8055-3dbc2bbfcf12)
+![SMARTSORT (2)_high](https://github.com/user-attachments/assets/e372d3f7-09eb-4576-8f50-a7e01a24a846)
 
 ## Development Status
 **Current Version:** 1.3.9
