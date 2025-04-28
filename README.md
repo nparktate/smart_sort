@@ -1,6 +1,6 @@
 # SmartSort - AI-Powered Inventory Organization for Minecraft
 
-![SMART-SORT](https://github.com/user-attachments/assets/e8fca96b-9e97-42dd-b8fb-8022b010ec16)
+![SMART-SORT_high](https://github.com/user-attachments/assets/d8358acc-e20f-4626-a888-8d6d96c20003)
 
 ## Development Status
 **Current Version:** 1.3.9
