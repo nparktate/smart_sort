@@ -1,0 +1,12 @@
+# === IDE / macOS ===
+.idea/            # IntelliJ / Zed
+*.iml
+.DS_Store
+__MACOSX/
+
+# === Maven / Gradle wrappers ===
+.mvn/wrapper/maven-wrapper.jar
+.gradle/
+
+# === Editors ===
+.vscode/
