@@ -405,6 +405,9 @@ public class PlayerInventoryService implements Listener {
                             "[PlayerInv] Received AI response for " +
                             player.getName()
                         );
+                        
+                        // Debug: Log the AI response to see slot assignments
+                        debugLogger.console("[PlayerInv] AI Response:\n" + response);
 
                         // Parse response and apply to inventory
                         try {
@@ -466,27 +469,32 @@ public class PlayerInventoryService implements Listener {
         ItemStack helmet = inv.getHelmet();
         if (helmet != null && !helmet.getType().isAir()) {
             items.add(helmet.clone());
+            debugLogger.console("[PlayerInv] Extracted HELMET: " + helmet.getType() + " x" + helmet.getAmount());
         }
         
         ItemStack chestplate = inv.getChestplate();
         if (chestplate != null && !chestplate.getType().isAir()) {
             items.add(chestplate.clone());
+            debugLogger.console("[PlayerInv] Extracted CHESTPLATE: " + chestplate.getType() + " x" + chestplate.getAmount());
         }
         
         ItemStack leggings = inv.getLeggings();
         if (leggings != null && !leggings.getType().isAir()) {
             items.add(leggings.clone());
+            debugLogger.console("[PlayerInv] Extracted LEGGINGS: " + leggings.getType() + " x" + leggings.getAmount());
         }
         
         ItemStack boots = inv.getBoots();
         if (boots != null && !boots.getType().isAir()) {
             items.add(boots.clone());
+            debugLogger.console("[PlayerInv] Extracted BOOTS: " + boots.getType() + " x" + boots.getAmount());
         }
 
         // Offhand
         ItemStack offhand = inv.getItemInOffHand();
         if (offhand != null && !offhand.getType().isAir()) {
             items.add(offhand.clone());
+            debugLogger.console("[PlayerInv] Extracted OFFHAND: " + offhand.getType() + " x" + offhand.getAmount());
         }
 
         debugLogger.console(
@@ -505,6 +513,12 @@ public class PlayerInventoryService implements Listener {
     ) {
         Map<String, ItemStack> slotMap = new HashMap<>();
         Map<Material, Queue<ItemStack>> materialMap = new HashMap<>();
+        
+        // Track special slots to ensure we only use each once
+        Set<String> specialSlots = new HashSet<>(Arrays.asList(
+            SLOT_HELMET, SLOT_CHESTPLATE, SLOT_LEGGINGS, SLOT_BOOTS, SLOT_OFFHAND
+        ));
+        Set<String> usedSpecialSlots = new HashSet<>();
 
         // Group original items by material
         for (ItemStack item : originalItems) {
@@ -579,7 +593,31 @@ public class PlayerInventoryService implements Listener {
                     ItemStack slotItem = item.clone();
                     slotItem.setAmount(takeAmount);
 
-                    // Add to slot map, possibly combining with existing items
+                    // Check if this is a special slot and if it's already been used
+                    if (specialSlots.contains(slotName)) {
+                        // If this special slot is already used, reassign to regular inventory slot
+                        if (usedSpecialSlots.contains(slotName)) {
+                            debugLogger.console(
+                                "[PlayerInv] Special slot " + slotName + " already used, reassigning to inventory slot"
+                            );
+                            // Find an available inventory slot
+                            for (int i = 0; i < 27; i++) {
+                                String newSlot = "INVENTORY_" + i;
+                                if (!slotMap.containsKey(newSlot)) {
+                                    slotMap.put(newSlot, slotItem);
+                                    break;
+                                }
+                            }
+                            continue; // Skip to next iteration
+                        }
+    
+                        // Mark this special slot as used
+                        usedSpecialSlots.add(slotName);
+                        slotMap.put(slotName, slotItem);
+                        continue; // Skip to next iteration
+                    }
+
+                    // Handle regular slots with possible stacking
                     if (slotMap.containsKey(slotName)) {
                         ItemStack existing = slotMap.get(slotName);
                         if (
@@ -703,18 +741,23 @@ public class PlayerInventoryService implements Listener {
             
             try {
                 if (slotName.equals(SLOT_HELMET)) {
+                    debugLogger.console("[PlayerInv] Setting helmet for " + player.getName());
                     inv.setHelmet(item);
                     hasHelmet = true;
                 } else if (slotName.equals(SLOT_CHESTPLATE)) {
+                    debugLogger.console("[PlayerInv] Setting chestplate for " + player.getName());
                     inv.setChestplate(item);
                     hasChestplate = true;
                 } else if (slotName.equals(SLOT_LEGGINGS)) {
+                    debugLogger.console("[PlayerInv] Setting leggings for " + player.getName());
                     inv.setLeggings(item);
                     hasLeggings = true;
                 } else if (slotName.equals(SLOT_BOOTS)) {
+                    debugLogger.console("[PlayerInv] Setting boots for " + player.getName());
                     inv.setBoots(item);
                     hasBoots = true;
                 } else if (slotName.equals(SLOT_OFFHAND)) {
+                    debugLogger.console("[PlayerInv] Setting offhand for " + player.getName());
                     inv.setItemInOffHand(item);
                     hasOffhand = true;
                 }
@@ -875,6 +918,9 @@ public class PlayerInventoryService implements Listener {
                             "[PlayerInv] Received AI response for immediate sort " +
                             player.getName()
                         );
+                        
+                        // Debug: Log the AI response to see slot assignments
+                        debugLogger.console("[PlayerInv] AI Response:\n" + response);
 
                         // Parse response and apply to inventory
                         try {
