@@ -1,8 +1,8 @@
-# yaml-language-server: $schema=https://json.schemastore.org/bukkit-plugin.json
+# yaml-language-server: $schema=./bukkit-plugin.schema.json
 name: SmartSort
 main: smartsort.SmartSortPlugin
 version: ${project.version}
-api-version: 1.21
+api-version: "1.21"
 description: AI-driven inventory organizer plugin
 author: nickp
 commands:
@@ -22,4 +22,4 @@ permissions:
     default: op
   smartsort.player:
     description: Access to player inventory sorting
-    default: not op
+    default: true

@@ -66,22 +66,23 @@ public class PlayerInventoryService implements Listener {
 
     public void toggleAutoSort(Player player) {
         UUID playerId = player.getUniqueId();
-        boolean newValue = !preferenceManager.isAutoSortEnabled(playerId);
+        boolean currentValue = preferenceManager.isAutoSortEnabled(playerId);
+        boolean newValue = !currentValue;
         preferenceManager.setAutoSortEnabled(playerId, newValue);
 
         if (newValue) {
             player.sendMessage(
-                Component.text("Player inventory auto-sorting enabled!").color(
-                    NamedTextColor.GREEN
-                )
+                Component.text(
+                    "Player inventory auto-sorting ENABLED! Your inventory will be organized when you open it."
+                ).color(NamedTextColor.GREEN)
             );
             // Sort immediately if enabled
             sortPlayerInventory(player);
         } else {
             player.sendMessage(
-                Component.text("Player inventory auto-sorting disabled.").color(
-                    NamedTextColor.YELLOW
-                )
+                Component.text(
+                    "Player inventory auto-sorting DISABLED. Your inventory will no longer be automatically sorted."
+                ).color(NamedTextColor.YELLOW)
             );
         }
     }
