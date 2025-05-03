@@ -9,12 +9,15 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.scheduler.BukkitTask;
 import smartsort.SmartSortPlugin;
 import smartsort.ai.AIPromptBuilder;
 import smartsort.ai.AIService;
@@ -35,6 +38,9 @@ public class PlayerInventoryService implements Listener {
     private final AIPromptBuilder promptBuilder;
     private final Map<UUID, Long> lastSortTimes = new ConcurrentHashMap<>();
     private final Set<UUID> sortingInProgress = new HashSet<>();
+    private final Map<UUID, Long> lastInventoryCheck =
+        new ConcurrentHashMap<>();
+    private BukkitTask inventoryCheckTask;
 
     // Define inventory slot constants
     public static final String SLOT_HELMET = "HELMET";
@@ -56,12 +62,77 @@ public class PlayerInventoryService implements Listener {
         this.debugLogger = debugLogger;
         this.preferenceManager = preferenceManager;
         this.promptBuilder = new AIPromptBuilder();
+
+        // Start the inventory checking task
+        startInventoryCheckTask();
     }
 
     public void shutdown() {
         // Clean up any resources if needed
         sortingInProgress.clear();
         lastSortTimes.clear();
+        lastInventoryCheck.clear();
+
+        // Cancel the inventory check task
+        if (inventoryCheckTask != null) {
+            inventoryCheckTask.cancel();
+            inventoryCheckTask = null;
+        }
+    }
+
+    // Add this method to start a task that checks for open inventories
+    private void startInventoryCheckTask() {
+        inventoryCheckTask = plugin
+            .getServer()
+            .getScheduler()
+            .runTaskTimer(
+                plugin,
+                () -> {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        // Skip if auto-sort not enabled
+                        if (
+                            !preferenceManager.isAutoSortEnabled(
+                                player.getUniqueId()
+                            )
+                        ) {
+                            continue;
+                        }
+
+                        // Skip if on cooldown
+                        long now = System.currentTimeMillis();
+                        UUID playerId = player.getUniqueId();
+                        long cooldownMillis =
+                            plugin
+                                .getConfig()
+                                .getInt(
+                                    "smart_sort.player_inventory_delay_seconds",
+                                    30
+                                ) *
+                            1000L;
+                        if (
+                            now - lastSortTimes.getOrDefault(playerId, 0L) <
+                            cooldownMillis
+                        ) {
+                            continue;
+                        }
+
+                        // Check if player has inventory open
+                        InventoryView view = player.getOpenInventory();
+                        if (
+                            view.getType() == InventoryType.CRAFTING &&
+                            !sortingInProgress.contains(playerId)
+                        ) {
+                            debugLogger.console(
+                                "[PlayerInv] Detected open inventory for " +
+                                player.getName()
+                            );
+                            sortPlayerInventory(player);
+                        }
+                    }
+                },
+                10L,
+                10L
+            ); // Check every half second (10 ticks)
     }
 
     public void toggleAutoSort(Player player) {
@@ -87,14 +158,33 @@ public class PlayerInventoryService implements Listener {
         }
     }
 
-    @EventHandler
+    // Also enhance the existing onPlayerInventoryOpen handler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerInventoryOpen(InventoryOpenEvent event) {
         if (!(event.getPlayer() instanceof Player player)) return;
 
-        // Check if this is the player's own inventory
-        if (event.getInventory().getType() != InventoryType.CRAFTING) return;
+        // More comprehensive detection of player inventory
+        boolean isPlayerInventory =
+            event.getInventory().getType() == InventoryType.CRAFTING ||
+            event.getInventory().getType() == InventoryType.PLAYER ||
+            (event.getInventory().getHolder() != null &&
+                event.getInventory().getHolder() instanceof Player);
 
-        // Check if auto-sort is enabled for this player
+        if (!isPlayerInventory) {
+            debugLogger.console(
+                "[PlayerInv] Non-player inventory opened: " +
+                event.getInventory().getType() +
+                " for " +
+                player.getName()
+            );
+            return;
+        }
+
+        debugLogger.console(
+            "[PlayerInv] Player inventory detected for " + player.getName()
+        );
+
+        // Continue with regular checks and sorting
         if (!preferenceManager.isAutoSortEnabled(player.getUniqueId())) {
             debugLogger.console(
                 "[PlayerInv] Auto-sort disabled for " + player.getName()
@@ -102,7 +192,6 @@ public class PlayerInventoryService implements Listener {
             return;
         }
 
-        // Check if sorting is already in progress
         if (sortingInProgress.contains(player.getUniqueId())) {
             debugLogger.console(
                 "[PlayerInv] Sorting already in progress for " +
@@ -120,6 +209,7 @@ public class PlayerInventoryService implements Listener {
         UUID playerId = event.getPlayer().getUniqueId();
         sortingInProgress.remove(playerId);
         lastSortTimes.remove(playerId);
+        lastInventoryCheck.remove(playerId);
     }
 
     /**
