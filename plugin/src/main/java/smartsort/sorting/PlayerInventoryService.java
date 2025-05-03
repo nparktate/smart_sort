@@ -209,6 +209,25 @@ public class PlayerInventoryService implements Listener {
         lastSortTimes.remove(playerId);
     }
 
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onInventoryInteractionDuringSorting(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player player)) {
+            return;
+        }
+        
+        // If sorting is in progress for this player, block ALL inventory interactions
+        if (sortingInProgress.contains(player.getUniqueId())) {
+            event.setCancelled(true);
+            
+            // Optional: notify player that sorting is in progress (20% chance to avoid spam)
+            if (Math.random() < 0.2) {
+                player.sendMessage(
+                    Component.text("Please wait, sorting in progress...").color(NamedTextColor.YELLOW)
+                );
+            }
+        }
+    }
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
     public void onPlayerClickInventory(InventoryClickEvent event) {
         // Skip if not a player
@@ -435,18 +454,33 @@ public class PlayerInventoryService implements Listener {
         List<ItemStack> items = new ArrayList<>();
         PlayerInventory inv = player.getInventory();
 
-        // Main inventory
-        for (ItemStack item : inv.getContents()) {
+        // Main inventory (0-35) - avoiding iteration to be more explicit
+        for (int i = 0; i < 36; i++) {
+            ItemStack item = inv.getItem(i);
             if (item != null && !item.getType().isAir()) {
                 items.add(item.clone());
             }
         }
 
-        // Armor contents
-        for (ItemStack item : inv.getArmorContents()) {
-            if (item != null && !item.getType().isAir()) {
-                items.add(item.clone());
-            }
+        // Handle armor individually to be explicit
+        ItemStack helmet = inv.getHelmet();
+        if (helmet != null && !helmet.getType().isAir()) {
+            items.add(helmet.clone());
+        }
+        
+        ItemStack chestplate = inv.getChestplate();
+        if (chestplate != null && !chestplate.getType().isAir()) {
+            items.add(chestplate.clone());
+        }
+        
+        ItemStack leggings = inv.getLeggings();
+        if (leggings != null && !leggings.getType().isAir()) {
+            items.add(leggings.clone());
+        }
+        
+        ItemStack boots = inv.getBoots();
+        if (boots != null && !boots.getType().isAir()) {
+            items.add(boots.clone());
         }
 
         // Offhand
@@ -455,6 +489,10 @@ public class PlayerInventoryService implements Listener {
             items.add(offhand.clone());
         }
 
+        debugLogger.console(
+            "[PlayerInv] Extracted " + items.size() + " items from " + player.getName() + "'s inventory"
+        );
+        
         return items;
     }
 
@@ -620,29 +658,97 @@ public class PlayerInventoryService implements Listener {
      */
     private void applySlotMap(Player player, Map<String, ItemStack> slotMap) {
         PlayerInventory inv = player.getInventory();
-
-        // Clear inventory first
-        inv.clear();
-
+        
+        // Keep track of armor items that will be equipped
+        boolean hasHelmet = false;
+        boolean hasChestplate = false;
+        boolean hasLeggings = false;
+        boolean hasBoots = false;
+        boolean hasOffhand = false;
+        
+        // First pass: extract special slots to ensure they're handled correctly
+        Map<String, ItemStack> specialSlots = new HashMap<>();
+        Map<String, ItemStack> regularSlots = new HashMap<>();
+        
         for (Map.Entry<String, ItemStack> entry : slotMap.entrySet()) {
             String slotName = entry.getKey();
+            
+            if (slotName.equals(SLOT_HELMET) || 
+                slotName.equals(SLOT_CHESTPLATE) || 
+                slotName.equals(SLOT_LEGGINGS) || 
+                slotName.equals(SLOT_BOOTS) || 
+                slotName.equals(SLOT_OFFHAND)) {
+                specialSlots.put(slotName, entry.getValue());
+            } else {
+                regularSlots.put(slotName, entry.getValue());
+            }
+        }
+        
+        // Clear inventory first, but save armor content
+        ItemStack savedHelmet = inv.getHelmet();
+        ItemStack savedChestplate = inv.getChestplate();
+        ItemStack savedLeggings = inv.getLeggings();
+        ItemStack savedBoots = inv.getBoots();
+        ItemStack savedOffhand = inv.getItemInOffHand();
+        
+        // Clear non-armor slots only
+        for (int i = 0; i < 36; i++) {
+            inv.setItem(i, null);
+        }
+        
+        // Apply special slots first
+        for (Map.Entry<String, ItemStack> entry : specialSlots.entrySet()) {
+            String slotName = entry.getKey();
             ItemStack item = entry.getValue();
-
+            
             try {
-                // Handle special slots
                 if (slotName.equals(SLOT_HELMET)) {
                     inv.setHelmet(item);
+                    hasHelmet = true;
                 } else if (slotName.equals(SLOT_CHESTPLATE)) {
                     inv.setChestplate(item);
+                    hasChestplate = true;
                 } else if (slotName.equals(SLOT_LEGGINGS)) {
                     inv.setLeggings(item);
+                    hasLeggings = true;
                 } else if (slotName.equals(SLOT_BOOTS)) {
                     inv.setBoots(item);
+                    hasBoots = true;
                 } else if (slotName.equals(SLOT_OFFHAND)) {
                     inv.setItemInOffHand(item);
+                    hasOffhand = true;
                 }
+            } catch (Exception e) {
+                debugLogger.console("[PlayerInv] Error setting special slot " + slotName + ": " + e.getMessage());
+                regularSlots.put("INVENTORY_0", item); // Add to regular slots if we can't put in special slot
+            }
+        }
+        
+        // If we don't have new values for armor, preserve the old ones
+        if (!hasHelmet && savedHelmet != null && savedHelmet.getType() != Material.AIR) {
+            inv.setHelmet(savedHelmet);
+        }
+        if (!hasChestplate && savedChestplate != null && savedChestplate.getType() != Material.AIR) {
+            inv.setChestplate(savedChestplate);
+        }
+        if (!hasLeggings && savedLeggings != null && savedLeggings.getType() != Material.AIR) {
+            inv.setLeggings(savedLeggings);
+        }
+        if (!hasBoots && savedBoots != null && savedBoots.getType() != Material.AIR) {
+            inv.setBoots(savedBoots);
+        }
+        if (!hasOffhand && savedOffhand != null && savedOffhand.getType() != Material.AIR) {
+            inv.setItemInOffHand(savedOffhand);
+        }
+        
+        // Apply regular slots
+        for (Map.Entry<String, ItemStack> entry : regularSlots.entrySet()) {
+            String slotName = entry.getKey();
+            ItemStack item = entry.getValue();
+            
+            try {
                 // Handle hotbar slots
-                else if (slotName.startsWith("HOTBAR_")) {
+                if (slotName.startsWith("HOTBAR_")) {
                     int slotIndex = Integer.parseInt(slotName.substring(7));
                     if (slotIndex >= 0 && slotIndex <= 8) {
                         inv.setItem(slotIndex, item);
@@ -660,16 +766,13 @@ public class PlayerInventoryService implements Listener {
                     inv.addItem(item);
                 }
             } catch (Exception e) {
-                debugLogger.console(
-                    "[PlayerInv] Error setting slot " +
-                    slotName +
-                    ": " +
-                    e.getMessage()
-                );
+                debugLogger.console("[PlayerInv] Error setting slot " + slotName + ": " + e.getMessage());
                 // Try to add the item to any available slot
                 inv.addItem(item);
             }
         }
+        
+        debugLogger.console("[PlayerInv] Finished applying slot map to " + player.getName() + "'s inventory");
     }
 
     /**
