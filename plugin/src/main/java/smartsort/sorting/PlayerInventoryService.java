@@ -116,11 +116,18 @@ public class PlayerInventoryService implements Listener {
                             continue;
                         }
 
-                        // Check if player has inventory open
+                        // Check if player has inventory actively open (not just the default state)
                         InventoryView view = player.getOpenInventory();
+
+                        // Only treat as open inventory if inventory is actively being viewed
+                        // This checks if the player is actually viewing their inventory and not just walking around
                         if (
+                            !sortingInProgress.contains(playerId) &&
                             view.getType() == InventoryType.CRAFTING &&
-                            !sortingInProgress.contains(playerId)
+                            player.isInsideVehicle() == false && // Not in vehicle
+                            view.getTopInventory().getType() ==
+                            InventoryType.CRAFTING &&
+                            view.title().equals(Component.text("Inventory")) // The title when inventory is actually open
                         ) {
                             debugLogger.console(
                                 "[PlayerInv] Detected open inventory for " +
@@ -163,12 +170,12 @@ public class PlayerInventoryService implements Listener {
     public void onPlayerInventoryOpen(InventoryOpenEvent event) {
         if (!(event.getPlayer() instanceof Player player)) return;
 
-        // More comprehensive detection of player inventory
+        // Improved inventory detection that only triggers on actual inventory opens
+        // Not the default crafting state while walking around
         boolean isPlayerInventory =
-            event.getInventory().getType() == InventoryType.CRAFTING ||
-            event.getInventory().getType() == InventoryType.PLAYER ||
-            (event.getInventory().getHolder() != null &&
-                event.getInventory().getHolder() instanceof Player);
+            (event.getInventory().getType() == InventoryType.CRAFTING &&
+                event.getView().title().equals(Component.text("Inventory"))) ||
+            event.getInventory().getType() == InventoryType.PLAYER;
 
         if (!isPlayerInventory) {
             debugLogger.console(
@@ -591,6 +598,9 @@ public class PlayerInventoryService implements Listener {
     /**
      * Handle a sorting failure
      */
+    /**
+     * Handle a sorting failure
+     */
     private void handleSortingFailure(Player player, String reason) {
         debugLogger.console(
             "[PlayerInv] Sorting failed for " + player.getName() + ": " + reason
@@ -613,6 +623,120 @@ public class PlayerInventoryService implements Listener {
         Bukkit.getPluginManager()
             .callEvent(
                 new SortFailedEvent(player.getInventory(), player, reason)
+            );
+    }
+
+    /**
+     * Force a sort of the player's inventory without cooldown check
+     */
+    public void forcePlayerInventorySort(Player player) {
+        UUID playerId = player.getUniqueId();
+        if (sortingInProgress.contains(playerId)) {
+            debugLogger.console(
+                "[PlayerInv] Sorting already in progress for " +
+                player.getName()
+            );
+            return;
+        }
+
+        // Fire cancellable event
+        PlayerInventorySortEvent event = new PlayerInventorySortEvent(player);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            debugLogger.console(
+                "[PlayerInv] Sort event cancelled for " + player.getName()
+            );
+            return;
+        }
+
+        // Mark sorting in progress (but don't update last sort time to avoid affecting cooldown)
+        sortingInProgress.add(playerId);
+
+        // Start feedback
+        tickSoundManager.start(player);
+        player.sendMessage(
+            Component.text("Immediately organizing your inventory...").color(
+                NamedTextColor.AQUA
+            )
+        );
+
+        // Extract player inventory items
+        List<ItemStack> allItems = extractPlayerItems(player);
+
+        if (allItems.isEmpty()) {
+            tickSoundManager.stop(player);
+            sortingInProgress.remove(playerId);
+            player.sendMessage(
+                Component.text("No items to sort").color(NamedTextColor.YELLOW)
+            );
+            return;
+        }
+
+        // Build prompt for AI
+        String prompt = promptBuilder.buildPlayerInventoryPrompt(allItems);
+        debugLogger.console(
+            "[PlayerInv] Sending immediate sort prompt for " + player.getName()
+        );
+
+        // Call AI service
+        String model = plugin
+            .getConfig()
+            .getString("openai.models.large", "gpt-4o");
+        aiService
+            .chat(prompt, model)
+            .thenAcceptAsync(response ->
+                Bukkit.getScheduler()
+                    .runTask(plugin, () -> {
+                        tickSoundManager.stop(player);
+
+                        if (response.isEmpty()) {
+                            handleSortingFailure(player, "Empty AI response");
+                            return;
+                        }
+
+                        debugLogger.console(
+                            "[PlayerInv] Received AI response for immediate sort " +
+                            player.getName()
+                        );
+
+                        // Parse response and apply to inventory
+                        try {
+                            Map<String, ItemStack> slotMap =
+                                parsePlayerInventoryResponse(
+                                    response,
+                                    allItems
+                                );
+                            applySlotMap(player, slotMap);
+
+                            // Fire completed event
+                            PlayerInventorySortCompletedEvent completedEvent =
+                                new PlayerInventorySortCompletedEvent(
+                                    player,
+                                    slotMap
+                                );
+                            Bukkit.getPluginManager().callEvent(completedEvent);
+
+                            // Success feedback
+                            player.playSound(
+                                player.getLocation(),
+                                Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
+                                0.7f,
+                                1.1f
+                            );
+                            player.sendMessage(
+                                Component.text(
+                                    "Inventory immediately organized!"
+                                ).color(NamedTextColor.GREEN)
+                            );
+                        } catch (Exception e) {
+                            handleSortingFailure(
+                                player,
+                                "Error parsing response: " + e.getMessage()
+                            );
+                        } finally {
+                            sortingInProgress.remove(playerId);
+                        }
+                    })
             );
     }
 }

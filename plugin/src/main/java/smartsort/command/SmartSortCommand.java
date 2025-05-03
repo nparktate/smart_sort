@@ -52,7 +52,9 @@ public class SmartSortCommand {
                 "console",
                 "test",
                 "help",
-                "playerinv"
+                "playerinv",
+                "fastmode",
+                "now"
             );
             String input = args[0].toLowerCase();
             options.forEach(opt -> {
@@ -82,6 +84,8 @@ public class SmartSortCommand {
             §e/smartsort console §7- Toggle console debug §8(admin)
             §e/smartsort test §7- Create themed test chests
             §e/smartsort playerinv §7- Toggle player inventory sorting
+            §e/smartsort fastmode §7- Toggle fast inventory sort cooldown §8(admin)
+            §e/smartsort now §7- Sort inventory immediately §8(bypasses cooldown)
             §e/smartsort help §7- Show this help
             """
         );
@@ -124,6 +128,22 @@ public class SmartSortCommand {
                 debug.setConsoleDebug(!now);
                 s.sendMessage("[SmartSort] console logging " + (!now));
                 return true;
+            case "fastmode":
+                if (!s.hasPermission("smartsort.admin")) {
+                    s.sendMessage("§cNo permission");
+                    return true;
+                }
+                if (!(s instanceof Player)) {
+                    s.sendMessage("§cPlayers only");
+                    return true;
+                }
+                // Toggle between fast mode (3s) and normal mode (30s)
+                int currentDelay = plugin.getConfig().getInt("smart_sort.player_inventory_delay_seconds", 30);
+                int newDelay = (currentDelay <= 5) ? 30 : 3;
+                plugin.getConfig().set("smart_sort.player_inventory_delay_seconds", newDelay);
+                plugin.saveConfig();
+                s.sendMessage("§a[SmartSort] Player inventory delay set to " + newDelay + " seconds");
+                return true;
             case "test":
                 if (!s.hasPermission("smartsort.test")) {
                     s.sendMessage("§cNo permission");
@@ -154,6 +174,17 @@ public class SmartSortCommand {
                     return true;
                 }
                 playerInventoryService.toggleAutoSort(p);
+                return true;
+            case "now":
+                if (!(s instanceof Player p)) {
+                    s.sendMessage("§cPlayers only");
+                    return true;
+                }
+                if (!s.hasPermission("smartsort.player")) {
+                    s.sendMessage("§cNo permission");
+                    return true;
+                }
+                playerInventoryService.forcePlayerInventorySort(p);
                 return true;
             default:
                 s.sendMessage("§cUnknown command. Use /smartsort help");
