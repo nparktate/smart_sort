@@ -7,8 +7,8 @@ description: AI-driven inventory organizer plugin
 author: nickp
 commands:
   smartsort:
-    description: Manage SmartSort plugin settings and features
-    usage: /smartsort [debug|console|test|help|playerinv|fastmode|now]
+    description: AI-powered inventory organization plugin
+    usage: /smartsort [debug|console|test|playerinv|fastmode|now|help]
     permission: smartsort.admin
 permissions:
   smartsort.admin:

@@ -11,12 +11,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
 import smartsort.SmartSortPlugin;
 import smartsort.ai.AIPromptBuilder;
@@ -38,8 +40,6 @@ public class PlayerInventoryService implements Listener {
     private final AIPromptBuilder promptBuilder;
     private final Map<UUID, Long> lastSortTimes = new ConcurrentHashMap<>();
     private final Set<UUID> sortingInProgress = new HashSet<>();
-    private final Map<UUID, Long> lastInventoryCheck =
-        new ConcurrentHashMap<>();
     private BukkitTask inventoryCheckTask;
 
     // Define inventory slot constants
@@ -71,7 +71,6 @@ public class PlayerInventoryService implements Listener {
         // Clean up any resources if needed
         sortingInProgress.clear();
         lastSortTimes.clear();
-        lastInventoryCheck.clear();
 
         // Cancel the inventory check task
         if (inventoryCheckTask != null) {
@@ -98,48 +97,85 @@ public class PlayerInventoryService implements Listener {
                             continue;
                         }
 
-                        // Skip if on cooldown
-                        long now = System.currentTimeMillis();
-                        UUID playerId = player.getUniqueId();
-                        long cooldownMillis =
-                            plugin
-                                .getConfig()
-                                .getInt(
-                                    "smart_sort.player_inventory_delay_seconds",
-                                    30
-                                ) *
-                            1000L;
-                        if (
-                            now - lastSortTimes.getOrDefault(playerId, 0L) <
-                            cooldownMillis
-                        ) {
-                            continue;
-                        }
-
-                        // Check if player has inventory actively open (not just the default state)
+                        // Check if player has inventory open
                         InventoryView view = player.getOpenInventory();
 
-                        // Only treat as open inventory if inventory is actively being viewed
-                        // This checks if the player is actually viewing their inventory and not just walking around
-                        if (
-                            !sortingInProgress.contains(playerId) &&
-                            view.getType() == InventoryType.CRAFTING &&
-                            player.isInsideVehicle() == false && // Not in vehicle
-                            view.getTopInventory().getType() ==
-                            InventoryType.CRAFTING &&
-                            view.title().equals(Component.text("Inventory")) // The title when inventory is actually open
-                        ) {
-                            debugLogger.console(
-                                "[PlayerInv] Detected open inventory for " +
-                                player.getName()
-                            );
-                            sortPlayerInventory(player);
+                        // Only add the indicator for proper inventory views
+                        if (view.getType() == InventoryType.CRAFTING) {
+                            // Get the top inventory
+                            Inventory topInventory = view.getTopInventory();
+
+                            // Check if it's a crafting inventory
+                            if (
+                                topInventory.getType() == InventoryType.CRAFTING
+                            ) {
+                                // Skip if there are items in the crafting grid (slots 1-4)
+                                boolean craftingInProgress = false;
+                                for (int slot = 1; slot <= 4; slot++) {
+                                    ItemStack item = topInventory.getItem(slot);
+                                    if (
+                                        item != null &&
+                                        item.getType() != Material.AIR
+                                    ) {
+                                        craftingInProgress = true;
+                                        break;
+                                    }
+                                }
+
+                                if (craftingInProgress) {
+                                    continue;
+                                }
+
+                                // Check if output slot is empty
+                                ItemStack outputItem = topInventory.getItem(0);
+                                if (
+                                    outputItem != null &&
+                                    outputItem.getType() != Material.AIR
+                                ) {
+                                    continue;
+                                }
+
+                                // Create the sorting indicator
+                                ItemStack sortIndicator = new ItemStack(
+                                    Material.HOPPER,
+                                    1
+                                );
+                                ItemMeta meta = sortIndicator.getItemMeta();
+                                if (meta != null) {
+                                    meta.displayName(
+                                        Component.text(
+                                            "Click to Sort Inventory",
+                                            NamedTextColor.GOLD
+                                        )
+                                    );
+
+                                    List<Component> lore = new ArrayList<>();
+                                    lore.add(
+                                        Component.text(
+                                            "Click to organize your inventory",
+                                            NamedTextColor.GRAY
+                                        )
+                                    );
+                                    meta.lore(lore);
+
+                                    meta.addItemFlags(
+                                        org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES
+                                    );
+                                    meta.addItemFlags(
+                                        org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS
+                                    );
+                                    sortIndicator.setItemMeta(meta);
+
+                                    // Set the indicator in the output slot
+                                    topInventory.setItem(0, sortIndicator);
+                                }
+                            }
                         }
                     }
                 },
-                10L,
-                10L
-            ); // Check every half second (10 ticks)
+                10L, // Initial delay
+                10L // Run every 10 ticks (0.5 seconds)
+            );
     }
 
     public void toggleAutoSort(Player player) {
@@ -151,7 +187,7 @@ public class PlayerInventoryService implements Listener {
         if (newValue) {
             player.sendMessage(
                 Component.text(
-                    "Player inventory auto-sorting ENABLED! Your inventory will be organized when you open it."
+                    "Smart inventory sorting ENABLED! Open your inventory and click the hopper icon to sort."
                 ).color(NamedTextColor.GREEN)
             );
             // Sort immediately if enabled
@@ -159,55 +195,10 @@ public class PlayerInventoryService implements Listener {
         } else {
             player.sendMessage(
                 Component.text(
-                    "Player inventory auto-sorting DISABLED. Your inventory will no longer be automatically sorted."
+                    "Smart inventory sorting DISABLED. The sort button will no longer appear."
                 ).color(NamedTextColor.YELLOW)
             );
         }
-    }
-
-    // Also enhance the existing onPlayerInventoryOpen handler
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerInventoryOpen(InventoryOpenEvent event) {
-        if (!(event.getPlayer() instanceof Player player)) return;
-
-        // Improved inventory detection that only triggers on actual inventory opens
-        // Not the default crafting state while walking around
-        boolean isPlayerInventory =
-            (event.getInventory().getType() == InventoryType.CRAFTING &&
-                event.getView().title().equals(Component.text("Inventory"))) ||
-            event.getInventory().getType() == InventoryType.PLAYER;
-
-        if (!isPlayerInventory) {
-            debugLogger.console(
-                "[PlayerInv] Non-player inventory opened: " +
-                event.getInventory().getType() +
-                " for " +
-                player.getName()
-            );
-            return;
-        }
-
-        debugLogger.console(
-            "[PlayerInv] Player inventory detected for " + player.getName()
-        );
-
-        // Continue with regular checks and sorting
-        if (!preferenceManager.isAutoSortEnabled(player.getUniqueId())) {
-            debugLogger.console(
-                "[PlayerInv] Auto-sort disabled for " + player.getName()
-            );
-            return;
-        }
-
-        if (sortingInProgress.contains(player.getUniqueId())) {
-            debugLogger.console(
-                "[PlayerInv] Sorting already in progress for " +
-                player.getName()
-            );
-            return;
-        }
-
-        sortPlayerInventory(player);
     }
 
     @EventHandler
@@ -216,7 +207,96 @@ public class PlayerInventoryService implements Listener {
         UUID playerId = event.getPlayer().getUniqueId();
         sortingInProgress.remove(playerId);
         lastSortTimes.remove(playerId);
-        lastInventoryCheck.remove(playerId);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
+    public void onPlayerClickInventory(InventoryClickEvent event) {
+        // Skip if not a player
+        if (!(event.getWhoClicked() instanceof Player player)) {
+            return;
+        }
+
+        // Skip if auto-sort not enabled
+        if (!preferenceManager.isAutoSortEnabled(player.getUniqueId())) {
+            return;
+        }
+
+        // Check if clicking in a crafting inventory
+        if (
+            event.getClickedInventory() == null ||
+            event.getClickedInventory().getType() != InventoryType.CRAFTING
+        ) {
+            return;
+        }
+
+        // Check if clicking the crafting result slot (slot 0)
+        if (event.getSlot() != 0) {
+            return;
+        }
+
+        // Check if the clicked item is our sort indicator
+        ItemStack clickedItem = event.getCurrentItem();
+        if (clickedItem == null || clickedItem.getType() != Material.HOPPER) {
+            return;
+        }
+
+        // Verify it's our special hopper item with the right name
+        ItemMeta meta = clickedItem.getItemMeta();
+        if (meta == null || !meta.hasDisplayName()) {
+            return;
+        }
+
+        Component displayName = meta.displayName();
+        if (
+            displayName == null ||
+            !displayName.equals(
+                Component.text("Click to Sort Inventory", NamedTextColor.GOLD)
+            )
+        ) {
+            return;
+        }
+
+        // Cancel the event to prevent picking up the item
+        event.setCancelled(true);
+
+        // Only proceed if not on cooldown
+        long now = System.currentTimeMillis();
+        UUID playerId = player.getUniqueId();
+        long cooldownMillis =
+            plugin
+                .getConfig()
+                .getInt("smart_sort.player_inventory_delay_seconds", 30) *
+            1000L;
+
+        if (now - lastSortTimes.getOrDefault(playerId, 0L) < cooldownMillis) {
+            long remainingSeconds =
+                (lastSortTimes.get(playerId) + cooldownMillis - now) / 1000;
+            player.sendMessage(
+                Component.text(
+                    "Please wait " +
+                    remainingSeconds +
+                    " seconds before sorting again"
+                ).color(NamedTextColor.YELLOW)
+            );
+            return;
+        }
+
+        // Check if sorting already in progress
+        if (sortingInProgress.contains(playerId)) {
+            return;
+        }
+
+        // Play a sound effect
+        player.playSound(
+            player.getLocation(),
+            Sound.UI_BUTTON_CLICK,
+            0.5f,
+            1.0f
+        );
+
+        // Trigger sorting
+        Bukkit.getScheduler()
+            .runTask(plugin, () -> sortPlayerInventory(player));
     }
 
     /**
@@ -475,10 +555,7 @@ public class PlayerInventoryService implements Listener {
                             existing.setAmount(newAmount);
 
                             // If we couldn't add all items, create a new slot
-                            if (
-                                existing.getAmount() <
-                                existing.getAmount() + takeAmount
-                            ) {
+                            if (newAmount < existing.getAmount() + takeAmount) {
                                 int leftover =
                                     (existing.getAmount() + takeAmount) -
                                     material.getMaxStackSize();

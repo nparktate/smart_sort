@@ -83,7 +83,7 @@ public class SmartSortCommand {
             §e/smartsort debug §7- Toggle chat debug
             §e/smartsort console §7- Toggle console debug §8(admin)
             §e/smartsort test §7- Create themed test chests
-            §e/smartsort playerinv §7- Toggle player inventory sorting
+            §e/smartsort playerinv §7- Toggle hopper button for sorting
             §e/smartsort fastmode §7- Toggle fast inventory sort cooldown §8(admin)
             §e/smartsort now §7- Sort inventory immediately §8(bypasses cooldown)
             §e/smartsort help §7- Show this help
