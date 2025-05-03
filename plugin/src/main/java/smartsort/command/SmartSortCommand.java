@@ -8,6 +8,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import smartsort.SmartSortPlugin;
 import smartsort.ai.AIService;
+import smartsort.sorting.PlayerInventoryService;
 import smartsort.util.DebugLogger;
 
 public class SmartSortCommand {
@@ -15,15 +16,18 @@ public class SmartSortCommand {
     private final SmartSortPlugin plugin;
     private final DebugLogger debug;
     private final TestChestCommand testChestHandler;
+    private final PlayerInventoryService playerInventoryService;
 
     public SmartSortCommand(
         SmartSortPlugin plugin,
         AIService ai,
-        DebugLogger dbg
+        DebugLogger dbg,
+        PlayerInventoryService playerInventoryService
     ) {
         this.plugin = plugin;
         this.debug = dbg;
         this.testChestHandler = new TestChestCommand(plugin, ai, dbg);
+        this.playerInventoryService = playerInventoryService;
     }
 
     public void register() {
@@ -43,7 +47,13 @@ public class SmartSortCommand {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            List<String> options = List.of("debug", "console", "test", "help");
+            List<String> options = List.of(
+                "debug",
+                "console",
+                "test",
+                "help",
+                "playerinv"
+            );
             String input = args[0].toLowerCase();
             options.forEach(opt -> {
                 if (opt.startsWith(input)) completions.add(opt);
@@ -71,6 +81,7 @@ public class SmartSortCommand {
             §e/smartsort debug §7- Toggle chat debug
             §e/smartsort console §7- Toggle console debug §8(admin)
             §e/smartsort test §7- Create themed test chests
+            §e/smartsort playerinv §7- Toggle player inventory sorting
             §e/smartsort help §7- Show this help
             """
         );
@@ -133,6 +144,17 @@ public class SmartSortCommand {
                     java.util.Arrays.copyOfRange(a, 1, a.length)
                 );
                 return testChestHandler.handleTestCommand((Player) s, theme);
+            case "playerinv":
+                if (!(s instanceof Player p)) {
+                    s.sendMessage("§cPlayers only");
+                    return true;
+                }
+                if (!s.hasPermission("smartsort.player")) {
+                    s.sendMessage("§cNo permission");
+                    return true;
+                }
+                playerInventoryService.toggleAutoSort(p);
+                return true;
             default:
                 s.sendMessage("§cUnknown command. Use /smartsort help");
                 return true;

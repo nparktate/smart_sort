@@ -8,7 +8,7 @@ author: nickp
 commands:
   smartsort:
     description: Manage SmartSort plugin settings and features
-    usage: /smartsort [debug|console|test|help]
+    usage: /smartsort [debug|console|test|help|playerinv]
     permission: smartsort.admin
 permissions:
   smartsort.admin:
@@ -20,3 +20,6 @@ permissions:
   smartsort.test:
     description: Access to test chest generation
     default: op
+  smartsort.player:
+    description: Access to player inventory sorting
+    default: not op

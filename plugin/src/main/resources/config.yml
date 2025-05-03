@@ -1,17 +1,24 @@
+# Add version tracking
+config_version: 2
+
 openai:
   api_key: "your-api-key-here" # Set via environment variable or apikey.txt
   model: "gpt-4o"
   dynamic_model: true
+
+  # Simplified model thresholds - just small vs large now
   model_thresholds:
-    small: 12
-    medium: 27
+    small: 13
+
+  # Simplified models
   models:
     small: "gpt-3.5-turbo"
-    medium: "gpt-4o"
-    large: "gpt-4-turbo-preview"
+    large: "gpt-4o"
 
 smart_sort:
   delay_seconds: 3
+  player_inventory_delay_seconds: 30 # New: longer cooldown for player inventories
+  auto_sort_player_inventory: false # New: disabled by default
 
 performance:
   max_requests: 3

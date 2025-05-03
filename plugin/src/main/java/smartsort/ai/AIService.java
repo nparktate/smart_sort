@@ -117,29 +117,24 @@ public class AIService {
     }
 
     public String selectModel(int itemCount) {
-        if (plugin.getConfig().getBoolean("openai.dynamic_model", false)) {
-            int smallThreshold = plugin
-                .getConfig()
-                .getInt("openai.model_thresholds.small", 12);
-            int mediumThreshold = plugin
-                .getConfig()
-                .getInt("openai.model_thresholds.medium", 27);
-
-            if (itemCount <= smallThreshold) {
-                return plugin
-                    .getConfig()
-                    .getString("openai.models.small", "gpt-3.5-turbo");
-            } else if (itemCount <= mediumThreshold) {
-                return plugin
-                    .getConfig()
-                    .getString("openai.models.medium", "gpt-4o");
-            } else {
-                return plugin
-                    .getConfig()
-                    .getString("openai.models.large", "gpt-4-turbo-preview");
-            }
+        if (!plugin.getConfig().getBoolean("openai.dynamic_model", false)) {
+            return plugin.getConfig().getString("openai.model", "gpt-4o");
         }
-        return plugin.getConfig().getString("openai.model", "gpt-4o");
+
+        // Simplified binary choice between models
+        int smallThreshold = plugin
+            .getConfig()
+            .getInt("openai.model_thresholds.small", 13);
+
+        if (itemCount <= smallThreshold) {
+            return plugin
+                .getConfig()
+                .getString("openai.models.small", "gpt-3.5-turbo");
+        } else {
+            return plugin
+                .getConfig()
+                .getString("openai.models.large", "gpt-4o");
+        }
     }
 
     public CompletableFuture<String> chat(String prompt) {

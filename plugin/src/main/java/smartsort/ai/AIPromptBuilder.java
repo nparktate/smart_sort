@@ -13,21 +13,40 @@ public class AIPromptBuilder {
         String signature = createItemSignature(items);
 
         return (
-            "[SMARTSORT v4] Inventory: " +
+            "[SMARTSORT v4.5] Inventory: " +
             signature +
             "\n" +
             "RULES:\n" +
-            "1. You're a Minecraft expert organizing inventory in the most intuitive way possible\n" +
-            "2. Group similar items together (blocks with blocks, tools with tools)\n" +
-            "3. Put most commonly used items at the top/beginning of inventory\n" +
-            "4. Stack to maximum amounts first\n" +
-            "5. For tools and weapons, sort by material quality (wood→stone→iron→gold→diamond)\n" +
-            "6. Output ONLY lines like \"12xSTONE\" with no comments or explanations\n" +
-            "7. Consider what an experienced Minecraft player would expect"
+            "1. Expert Minecraft inventory organization\n" +
+            "2. Group similar items (blocks, tools, resources)\n" +
+            "3. Put common items at top/beginning\n" +
+            "4. Stack items fully\n" +
+            "5. Output ONLY lines like \"12xSTONE\" with no explanations\n" +
+            "6. Be quick but thorough"
         );
     }
 
-    private String createItemSignature(List<ItemStack> items) {
+    public String buildPlayerInventoryPrompt(List<ItemStack> items) {
+        // Create inventory signature for prompt
+        String signature = createItemSignature(items);
+
+        return (
+            "[SMARTSORT PLAYER v1] Inventory: " +
+            signature +
+            "\n" +
+            "RULES:\n" +
+            "1. You're a professional Minecraft speedrunner organizing a player inventory\n" +
+            "2. Put weapons in hotbar slots 1-2, tools in 3-5, blocks in 6-9\n" +
+            "3. Reserve offhand for shield/torch\n" +
+            "4. Group similar items, with most important/frequent use items first\n" +
+            "5. Place armor items in appropriate armor slots (helmet/chestplate/leggings/boots)\n" +
+            "6. Food goes in right side of hotbar\n" +
+            "7. Output ONLY lines like \"12xSTONE:SLOT_3\" with no comments\n" +
+            "8. Valid slots: HOTBAR_0 through HOTBAR_8, INVENTORY_0 through INVENTORY_26, HELMET, CHESTPLATE, LEGGINGS, BOOTS, OFFHAND"
+        );
+    }
+
+    public String createItemSignature(List<ItemStack> items) {
         // Generate a signature of the inventory contents
         Map<Material, Integer> map = new HashMap<>();
         items.forEach(i -> {

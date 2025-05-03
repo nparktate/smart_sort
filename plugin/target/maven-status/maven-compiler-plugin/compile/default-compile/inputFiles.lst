@@ -4,6 +4,7 @@
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/SmartSortPlugin.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/ai/AIResponseParser.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/command/TestChestCommand.java
+/Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/sorting/PlayerInventoryService.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/event/SortFailedEvent.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/util/DebugLogger.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/sorting/InventoryAnalyzer.java
@@ -12,5 +13,8 @@
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/ServiceContainer.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/ai/AIService.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/sorting/InventorySorter.java
+/Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/util/PlayerPreferenceManager.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/event/SortCompletedEvent.java
+/Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/event/PlayerInventorySortEvent.java
+/Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/event/PlayerInventorySortCompletedEvent.java
 /Users/nicholas.park/Library/CloudStorage/Dropbox/PERSONAL/DEV BIN/smart_sort/plugin/src/main/java/smartsort/event/InventorySortEvent.java

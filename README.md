@@ -1,7 +1,7 @@
 ![SMARTSORT (2)_high](https://github.com/user-attachments/assets/e372d3f7-09eb-4576-8f50-a7e01a24a846)
 
 ## Development Status
-**Current Version:** 1.3.9
+**Current Version:** 1.3.10
 **Environment:** Paper 1.21.4
 **Stage:** Release
 
@@ -11,6 +11,7 @@ SmartSort is a Minecraft plugin that uses OpenAI's GPT-4o to intelligently organ
 ## Key Features
 - **AI-Powered Organization**: Uses OpenAI's models to determine the most intuitive item arrangement
 - **Multiple Container Support**: Works with chests, barrels, and shulker boxes
+- **Player Inventory Sorting**: Automatically organizes player inventories with pro-level placement
 - **Automatic Operation**: Just open a container and sorting happens automatically
 - **Visual & Audio Feedback**: Sound cues indicate when sorting is in progress
 - **Item Protection**: Robust safeguards ensure no items are duplicated or lost
@@ -24,7 +25,7 @@ SmartSort is a Minecraft plugin that uses OpenAI's GPT-4o to intelligently organ
 - OpenAI API Key
 
 ### Setup Steps
-1. Download the latest `smartsort-1.3.9.jar` from the releases
+1. Download the latest `smartsort-1.3.10.jar` from the releases
 2. Place the JAR in your server's `plugins` folder
 3. Restart your server
 4. Set your OpenAI API key using one of these methods:
@@ -38,20 +39,28 @@ SmartSort is a Minecraft plugin that uses OpenAI's GPT-4o to intelligently organ
 ### Basic Usage
 Simply open a chest, barrel, or shulker box. SmartSort will automatically detect the contents and organize them intelligently based on Minecraft gameplay logic.
 
+### Player Inventory Sorting
+Toggle automatic player inventory sorting with `/smartsort playerinv`. When enabled, your inventory will be organized with weapons in hotbar slots 1-2, tools in slots 3-5, blocks in slots 6-9, and armor items in their appropriate slots.
+
 ### Commands
 - `/smartsort help` - Show all available commands
 - `/smartsort debug` - Toggle debug messages in your chat
 - `/smartsort console` - Toggle console debug logging (admin only)
 - `/smartsort test` - View available chest themes
 - `/smartsort test <theme>` - Generate themed test chests (try "random" for a surprise!)
+- `/smartsort playerinv` - Toggle player inventory auto-sorting
 
 ### Permissions
 - `smartsort.admin` - Access to plugin management commands
 - `smartsort.admin.console` - Control server-side debug logging
 - `smartsort.test` - Create test chests with sample inventories
+- `smartsort.player` - Access to player inventory sorting feature
 
 ## Configuration
 ```yaml
+# Version tracking
+config_version: 2
+
 openai:
   # Your OpenAI API key (can also be set via environment or apikey.txt)
   api_key: "your-api-key-here"
@@ -62,21 +71,24 @@ openai:
   # Enable dynamic model selection based on inventory size
   dynamic_model: true
 
-  # Thresholds for model selection
+  # Simplified model thresholds - just small vs large now
   model_thresholds:
-    small: 12    # Use small model for <= 12 items
-    medium: 27   # Use medium model for <= 27 items
-                 # Use large model for > 27 items
+    small: 13
 
-  # Model definitions
+  # Simplified models
   models:
     small: "gpt-3.5-turbo"
-    medium: "gpt-4o"
-    large: "gpt-4-turbo-preview"
+    large: "gpt-4o"
 
 smart_sort:
   # Cooldown between sorts (seconds)
   delay_seconds: 3
+
+  # Cooldown between player inventory sorts (seconds)
+  player_inventory_delay_seconds: 30
+
+  # Enable automatic player inventory sorting by default
+  auto_sort_player_inventory: false
 
 performance:
   # API rate limiting (requests per time period)
@@ -123,6 +135,7 @@ The plugin uses carefully crafted prompts that instruct the AI to:
 - Put commonly used items at the top of inventories
 - Sort tools and weapons by material quality
 - Arrange items in a way that's intuitive for Minecraft players
+- Place player inventory items according to professional gameplay patterns
 
 ## Troubleshooting
 
@@ -135,6 +148,13 @@ The plugin uses carefully crafted prompts that instruct the AI to:
 Use `/smartsort debug` to see detailed logs in your chat, which can help identify issues.
 
 ## Changelog
+
+### 1.3.10 (2023-07-12)
+- Added player inventory sorting with professional placement logic
+- Implements smart allocation of weapons, tools, and armor to optimal slots
+- Optimized model selection for faster sorting of large inventories
+- Added persistent player preferences for auto-sorting
+- Enhanced AI prompts for more efficient sorting
 
 ### 1.3.9 (2023-06-15)
 - Unified all commands under `/smartsort` for better user experience
