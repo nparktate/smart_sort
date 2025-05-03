@@ -598,9 +598,6 @@ public class PlayerInventoryService implements Listener {
     /**
      * Handle a sorting failure
      */
-    /**
-     * Handle a sorting failure
-     */
     private void handleSortingFailure(Player player, String reason) {
         debugLogger.console(
             "[PlayerInv] Sorting failed for " + player.getName() + ": " + reason
