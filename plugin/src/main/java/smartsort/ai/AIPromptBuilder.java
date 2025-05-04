@@ -39,12 +39,14 @@ public class AIPromptBuilder {
             "2. Put weapons in hotbar slots 1-2, tools in 3-5, blocks in 6-9\n" +
             "3. Reserve offhand for shield/torch\n" +
             "4. Group similar items, with most important/frequent use items first\n" +
-            "5. Place ONLY ONE armor item in each appropriate armor slot (HELMET, CHESTPLATE, LEGGINGS, BOOTS)\n" +
-            "6. Any additional armor items should go in regular inventory slots, NOT in armor slots\n" +
+            "5. Place EXACTLY ONE armor item in each appropriate armor slot (HELMET, CHESTPLATE, LEGGINGS, BOOTS)\n" +
+            "6. IMPORTANT: Any additional armor items should go in regular inventory slots, NEVER in armor slots\n" +
             "7. Food goes in right side of hotbar\n" +
             "8. Output ONLY lines like \"12xSTONE:SLOT_3\" with no comments\n" +
             "9. Valid slots: HOTBAR_0 through HOTBAR_8, INVENTORY_0 through INVENTORY_26, HELMET, CHESTPLATE, LEGGINGS, BOOTS, OFFHAND\n" +
-            "10. IMPORTANT: Never assign more than one item to HELMET, CHESTPLATE, LEGGINGS, or BOOTS slots"
+            "10. NEVER assign more than one item to HELMET, CHESTPLATE, LEGGINGS, or BOOTS slots\n" +
+            "11. NEVER assign an item to an armor slot unless it's specifically for that slot (e.g. only helmets in HELMET slot)\n" +
+            "12. If you need to put armor items in inventory, put them in INVENTORY slots, never in HOTBAR"
         );
     }
 

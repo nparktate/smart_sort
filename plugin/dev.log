@@ -1,33 +1,80 @@
-08:12:44
+11:39:52
+Stopping the server
+Stopping server
+[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
+Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
+WARN11:39:52
+[SmartSort]: Failed to save preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f: plugins/SmartSort/playerdata/3f5f600e-d22e-4073-ab80-c7dd22756f5f.json
+INFO11:39:52
+Saving players
+Saving worlds
+Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
+[ChunkHolderManager]: Halted chunk system for world 'world'
+[ChunkHolderManager]: Saving all chunkholders for world 'world'
+[ChunkHolderManager]: Saved 3 block chunks, 124 entity chunks, 0 poi chunks in world 'world' in 0.02s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world'
+Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
+[ChunkHolderManager]: Halted chunk system for world 'world_nether'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
+[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
+Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
+[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
+ThreadedAnvilChunkStorage (world): All chunks are saved
+ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+ThreadedAnvilChunkStorage: All dimensions are saved
+Waiting for I/O tasks to complete...
+All I/O tasks to complete
+[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
+[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
+Console11:39:56
 Starting org.bukkit.craftbukkit.Main
 *** Warning, you've not updated in a while! ***
 *** Please download a new build from https://papermc.io/downloads/paper ***
-2025-05-03T12:12:44.899329079Z ServerMain WARN Advanced terminal features are not available in this environment
-INFO08:12:45
+11:39:57
+2025-05-03T15:39:57.129741674Z ServerMain WARN Advanced terminal features are not available in this environment
+INFO11:39:57
 [bootstrap]: Running Java 21 (OpenJDK 64-Bit Server VM 21.0.4+7-LTS; Eclipse Adoptium Temurin-21.0.4+7) on Linux 6.1.0-33-cloud-amd64 (amd64)
 [bootstrap]: Loading Paper 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) for Minecraft 1.21.4
 [PluginInitializerManager]: Initializing plugins...
+[PluginRemapper]: Remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar'...
+11:39:58
+[PluginRemapper]: Done remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar' in 1278ms.
+11:39:59
 [PluginInitializerManager]: Initialized 3 plugins
 [PluginInitializerManager]: Bukkit plugins (3):
-Console08:12:45
+Console11:39:59
  - SmartSort (1.3.10-SNAPSHOT), ViaVersion (5.3.3-SNAPSHOT), WorldEdit (7.3.12-beta-02+ac380ad)
-INFO08:12:49
+INFO11:40:02
 Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-08:12:51
+11:40:03
 Loaded 1370 recipes
 Loaded 1481 advancements
 [MCTypeRegistry]: Initialising converters for DataConverter...
-[MCTypeRegistry]: Finished initialising converters for DataConverter in 247.8ms
+[MCTypeRegistry]: Finished initialising converters for DataConverter in 176.9ms
 Starting minecraft server version 1.21.4
 Loading properties
 This server is running Paper version 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
 [spark]: This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-08:12:52
+11:40:04
 Server Ping Player Sample Count: 12
 Using 4 threads for Netty based IO
+11:40:05
 [MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
 [ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
-08:12:53
 Default game type: SURVIVAL
 Generating keypair
 Starting Minecraft server on 0.0.0.0:25566
@@ -37,909 +84,141 @@ Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
 [SmartSort]: Loading server plugin SmartSort v1.3.10-SNAPSHOT
 [ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
 [ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
-08:12:54
+11:40:06
 [ViaVersion]: Loading block connection mappings ...
 [ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
 [WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
-08:12:55
-Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@75abbfcb]
+11:40:07
+Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@162c661f]
 Server permissions file permissions.yml is empty, ignoring it
 [WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
 Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
 WEPIF: Using the Bukkit Permissions API.
 Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
-08:12:56
+11:40:08
 Preparing level "world"
-08:12:57
 Preparing start region for dimension minecraft:overworld
-08:12:58
-Time elapsed: 711 ms
+Time elapsed: 264 ms
 Preparing start region for dimension minecraft:the_nether
-Time elapsed: 220 ms
+11:40:09
+Time elapsed: 449 ms
 Preparing start region for dimension minecraft:the_end
-Time elapsed: 52 ms
+Time elapsed: 43 ms
 [SmartSort]: Enabling SmartSort v1.3.10-SNAPSHOT
-08:12:59
-[SmartSort]: Loaded preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f
 [SmartSort]: SmartSort 1.3.10-SNAPSHOT enabled
 [ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
 [ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
 [spark]: Starting background profiler...
-Done preparing level "world" (2.905s)
+11:40:10
+Done preparing level "world" (1.944s)
 Running delayed init tasks
+Done (13.354s)! For help, type "help"
 [ViaVersion]: Finished mapping loading, shutting down loader executor.
-[SmartSort]: [RateLimiter] Initialized with 3 requests per 2 seconds
-Done (15.296s)! For help, type "help"
 [ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
-08:13:29
+11:40:40
 Server empty for 30 seconds, pausing
-08:29:01
+11:40:57
 UUID of player Bzzk is 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+11:40:58
 Bzzk joined the game
-Bzzk[/24.218.16.94:50543]: logged in with entity id 56 at ([world]5.762499988079071, 40.0, -24.111408018828573)
-08:34:45
-Bzzk was slain by Zombie
-08:53:09
-Stopping server
-[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
-Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
-[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
-[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
-WARN08:53:09
-[SmartSort]: Failed to save preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f: plugins/SmartSort/playerdata/3f5f600e-d22e-4073-ab80-c7dd22756f5f.json
-INFO08:53:09
-Saving players
-Bzzk lost connection: Server closed
-Bzzk left the game
-Saving worlds
-Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
-[ChunkHolderManager]: Halted chunk system for world 'world'
-[ChunkHolderManager]: Saving all chunkholders for world 'world'
-[ChunkHolderManager]: Saved 0 block chunks, 171 entity chunks, 0 poi chunks in world 'world' in 0.04s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world'
-Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
-[ChunkHolderManager]: Halted chunk system for world 'world_nether'
-[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
-[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
-Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
-[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
-[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
-[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
-ThreadedAnvilChunkStorage (world): All chunks are saved
-ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-ThreadedAnvilChunkStorage: All dimensions are saved
-Waiting for I/O tasks to complete...
-All I/O tasks to complete
-[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
-[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
-Console08:53:13
-Starting org.bukkit.craftbukkit.Main
-*** Warning, you've not updated in a while! ***
-*** Please download a new build from https://papermc.io/downloads/paper ***
-2025-05-03T12:53:13.722098370Z ServerMain WARN Advanced terminal features are not available in this environment
-INFO08:53:13
-[bootstrap]: Running Java 21 (OpenJDK 64-Bit Server VM 21.0.4+7-LTS; Eclipse Adoptium Temurin-21.0.4+7) on Linux 6.1.0-33-cloud-amd64 (amd64)
-[bootstrap]: Loading Paper 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) for Minecraft 1.21.4
-08:53:14
-[PluginInitializerManager]: Initializing plugins...
-[PluginRemapper]: Remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar'...
-08:53:15
-[PluginRemapper]: Done remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar' in 1299ms.
-[PluginInitializerManager]: Initialized 3 plugins
-[PluginInitializerManager]: Bukkit plugins (3):
-Console08:53:15
- - SmartSort (1.3.10-SNAPSHOT), ViaVersion (5.3.3-SNAPSHOT), WorldEdit (7.3.12-beta-02+ac380ad)
-INFO08:53:18
-Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-08:53:20
-Loaded 1370 recipes
-Loaded 1481 advancements
-[MCTypeRegistry]: Initialising converters for DataConverter...
-[MCTypeRegistry]: Finished initialising converters for DataConverter in 182.1ms
-Starting minecraft server version 1.21.4
-Loading properties
-This server is running Paper version 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
-[spark]: This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-Server Ping Player Sample Count: 12
-Using 4 threads for Netty based IO
-08:53:21
-[MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
-[ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
-Default game type: SURVIVAL
-Generating keypair
-Starting Minecraft server on 0.0.0.0:25566
-Using epoll channel type
-Paper: Using libdeflate (Linux x86_64) compression from Velocity.
-Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
-[SmartSort]: Loading server plugin SmartSort v1.3.10-SNAPSHOT
-[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
-08:53:22
-[ViaVersion]: Loading block connection mappings ...
-[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
-[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
-Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@732c3787]
-Server permissions file permissions.yml is empty, ignoring it
-[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
-Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
-WEPIF: Using the Bukkit Permissions API.
-Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
-08:53:23
-Preparing level "world"
-08:53:24
-Preparing start region for dimension minecraft:overworld
-Time elapsed: 494 ms
-Preparing start region for dimension minecraft:the_nether
-08:53:25
-Time elapsed: 212 ms
-Preparing start region for dimension minecraft:the_end
-Time elapsed: 30 ms
-[SmartSort]: Enabling SmartSort v1.3.10-SNAPSHOT
-[SmartSort]: SmartSort 1.3.10-SNAPSHOT enabled
-[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
-[spark]: Starting background profiler...
-Done preparing level "world" (1.722s)
-Running delayed init tasks
-Done (12.266s)! For help, type "help"
-[ViaVersion]: Finished mapping loading, shutting down loader executor.
-[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
-08:53:51
-UUID of player Bzzk is 3f5f600e-d22e-4073-ab80-c7dd22756f5f
-08:53:52
-Bzzk joined the game
-Bzzk[/24.218.16.94:50685]: logged in with entity id 100 at ([world]5.300703786222138, 40.0, -25.082675666818826)
-08:54:02
-Bzzk issued server command: /time set dat
-08:54:04
-Bzzk issued server command: /time set day
-[Bzzk: Set the time to 1000]
-08:54:07
-Bzzk issued server command: /difficulty peaceful
-[Bzzk: The difficulty has been set to Peaceful]
-08:54:30
+Bzzk[/24.218.16.94:52206]: logged in with entity id 16 at ([world]18.629107153547302, 40.0, -23.544496011913896)
+11:41:03
 Bzzk issued server command: /smartsort debug
-08:54:32
+11:41:06
 Bzzk issued server command: /smartsort console
-08:54:36
-Bzzk issued server command: /smartsort playerinv
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 2)
-[SmartSort]: [AI] Using forced model: gpt-4o
-08:54:40
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-08:55:09
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 3)
-[SmartSort]: [AI] Using forced model: gpt-4o
-08:55:14
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-Console08:55:19
-RULES:
-1. Expert Minecraft inventory organization
-2. Group similar items (blocks, tools, resources)
-3. Put common items at top/beginning
-4. Stack items fully
-5. Output ONLY lines like "12xSTONE" with no explanations
-6. Be quick but thorough
-INFO08:55:19
-[SmartSort]: [AI] Using model gpt-3.5-turbo for 8 items
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 4)
-[SmartSort]: [AI] Using model: gpt-3.5-turbo for 8 items
-08:55:20
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [AI reply]
-Console08:55:20
-2xDRIPSTONE_BLOCK
-1xANDESITE
-1xCRIMSON_NYLIUM
-1xGRASS_BLOCK
-1xMOSS_BLOCK
-2xMYCELIUM
-1xPALE_HANGING_MOSS
-1xROOTED_DIRT
-INFO08:55:31
+11:41:09
 Bzzk issued server command: /smartsort fastmode
-08:55:32
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 5)
-[SmartSort]: [AI] Using forced model: gpt-4o
-08:55:37
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-08:55:42
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 6)
-[SmartSort]: [AI] Using forced model: gpt-4o
-08:55:46
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-08:56:30
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 7)
-[SmartSort]: [AI] Using forced model: gpt-4o
-08:56:34
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-08:56:38
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 8)
-[SmartSort]: [AI] Using forced model: gpt-4o
-08:56:42
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-08:56:52
-[SmartSort]: [CACHE] Using cached sorting for world:6:40:-25
-Console08:57:02
-RULES:
-1. Expert Minecraft inventory organization
-2. Group similar items (blocks, tools, resources)
-3. Put common items at top/beginning
-4. Stack items fully
-5. Output ONLY lines like "12xSTONE" with no explanations
-6. Be quick but thorough
-INFO08:57:02
-[SmartSort]: [AI] Using model gpt-4o for 24 items
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 9)
-[SmartSort]: [AI] Using model: gpt-4o for 24 items
-08:57:03
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [AI reply]
-Console08:57:03
-19xIRON_INGOT
-10xFEATHER
-10xLEATHER_BOOTS
-9xGOLD_NUGGET
-5xGLOWSTONE_DUST
-4xLEATHER
-4xSTRING
-3xBONE
-2xENCHANTED_BOOK
-1xGOLD_INGOT
-1xPALE_MOSS_BLOCK
-1xRED_SANDSTONE
-1xGRANITE
-1xDIORITE
-INFO08:57:10
-[SmartSort]: [CACHE] Using cached sorting for world:6:40:-25
-Console08:57:15
-RULES:
-1. Expert Minecraft inventory organization
-2. Group similar items (blocks, tools, resources)
-3. Put common items at top/beginning
-4. Stack items fully
-5. Output ONLY lines like "12xSTONE" with no explanations
-6. Be quick but thorough
-INFO08:57:15
-[SmartSort]: [AI] Using model gpt-4o for 27 items
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 10)
-[SmartSort]: [AI] Using model: gpt-4o for 27 items
-08:57:17
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [AI reply]
-Console08:57:17
-19xIRON_INGOT
-7xDIAMOND
-4xEMERALD
-12xGOLD_NUGGET
-1xGOLD_INGOT
-5xGLOWSTONE_DUST
-2xENCHANTED_BOOK
-4xSTRING
-4xLEATHER
-10xLEATHER_BOOTS
-3xBONE
-10xFEATHER
-1xPALE_MOSS_BLOCK
-1xRED_SANDSTONE
-1xDIORITE
-1xGRANITE
-1xICE
-INFO08:58:42
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 11)
-[SmartSort]: [AI] Using forced model: gpt-4o
-08:58:44
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-08:58:49
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 12)
-[SmartSort]: [AI] Using forced model: gpt-4o
-08:58:51
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-09:21:41
-Stopping server
-[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
-Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
-[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
-[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
-WARN09:21:41
-[SmartSort]: Failed to save preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f: plugins/SmartSort/playerdata/3f5f600e-d22e-4073-ab80-c7dd22756f5f.json
-INFO09:21:41
-Saving players
-Bzzk lost connection: Server closed
-Bzzk left the game
-Saving worlds
-Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
-[ChunkHolderManager]: Halted chunk system for world 'world'
-[ChunkHolderManager]: Saving all chunkholders for world 'world'
-[ChunkHolderManager]: Saved 10 block chunks, 147 entity chunks, 0 poi chunks in world 'world' in 0.02s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world'
-Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
-[ChunkHolderManager]: Halted chunk system for world 'world_nether'
-[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
-[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
-Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
-[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
-[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
-[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
-ThreadedAnvilChunkStorage (world): All chunks are saved
-ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-ThreadedAnvilChunkStorage: All dimensions are saved
-Waiting for I/O tasks to complete...
-All I/O tasks to complete
-[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
-[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
-Console09:21:45
-Starting org.bukkit.craftbukkit.Main
-*** Warning, you've not updated in a while! ***
-*** Please download a new build from https://papermc.io/downloads/paper ***
-2025-05-03T13:21:45.959175674Z ServerMain WARN Advanced terminal features are not available in this environment
-INFO09:21:46
-[bootstrap]: Running Java 21 (OpenJDK 64-Bit Server VM 21.0.4+7-LTS; Eclipse Adoptium Temurin-21.0.4+7) on Linux 6.1.0-33-cloud-amd64 (amd64)
-[bootstrap]: Loading Paper 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) for Minecraft 1.21.4
-[PluginInitializerManager]: Initializing plugins...
-[PluginRemapper]: Remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar'...
-09:21:47
-[PluginRemapper]: Done remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar' in 1347ms.
-[PluginInitializerManager]: Initialized 3 plugins
-[PluginInitializerManager]: Bukkit plugins (3):
-Console09:21:47
- - SmartSort (1.3.10-SNAPSHOT), ViaVersion (5.3.3-SNAPSHOT), WorldEdit (7.3.12-beta-02+ac380ad)
-INFO09:21:51
-Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-09:21:52
-Loaded 1370 recipes
-Loaded 1481 advancements
-[MCTypeRegistry]: Initialising converters for DataConverter...
-[MCTypeRegistry]: Finished initialising converters for DataConverter in 185.6ms
-Starting minecraft server version 1.21.4
-Loading properties
-This server is running Paper version 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
-[spark]: This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-Server Ping Player Sample Count: 12
-Using 4 threads for Netty based IO
-09:21:53
-[MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
-[ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
-Default game type: SURVIVAL
-Generating keypair
-Starting Minecraft server on 0.0.0.0:25566
-Using epoll channel type
-Paper: Using libdeflate (Linux x86_64) compression from Velocity.
-Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
-[SmartSort]: Loading server plugin SmartSort v1.3.10-SNAPSHOT
-[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
-09:21:54
-[ViaVersion]: Loading block connection mappings ...
-[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
-[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
-09:21:55
-Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@3c54c5a3]
-Server permissions file permissions.yml is empty, ignoring it
-[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
-Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
-WEPIF: Using the Bukkit Permissions API.
-Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
-09:21:56
-Preparing level "world"
-Preparing start region for dimension minecraft:overworld
-09:21:57
-Preparing spawn area: 71%
-Time elapsed: 578 ms
-Preparing start region for dimension minecraft:the_nether
-Preparing spawn area: 0%
-Time elapsed: 201 ms
-Preparing start region for dimension minecraft:the_end
-Time elapsed: 34 ms
-[SmartSort]: Enabling SmartSort v1.3.10-SNAPSHOT
-[SmartSort]: SmartSort 1.3.10-SNAPSHOT enabled
-[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
-[spark]: Starting background profiler...
-Done preparing level "world" (1.867s)
-Running delayed init tasks
-Done (12.346s)! For help, type "help"
-[ViaVersion]: Finished mapping loading, shutting down loader executor.
-09:21:58
-[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
-09:22:04
-UUID of player Bzzk is 3f5f600e-d22e-4073-ab80-c7dd22756f5f
-Bzzk joined the game
-Bzzk[/24.218.16.94:50846]: logged in with entity id 18 at ([world]7.730125578486736, 41.0, -29.41261531562067)
-09:22:12
-Bzzk issued server command: /smartsort debug
-09:22:14
-Bzzk issued server command: /smartsort console
-09:22:19
-Bzzk issued server command: /smartsort fastmode
-09:22:22
+11:41:13
 Bzzk issued server command: /smartsort playerinv
-[SmartSort]: [PlayerInv] Extracted 12 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 0 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 1)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:22:26
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:22:33
-[SmartSort]: [PlayerInv] Extracted 13 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 2)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:22:35
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:22:38
-[SmartSort]: [PlayerInv] Extracted 14 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 3)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:22:41
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:22:42
-[SmartSort]: [PlayerInv] Extracted 15 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 4)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:22:45
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:23:19
-Bzzk issued server command: /give Bzzk minecraft:diamond_chestplate 2
-[Bzzk: Gave 2 [Diamond Chestplate]: to Bzzk]
-09:23:23
-[SmartSort]: [PlayerInv] Extracted 18 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 5)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:23:25
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:23:26
-[SmartSort]: [PlayerInv] Extracted 18 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 6)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:23:28
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:23:31
-[SmartSort]: [PlayerInv] Extracted 18 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 7)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:23:33
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:23:36
-[SmartSort]: [PlayerInv] Extracted 19 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 8)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:23:39
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:25:55
-[SmartSort]: [PlayerInv] Extracted 19 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 9)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:25:59
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:30:33
-Stopping server
-[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
-Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
-[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
-[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
-WARN09:30:33
-[SmartSort]: Failed to save preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f: plugins/SmartSort/playerdata/3f5f600e-d22e-4073-ab80-c7dd22756f5f.json
-INFO09:30:33
-Saving players
-Bzzk lost connection: Server closed
-Bzzk left the game
-Saving worlds
-Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
-[ChunkHolderManager]: Halted chunk system for world 'world'
-[ChunkHolderManager]: Saving all chunkholders for world 'world'
-[ChunkHolderManager]: Saved 6 block chunks, 128 entity chunks, 0 poi chunks in world 'world' in 0.02s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world'
-Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
-[ChunkHolderManager]: Halted chunk system for world 'world_nether'
-[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
-[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
-Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
-[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
-[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
-[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
-[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
-[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
-[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
-ThreadedAnvilChunkStorage (world): All chunks are saved
-ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-ThreadedAnvilChunkStorage: All dimensions are saved
-Waiting for I/O tasks to complete...
-All I/O tasks to complete
-[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
-[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
-Console09:30:37
-Starting org.bukkit.craftbukkit.Main
-*** Warning, you've not updated in a while! ***
-*** Please download a new build from https://papermc.io/downloads/paper ***
-2025-05-03T13:30:37.451955855Z ServerMain WARN Advanced terminal features are not available in this environment
-INFO09:30:37
-[bootstrap]: Running Java 21 (OpenJDK 64-Bit Server VM 21.0.4+7-LTS; Eclipse Adoptium Temurin-21.0.4+7) on Linux 6.1.0-33-cloud-amd64 (amd64)
-[bootstrap]: Loading Paper 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) for Minecraft 1.21.4
-[PluginInitializerManager]: Initializing plugins...
-[PluginRemapper]: Remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar'...
-09:30:39
-[PluginRemapper]: Done remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar' in 1296ms.
-[PluginInitializerManager]: Initialized 3 plugins
-[PluginInitializerManager]: Bukkit plugins (3):
-Console09:30:39
- - SmartSort (1.3.10-SNAPSHOT), ViaVersion (5.3.3-SNAPSHOT), WorldEdit (7.3.12-beta-02+ac380ad)
-INFO09:30:42
-Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-09:30:43
-Loaded 1370 recipes
-[MCTypeRegistry]: Initialising converters for DataConverter...
-09:30:44
-[MCTypeRegistry]: Finished initialising converters for DataConverter in 165.3ms
-Starting minecraft server version 1.21.4
-Loading properties
-This server is running Paper version 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
-[spark]: This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
-Server Ping Player Sample Count: 12
-Using 4 threads for Netty based IO
-[MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
-[ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
-09:30:45
-Default game type: SURVIVAL
-Generating keypair
-Starting Minecraft server on 0.0.0.0:25566
-Using epoll channel type
-Paper: Using libdeflate (Linux x86_64) compression from Velocity.
-Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
-[SmartSort]: Loading server plugin SmartSort v1.3.10-SNAPSHOT
-[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
-[ViaVersion]: Loading block connection mappings ...
-[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
-09:30:46
-[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
-Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@26154b21]
-Server permissions file permissions.yml is empty, ignoring it
-[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
-Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
-WEPIF: Using the Bukkit Permissions API.
-Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
-09:30:47
-Preparing level "world"
-09:30:48
-Preparing start region for dimension minecraft:overworld
-Time elapsed: 291 ms
-Preparing start region for dimension minecraft:the_nether
-Time elapsed: 411 ms
-Preparing start region for dimension minecraft:the_end
-Time elapsed: 44 ms
-[SmartSort]: Enabling SmartSort v1.3.10-SNAPSHOT
-09:30:49
-[SmartSort]: SmartSort 1.3.10-SNAPSHOT enabled
-[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
-[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
-[spark]: Starting background profiler...
-Done preparing level "world" (1.791s)
-Running delayed init tasks
-Done (12.316s)! For help, type "help"
-[ViaVersion]: Finished mapping loading, shutting down loader executor.
-[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
-09:30:57
-UUID of player Bzzk is 3f5f600e-d22e-4073-ab80-c7dd22756f5f
-Bzzk joined the game
-Bzzk[/24.218.16.94:50970]: logged in with entity id 16 at ([world]8.941274709660581, 40.0, -32.62801324494907)
-09:31:03
-Bzzk issued server command: /smartsort debug
-09:31:07
-Bzzk issued server command: /smartsort console
-09:31:13
-Bzzk issued server command: /smartsort fastmode
-09:31:17
-Bzzk issued server command: /smartsort playerinv
-[SmartSort]: [PlayerInv] Extracted CHESTPLATE: DIAMOND_CHESTPLATE x1
-[SmartSort]: [PlayerInv] Extracted BOOTS: LEATHER_BOOTS x1
-[SmartSort]: [PlayerInv] Extracted 19 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 0 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 1)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:31:19
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] AI Response:
-Console09:31:19
-1xWOODEN_SWORD:HOTBAR_0
-1xIRON_SWORD:HOTBAR_1
-1xIRON_SHOVEL:HOTBAR_2
-7xOAK_LOG:HOTBAR_3
-9xSTONE:HOTBAR_4
-30xCOBBLESTONE:HOTBAR_5
-7xDIAMOND:INVENTORY_0
-2xDIAMOND_CHESTPLATE:CHESTPLATE
-8xLEATHER_BOOTS:BOOTS
-11xROTTEN_FLESH:HOTBAR_6
-2xSPIDER_EYE:INVENTORY_1
-INFO09:31:19
-[SmartSort]: [PlayerInv] Special slot CHESTPLATE already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Setting chestplate for Bzzk
-[SmartSort]: [PlayerInv] Setting boots for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:31:36
-Bzzk issued server command: /give Bzzk minecraft:leather_leggings 2
-[Bzzk: Gave 2 [Leather Pants]: to Bzzk]
-09:31:49
-Bzzk issued server command: /give Bzzk minecraft:iron_helmet 4
-Bzzk has made the advancement [Suit Up]
-[Bzzk: Gave 4 [Iron Helmet]: to Bzzk]
-09:32:14
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:32:19
-[SmartSort]: [PlayerInv] Extracted 21 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 3)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:32:23
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] AI Response:
-Console09:32:23
-1xWOODEN_SWORD:HOTBAR_0
-1xIRON_SWORD:HOTBAR_1
-1xIRON_SHOVEL:HOTBAR_2
-7xOAK_LOG:HOTBAR_3
-30xCOBBLESTONE:HOTBAR_4
-9xSTONE:HOTBAR_5
-11xROTTEN_FLESH:HOTBAR_6
-2xSPIDER_EYE:HOTBAR_7
-7xDIAMOND:INVENTORY_0
-2xDIAMOND_CHESTPLATE:INVENTORY_1
-4xIRON_HELMET:INVENTORY_2
-4xLEATHER_BOOTS:INVENTORY_3
-2xLEATHER_LEGGINGS:INVENTORY_4
-1xIRON_HELMET:HELMET
-1xDIAMOND_CHESTPLATE:CHESTPLATE
-1xLEATHER_LEGGINGS:LEGGINGS
-1xLEATHER_BOOTS:BOOTS
-INFO09:32:23
-[SmartSort]: [PlayerInv] No more items of type: IRON_HELMET
-[SmartSort]: [PlayerInv] No more items of type: DIAMOND_CHESTPLATE
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_LEGGINGS
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:32:29
 [SmartSort]: [PlayerInv] Extracted HELMET: IRON_HELMET x1
 [SmartSort]: [PlayerInv] Extracted CHESTPLATE: DIAMOND_CHESTPLATE x1
 [SmartSort]: [PlayerInv] Extracted LEGGINGS: LEATHER_LEGGINGS x1
 [SmartSort]: [PlayerInv] Extracted BOOTS: LEATHER_BOOTS x1
-[SmartSort]: [PlayerInv] Extracted 21 items from Bzzk's inventory
+[SmartSort]: [PlayerInv] Extracted 37 items from Bzzk's inventory
 [SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 4)
+[SmartSort]: [RateLimiter] Period reset. Refilled 0 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 1)
 [SmartSort]: [AI] Using forced model: gpt-4o
-09:33:21
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 7)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:33:26
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] AI Response:
-Console09:33:26
-```
-1xIRON_SWORD:HOTBAR_0
-1xWOODEN_SWORD:HOTBAR_1
-1xIRON_SHOVEL:HOTBAR_2
-5xIRON_HELMET:INVENTORY_0
-2xDIAMOND_CHESTPLATE:INVENTORY_1
-3xLEATHER_LEGGINGS:INVENTORY_2
-4xLEATHER_BOOTS:INVENTORY_3
-7xOAK_LOG:HOTBAR_3
-30xCOBBLESTONE:HOTBAR_4
-9xSTONE:HOTBAR_5
-1xDIORITE:INVENTORY_4
+11:41:20
+[SmartSort]: [PlayerInv] No more items of type: LEATHER_LEGGINGS
+[SmartSort]: [PlayerInv] Assigned LEATHER_BOOTS to slot BOOTS
+[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
+[SmartSort]: [PlayerInv] Handling special case for leather boots
+[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
+[SmartSort]: [PlayerInv] Handling special case for leather boots
+[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
+[SmartSort]: [PlayerInv] Handling special case for leather boots
+[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
+[SmartSort]: [PlayerInv] Handling special case for leather boots
+[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
+[SmartSort]: [PlayerInv] Handling special case for leather boots
+[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
+[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
+[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
+[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
+[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
+[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
+[SmartSort]: ==== STARTING INVENTORY APPLICATION FOR Bzzk ====
+[SmartSort]: Original Helmet: IRON_HELMET
+[SmartSort]: Original Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Original Leggings: LEATHER_LEGGINGS
+[SmartSort]: Original Boots: LEATHER_BOOTS
+[SmartSort]: Original Offhand: AIR
+[SmartSort]: New Helmet: IRON_HELMET
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Leggings: LEATHER_LEGGINGS
+[SmartSort]: New Boots: LEATHER_BOOTS
+[SmartSort]: New Offhand: NONE
+[SmartSort]: [PlayerInv] Setting helmet to IRON_HELMET
+[SmartSort]: [PlayerInv] Setting chestplate to DIAMOND_CHESTPLATE
+[SmartSort]: [PlayerInv] Setting leggings to LEATHER_LEGGINGS
+[SmartSort]: [PlayerInv] Setting boots to LEATHER_BOOTS
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: IRON_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: LEATHER_LEGGINGS
+[SmartSort]: Boots: LEATHER_BOOTS
+[SmartSort]: Offhand: AIR
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+Console11:42:20
+6xLEATHER_BOOTS:INVENTORY_2
+1xENCHANTED_BOOK:INVENTORY_3
+1xGOLD_INGOT:INVENTORY_4
 1xGRANITE:INVENTORY_5
-1xRED_SANDSTONE:INVENTORY_6
-1xPALE_MOSS_BLOCK:INVENTORY_7
-1xICE:INVENTORY_8
-19xIRON_INGOT:INVENTORY_9
-14xDIAMOND:INVENTORY_10
-1xGOLD_INGOT:INVENTORY_11
-2xENCHANTED_BOOK:INVENTORY_12
-3xBONE:INVENTORY_13
-11xROTTEN_FLESH:INVENTORY_14
-2xSPIDER_EYE:INVENTORY_15
-1xIRON_HELMET:HELMET
-1xDIAMOND_CHESTPLATE:CHESTPLATE
-1xLEATHER_LEGGINGS:LEGGINGS
-1xLEATHER_BOOTS:BOOTS
-```
-INFO09:33:26
-[SmartSort]: [PlayerInv] Skipping invalid line: ```
-[SmartSort]: [PlayerInv] No more items of type: IRON_HELMET
-[SmartSort]: [PlayerInv] No more items of type: DIAMOND_CHESTPLATE
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_LEGGINGS
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-[SmartSort]: [PlayerInv] Skipping invalid line: ```
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-Console09:34:14
-1xICE:HOTBAR_8
-1xENCHANTED_BOOK:INVENTORY_0
-1xGOLD_INGOT:INVENTORY_1
-1xGRANITE:INVENTORY_2
-3xBONE:INVENTORY_3
-17xIRON_INGOT:INVENTORY_4
-1xRED_SANDSTONE:INVENTORY_5
-1xDIAMOND_CHESTPLATE:CHESTPLATE
-1xIRON_HELMET:HELMET
-1xLEATHER_LEGGINGS:LEGGINGS
-1xLEATHER_BOOTS:BOOTS
-6xIRON_HELMET:INVENTORY_6
-2xDIAMOND_CHESTPLATE:INVENTORY_7
-5xLEATHER_BOOTS:INVENTORY_8
-4xLEATHER_LEGGINGS:INVENTORY_9
-INFO09:34:14
-[SmartSort]: [PlayerInv] Special slot CHESTPLATE already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot CHESTPLATE already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot HELMET already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot HELMET already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot HELMET already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot HELMET already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot HELMET already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot HELMET already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot LEGGINGS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot LEGGINGS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot LEGGINGS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot LEGGINGS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot BOOTS already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] No more items of type: IRON_HELMET
-[SmartSort]: [PlayerInv] No more items of type: DIAMOND_CHESTPLATE
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-[SmartSort]: [PlayerInv] No more items of type: LEATHER_LEGGINGS
-[SmartSort]: [PlayerInv] Setting leggings for Bzzk
-[SmartSort]: [PlayerInv] Setting helmet for Bzzk
-[SmartSort]: [PlayerInv] Setting chestplate for Bzzk
-[SmartSort]: [PlayerInv] Setting boots for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
-09:34:46
-[SmartSort]: [PlayerInv] Extracted LEGGINGS: LEATHER_LEGGINGS x1
-[SmartSort]: [PlayerInv] Extracted BOOTS: LEATHER_BOOTS x1
-[SmartSort]: [PlayerInv] Extracted 38 items from Bzzk's inventory
-[SmartSort]: [PlayerInv] Sending prompt for Bzzk
-[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
-[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 11)
-[SmartSort]: [AI] Using forced model: gpt-4o
-09:34:49
-[SmartSort]: [AI] Response code: 200
-[SmartSort]: [PlayerInv] Received AI response for Bzzk
-[SmartSort]: [PlayerInv] AI Response:
-Console09:34:49
-1xIRON_SWORD:HOTBAR_0
-1xWOODEN_SWORD:HOTBAR_1
-1xIRON_SHOVEL:HOTBAR_2
-1xENCHANTED_BOOK:INVENTORY_0
-8xIRON_HELMET:INVENTORY_1
-1xICE:INVENTORY_2
-5xLEATHER_BOOTS:INVENTORY_3
-6xLEATHER_LEGGINGS:INVENTORY_4
-1xRED_SANDSTONE:INVENTORY_5
-11xROTTEN_FLESH:INVENTORY_6
-2xSPIDER_EYE:INVENTORY_7
-1xGOLD_INGOT:INVENTORY_8
-1xGRANITE:INVENTORY_9
-3xBONE:INVENTORY_10
+1xICE:INVENTORY_6
+7xOAK_LOG:HOTBAR_6
+1xRED_SANDSTONE:INVENTORY_7
+11xROTTEN_FLESH:HOTBAR_7
+2xSPIDER_EYE:INVENTORY_8
+9xSTONE:HOTBAR_8
+3xBONE:INVENTORY_9
 30xCOBBLESTONE:HOTBAR_5
-9xSTONE:HOTBAR_6
-7xOAK_LOG:HOTBAR_7
-17xIRON_INGOT:INVENTORY_11
-1xDIAMOND_CHESTPLATE:CHESTPLATE
 1xIRON_HELMET:HELMET
 1xLEATHER_LEGGINGS:LEGGINGS
 1xLEATHER_BOOTS:BOOTS
-INFO09:34:49
-[SmartSort]: [PlayerInv] Special slot CHESTPLATE already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot CHESTPLATE already used, reassigning to inventory slot
-[SmartSort]: [PlayerInv] Special slot CHESTPLATE already used, reassigning to inventory slot
+INFO11:42:20
+[SmartSort]: [PlayerInv] Assigned DIAMOND_CHESTPLATE to slot CHESTPLATE
 [SmartSort]: [PlayerInv] No more items of type: IRON_HELMET
 [SmartSort]: [PlayerInv] No more items of type: LEATHER_LEGGINGS
 [SmartSort]: [PlayerInv] No more items of type: LEATHER_BOOTS
-[SmartSort]: [PlayerInv] Setting chestplate for Bzzk
-[SmartSort]: [PlayerInv] Finished applying slot map to Bzzk's inventory
+[SmartSort]: ==== STARTING INVENTORY APPLICATION FOR Bzzk ====
+[SmartSort]: Original Helmet: IRON_HELMET
+[SmartSort]: Original Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Original Leggings: NONE
+[SmartSort]: Original Boots: LEATHER_BOOTS
+[SmartSort]: Original Offhand: AIR
+[SmartSort]: New Helmet: NONE
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Leggings: NONE
+[SmartSort]: New Boots: NONE
+[SmartSort]: New Offhand: NONE
+[SmartSort]: [PlayerInv] Keeping current helmet: IRON_HELMET
+[SmartSort]: [PlayerInv] Setting chestplate to DIAMOND_CHESTPLATE
+[SmartSort]: [PlayerInv] Keeping current boots: LEATHER_BOOTS
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: IRON_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NONE
+[SmartSort]: Boots: LEATHER_BOOTS
+[SmartSort]: Offhand: AIR
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====

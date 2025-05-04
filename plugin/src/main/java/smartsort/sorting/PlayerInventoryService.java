@@ -514,13 +514,14 @@ public class PlayerInventoryService implements Listener {
         Map<String, ItemStack> slotMap = new HashMap<>();
         Map<Material, Queue<ItemStack>> materialMap = new HashMap<>();
         
-        // Track special slots to ensure we only use each once
-        Set<String> specialSlots = new HashSet<>(Arrays.asList(
+        // Track special slots to ensure we don't duplicate armor
+        Set<String> armorSlots = new HashSet<>(Arrays.asList(
             SLOT_HELMET, SLOT_CHESTPLATE, SLOT_LEGGINGS, SLOT_BOOTS, SLOT_OFFHAND
         ));
-        Set<String> usedSpecialSlots = new HashSet<>();
+        Set<String> usedArmorSlots = new HashSet<>();
 
-        // Group original items by material
+        // Group original items by material for easier access
+        debugLogger.console("[AI] Organizing " + originalItems.size() + " items by material");
         for (ItemStack item : originalItems) {
             if (item != null && !item.getType().isAir()) {
                 materialMap
@@ -529,7 +530,14 @@ public class PlayerInventoryService implements Listener {
             }
         }
 
-        // Process each line of the response
+        // Log the full AI response for debugging
+        debugLogger.console("[AI] Full AI response:\n" + response);
+        
+        // First pass: process special armor slots to ensure we handle them correctly
+        List<SlotAssignment> armorAssignments = new ArrayList<>();
+        List<SlotAssignment> regularAssignments = new ArrayList<>();
+        
+        // Process each line of the AI response
         for (String line : response.split("\n")) {
             line = line.trim();
             // Skip empty lines
@@ -542,7 +550,7 @@ public class PlayerInventoryService implements Listener {
                 )
             ) {
                 debugLogger.console(
-                    "[PlayerInv] Skipping invalid line: " + line
+                    "[AI] Skipping invalid line: " + line
                 );
                 continue;
             }
@@ -550,7 +558,7 @@ public class PlayerInventoryService implements Listener {
             try {
                 // Parse amount, material, and slot
                 String[] parts = line.split("(?i)\\s*[xX]\\s*");
-                int amount = Integer.parseInt(parts[0]);
+                int requestedAmount = Integer.parseInt(parts[0]);
 
                 String[] materialAndSlot = parts[1].split("\\s*:\\s*");
                 String materialName = materialAndSlot[0].trim();
@@ -559,176 +567,212 @@ public class PlayerInventoryService implements Listener {
                 Material material = Material.matchMaterial(materialName);
                 if (material == null || material.isAir()) {
                     debugLogger.console(
-                        "[PlayerInv] Invalid material: " + materialName
+                        "[AI] Invalid material: " + materialName
                     );
                     continue;
                 }
-
-                // Get the items of this material from our map
-                Queue<ItemStack> itemQueue = materialMap.get(material);
-                if (itemQueue == null || itemQueue.isEmpty()) {
-                    debugLogger.console(
-                        "[PlayerInv] No more items of type: " + material
-                    );
-                    continue;
-                }
-
-                // Take items from the queue until we satisfy the amount
-                int remainingAmount = amount;
-                while (remainingAmount > 0 && !itemQueue.isEmpty()) {
-                    ItemStack item = itemQueue.poll();
-                    int takeAmount = Math.min(
-                        remainingAmount,
-                        item.getAmount()
-                    );
-
-                    if (takeAmount < item.getAmount()) {
-                        // If we're not taking all the item, put the remainder back
-                        ItemStack remainder = item.clone();
-                        remainder.setAmount(item.getAmount() - takeAmount);
-                        itemQueue.add(remainder);
-                    }
-
-                    // Create the item to add to the slot map
-                    ItemStack slotItem = item.clone();
-                    slotItem.setAmount(takeAmount);
-
-                    // Check if this is a special slot (armor or offhand)
-                    if (specialSlots.contains(slotName)) {
-                        // Get material type for validation
-                        Material itemMaterial = item.getType();
-                        String materialCategory = getMaterialCategory(itemMaterial);
-                        
-                        // If this special slot is already used, reassign to inventory slot
-                        if (usedSpecialSlots.contains(slotName)) {
-                            debugLogger.console(
-                                "[PlayerInv] Special slot " + slotName + " already used, reassigning to inventory slot"
-                            );
-        
-                            // Special handling for boots duplication issue - if reassigning boots, put them in regular inventory
-                            if (slotName.equals(SLOT_BOOTS) && itemMaterial == Material.LEATHER_BOOTS) {
-                                debugLogger.console("[PlayerInv] Handling special case for leather boots");
-            
-                                // Find an available inventory slot
-                                for (int i = 0; i < 27; i++) {
-                                    String newSlot = "INVENTORY_" + i;
-                                    if (!slotMap.containsKey(newSlot)) {
-                                        slotMap.put(newSlot, slotItem);
-                                        break;
-                                    }
-                                }
-                                continue; // Skip the rest of this iteration
-                            }
-        
-                            // Find an available inventory slot
-                            for (int i = 0; i < 27; i++) {
-                                String newSlot = "INVENTORY_" + i;
-                                if (!slotMap.containsKey(newSlot)) {
-                                    slotMap.put(newSlot, slotItem);
-                                    break;
-                                }
-                            }
-                            continue; // Skip to next iteration
-                        }
-    
-                        // Check if item type is appropriate for this slot
-                        String slotCategory = getSlotCategory(slotName);
-    
-                        if (!materialCategory.equals(slotCategory) && !slotCategory.equals("ANY")) {
-                            debugLogger.console(
-                                "[PlayerInv] Item type " + itemMaterial + " not appropriate for slot " + slotName + ", reassigning"
-                            );
-        
-                            // Find an available inventory slot
-                            for (int i = 0; i < 27; i++) {
-                                String newSlot = "INVENTORY_" + i;
-                                if (!slotMap.containsKey(newSlot)) {
-                                    slotMap.put(newSlot, slotItem);
-                                    break;
-                                }
-                            }
-                            continue; // Skip to next iteration
-                        }
-    
-                        // Mark this special slot as used
-                        usedSpecialSlots.add(slotName);
-                        slotMap.put(slotName, slotItem);
-                        debugLogger.console("[PlayerInv] Assigned " + itemMaterial + " to slot " + slotName);
-                        continue; // Skip to next iteration
-                    }
-
-                    // Handle regular slots with possible stacking
-                    if (slotMap.containsKey(slotName)) {
-                        ItemStack existing = slotMap.get(slotName);
-                        if (
-                            existing.getType() == material &&
-                            existing.getAmount() < material.getMaxStackSize()
-                        ) {
-                            int newAmount = Math.min(
-                                existing.getAmount() + takeAmount,
-                                material.getMaxStackSize()
-                            );
-                            existing.setAmount(newAmount);
-
-                            // If we couldn't add all items, create a new slot
-                            if (newAmount < existing.getAmount() + takeAmount) {
-                                int leftover =
-                                    (existing.getAmount() + takeAmount) -
-                                    material.getMaxStackSize();
-                                for (int i = 0; i < 100; i++) { // Avoid infinite loop
-                                    String newSlot = "INVENTORY_" + i;
-                                    if (!slotMap.containsKey(newSlot)) {
-                                        ItemStack leftoverItem = item.clone();
-                                        leftoverItem.setAmount(leftover);
-                                        slotMap.put(newSlot, leftoverItem);
-                                        break;
-                                    }
-                                }
-                            }
-                        } else {
-                            // Different material, find another slot
-                            for (int i = 0; i < 100; i++) { // Avoid infinite loop
-                                String newSlot = "INVENTORY_" + i;
-                                if (!slotMap.containsKey(newSlot)) {
-                                    slotMap.put(newSlot, slotItem);
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        // Slot is free
-                        slotMap.put(slotName, slotItem);
-                    }
-
-                    remainingAmount -= takeAmount;
+                
+                // Create slot assignment
+                SlotAssignment assignment = new SlotAssignment(
+                    material, requestedAmount, slotName
+                );
+                
+                // Separate armor/special slot assignments from regular inventory
+                if (armorSlots.contains(slotName)) {
+                    armorAssignments.add(assignment);
+                } else {
+                    regularAssignments.add(assignment);
                 }
             } catch (Exception e) {
                 debugLogger.console(
-                    "[PlayerInv] Error parsing line: " +
-                    line +
-                    " - " +
-                    e.getMessage()
+                    "[AI] Error parsing line: " + line + " - " + e.getMessage()
                 );
             }
         }
-
-        // Add any remaining items to available slots
-        for (Queue<ItemStack> queue : materialMap.values()) {
-            while (!queue.isEmpty()) {
-                ItemStack item = queue.poll();
-
-                // Find an empty slot
-                for (int i = 0; i < 100; i++) { // Avoid infinite loop
-                    String slotName = "INVENTORY_" + i;
-                    if (!slotMap.containsKey(slotName)) {
-                        slotMap.put(slotName, item);
-                        break;
+        
+        // Process armor assignments first (ensuring only one item per slot)
+        for (SlotAssignment assignment : armorAssignments) {
+            // Skip if we've already used this armor slot
+            if (usedArmorSlots.contains(assignment.slotName)) {
+                debugLogger.console("[AI] Armor slot " + assignment.slotName + " already assigned, skipping");
+                continue;
+            }
+            
+            // Get item queue for this material
+            Queue<ItemStack> itemQueue = materialMap.get(assignment.material);
+            if (itemQueue == null || itemQueue.isEmpty()) {
+                debugLogger.console("[AI] No items of material " + assignment.material + " available");
+                continue;
+            }
+            
+            // Take one item for this armor slot (ignore requested amount for armor)
+            ItemStack item = itemQueue.poll();
+            // Always use just 1 item for armor slots
+            ItemStack armorItem = item.clone();
+            armorItem.setAmount(1);
+            
+            // If we didn't use all of the stack, put remainder back
+            if (item.getAmount() > 1) {
+                item.setAmount(item.getAmount() - 1);
+                itemQueue.add(item);
+            }
+            
+            // Store assignment
+            slotMap.put(assignment.slotName, armorItem);
+            usedArmorSlots.add(assignment.slotName);
+            debugLogger.console("[AI] Assigned " + assignment.material + " to armor slot " + assignment.slotName);
+        }
+        
+        // Process regular inventory assignments
+        for (SlotAssignment assignment : regularAssignments) {
+            // Get item queue for this material
+            Queue<ItemStack> itemQueue = materialMap.get(assignment.material);
+            if (itemQueue == null || itemQueue.isEmpty()) {
+                debugLogger.console("[AI] No more items of material " + assignment.material + " available");
+                continue;
+            }
+            
+            // Take items up to requested amount or available amount
+            int remainingAmount = assignment.amount;
+            List<ItemStack> collectedItems = new ArrayList<>();
+            
+            while (remainingAmount > 0 && !itemQueue.isEmpty()) {
+                ItemStack item = itemQueue.poll();
+                int takeAmount = Math.min(remainingAmount, item.getAmount());
+                
+                if (takeAmount < item.getAmount()) {
+                    // If we're not taking all the item, put the remainder back
+                    ItemStack remainder = item.clone();
+                    remainder.setAmount(item.getAmount() - takeAmount);
+                    itemQueue.add(remainder);
+                }
+                
+                // Create the item to add to the slot map
+                ItemStack slotItem = item.clone();
+                slotItem.setAmount(takeAmount);
+                collectedItems.add(slotItem);
+                
+                remainingAmount -= takeAmount;
+            }
+            
+            // Combine collected items up to max stack size
+            if (!collectedItems.isEmpty()) {
+                // We might need to split across multiple slots if amount exceeds max stack size
+                List<ItemStack> finalStacks = combineStacks(collectedItems, assignment.material.getMaxStackSize());
+                
+                // Assign to requested slot or find alternatives
+                boolean firstStack = true;
+                for (ItemStack stack : finalStacks) {
+                    if (firstStack) {
+                        slotMap.put(assignment.slotName, stack);
+                        firstStack = false;
+                    } else {
+                        // For additional stacks, find an unused inventory slot
+                        String newSlot = findAvailableSlot(slotMap);
+                        if (newSlot != null) {
+                            slotMap.put(newSlot, stack);
+                        } else {
+                            // If no slots available, add to extra items
+                            debugLogger.console("[AI] No available slot for extra " + stack.getType() + " x" + stack.getAmount());
+                        }
                     }
                 }
             }
         }
 
+        // Add any remaining items from material map to available slots
+        for (Queue<ItemStack> queue : materialMap.values()) {
+            while (!queue.isEmpty()) {
+                ItemStack item = queue.poll();
+                String slot = findAvailableSlot(slotMap);
+                if (slot != null) {
+                    slotMap.put(slot, item);
+                    debugLogger.console("[AI] Assigned leftover " + item.getType() + " x" + item.getAmount() + " to " + slot);
+                } else {
+                    debugLogger.console("[AI] Couldn't find slot for leftover " + item.getType() + " x" + item.getAmount());
+                    // If we run out of slots, just stop (shouldn't happen with normal inventory sizes)
+                    break;
+                }
+            }
+        }
+
+        // Log final slot map state
+        debugLogger.console("[AI] Final slot assignments:");
+        slotMap.forEach((slot, item) -> 
+            debugLogger.console("- " + slot + ": " + item.getType() + " x" + item.getAmount())
+        );
+        
         return slotMap;
+    }
+    
+    /**
+     * Combine item stacks up to max stack size
+     */
+    private List<ItemStack> combineStacks(List<ItemStack> items, int maxStackSize) {
+        List<ItemStack> result = new ArrayList<>();
+        int totalAmount = 0;
+        Material material = null;
+        
+        // Calculate total amount and verify all items are same material
+        for (ItemStack item : items) {
+            if (material == null) {
+                material = item.getType();
+            } else if (material != item.getType()) {
+                debugLogger.console("[WARNING] Attempting to combine different materials");
+                return items; // Return original if materials don't match
+            }
+            totalAmount += item.getAmount();
+        }
+        
+        if (material == null) return result; // Empty input
+        
+        // Create optimally sized stacks
+        while (totalAmount > 0) {
+            int stackSize = Math.min(totalAmount, maxStackSize);
+            ItemStack stack = new ItemStack(material, stackSize);
+            result.add(stack);
+            totalAmount -= stackSize;
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Find an available inventory slot
+     */
+    private String findAvailableSlot(Map<String, ItemStack> slotMap) {
+        // Try inventory slots first
+        for (int i = 0; i < 27; i++) {
+            String slot = "INVENTORY_" + i;
+            if (!slotMap.containsKey(slot)) {
+                return slot;
+            }
+        }
+        
+        // Then try hotbar slots
+        for (int i = 0; i < 9; i++) {
+            String slot = "HOTBAR_" + i;
+            if (!slotMap.containsKey(slot)) {
+                return slot;
+            }
+        }
+        
+        return null; // No available slots
+    }
+    
+    /**
+     * Helper class to store slot assignments from AI response
+     */
+    private static class SlotAssignment {
+        final Material material;
+        final int amount;
+        final String slotName;
+        
+        SlotAssignment(Material material, int amount, String slotName) {
+            this.material = material;
+            this.amount = amount;
+            this.slotName = slotName;
+        }
     }
 
     /**
@@ -737,105 +781,150 @@ public class PlayerInventoryService implements Listener {
     private void applySlotMap(Player player, Map<String, ItemStack> slotMap) {
         debugLogger.console("==== STARTING INVENTORY APPLICATION FOR " + player.getName() + " ====");
         PlayerInventory inv = player.getInventory();
+
+        // STEP 1: Take snapshot of ALL items in the player's inventory (including armor)
+        Map<String, ItemStack> originalArmorItems = new HashMap<>();
         
-        // Store armor prior to clearing (we don't want to mess with these if the AI didn't reassign them)
-        ItemStack currentHelmet = inv.getHelmet() == null ? null : inv.getHelmet().clone();
-        ItemStack currentChestplate = inv.getChestplate() == null ? null : inv.getChestplate().clone();
-        ItemStack currentLeggings = inv.getLeggings() == null ? null : inv.getLeggings().clone();
-        ItemStack currentBoots = inv.getBoots() == null ? null : inv.getBoots().clone();
-        ItemStack currentOffhand = inv.getItemInOffHand() == null ? null : inv.getItemInOffHand().clone();
+        // Save current armor items
+        ItemStack currentHelmet = inv.getHelmet();
+        if (currentHelmet != null && !currentHelmet.getType().isAir()) {
+            originalArmorItems.put(SLOT_HELMET, currentHelmet.clone());
+            debugLogger.console("Original Helmet: " + currentHelmet.getType());
+        } else {
+            debugLogger.console("Original Helmet: NONE");
+        }
         
-        debugLogger.console("Original Helmet: " + (currentHelmet == null ? "NONE" : currentHelmet.getType()));
-        debugLogger.console("Original Chestplate: " + (currentChestplate == null ? "NONE" : currentChestplate.getType()));
-        debugLogger.console("Original Leggings: " + (currentLeggings == null ? "NONE" : currentLeggings.getType()));
-        debugLogger.console("Original Boots: " + (currentBoots == null ? "NONE" : currentBoots.getType()));
-        debugLogger.console("Original Offhand: " + (currentOffhand == null ? "NONE" : currentOffhand.getType()));
+        ItemStack currentChestplate = inv.getChestplate();
+        if (currentChestplate != null && !currentChestplate.getType().isAir()) {
+            originalArmorItems.put(SLOT_CHESTPLATE, currentChestplate.clone());
+            debugLogger.console("Original Chestplate: " + currentChestplate.getType());
+        } else {
+            debugLogger.console("Original Chestplate: NONE");
+        }
         
-        // Find armor assignments in the slot map
+        ItemStack currentLeggings = inv.getLeggings();
+        if (currentLeggings != null && !currentLeggings.getType().isAir()) {
+            originalArmorItems.put(SLOT_LEGGINGS, currentLeggings.clone());
+            debugLogger.console("Original Leggings: " + currentLeggings.getType());
+        } else {
+            debugLogger.console("Original Leggings: NONE");
+        }
+        
+        ItemStack currentBoots = inv.getBoots();
+        if (currentBoots != null && !currentBoots.getType().isAir()) {
+            originalArmorItems.put(SLOT_BOOTS, currentBoots.clone());
+            debugLogger.console("Original Boots: " + currentBoots.getType());
+        } else {
+            debugLogger.console("Original Boots: NONE");
+        }
+        
+        ItemStack currentOffhand = inv.getItemInOffHand();
+        if (currentOffhand != null && !currentOffhand.getType().isAir()) {
+            originalArmorItems.put(SLOT_OFFHAND, currentOffhand.clone());
+            debugLogger.console("Original Offhand: " + currentOffhand.getType());
+        } else {
+            debugLogger.console("Original Offhand: NONE");
+        }
+        
+        // STEP 2: Extract armor assignments from slot map first
+        Map<String, ItemStack> newArmorItems = new HashMap<>();
+        
+        // Extract special slots
         ItemStack newHelmet = slotMap.remove(SLOT_HELMET);
+        if (newHelmet != null) {
+            newArmorItems.put(SLOT_HELMET, newHelmet);
+            debugLogger.console("New Helmet: " + newHelmet.getType());
+        } else {
+            debugLogger.console("New Helmet: NONE");
+        }
+        
         ItemStack newChestplate = slotMap.remove(SLOT_CHESTPLATE);
+        if (newChestplate != null) {
+            newArmorItems.put(SLOT_CHESTPLATE, newChestplate);
+            debugLogger.console("New Chestplate: " + newChestplate.getType());
+        } else {
+            debugLogger.console("New Chestplate: NONE");
+        }
+        
         ItemStack newLeggings = slotMap.remove(SLOT_LEGGINGS);
+        if (newLeggings != null) {
+            newArmorItems.put(SLOT_LEGGINGS, newLeggings);
+            debugLogger.console("New Leggings: " + newLeggings.getType());
+        } else {
+            debugLogger.console("New Leggings: NONE");
+        }
+        
         ItemStack newBoots = slotMap.remove(SLOT_BOOTS);
+        if (newBoots != null) {
+            newArmorItems.put(SLOT_BOOTS, newBoots);
+            debugLogger.console("New Boots: " + newBoots.getType());
+        } else {
+            debugLogger.console("New Boots: NONE");
+        }
+        
         ItemStack newOffhand = slotMap.remove(SLOT_OFFHAND);
-        
-        debugLogger.console("New Helmet: " + (newHelmet == null ? "NONE" : newHelmet.getType()));
-        debugLogger.console("New Chestplate: " + (newChestplate == null ? "NONE" : newChestplate.getType()));
-        debugLogger.console("New Leggings: " + (newLeggings == null ? "NONE" : newLeggings.getType()));
-        debugLogger.console("New Boots: " + (newBoots == null ? "NONE" : newBoots.getType()));
-        debugLogger.console("New Offhand: " + (newOffhand == null ? "NONE" : newOffhand.getType()));
-        
-        // IMPORTANT: Clear inventory BEFORE setting armor to avoid duplication
-        // Clear only the main inventory and hotbar slots (0-35)
-        for (int i = 0; i < 36; i++) {
-            inv.setItem(i, null);
-        }
-        
-        // Clear armor slots only if we have replacements
-        if (newHelmet != null) {
-            inv.setHelmet(null);
-        }
-        
-        if (newChestplate != null) {
-            inv.setChestplate(null);
-        }
-        
-        if (newLeggings != null) {
-            inv.setLeggings(null);
-        }
-        
-        if (newBoots != null) {
-            inv.setBoots(null);
-        }
-        
         if (newOffhand != null) {
-            inv.setItemInOffHand(null);
+            newArmorItems.put(SLOT_OFFHAND, newOffhand);
+            debugLogger.console("New Offhand: " + newOffhand.getType());
+        } else {
+            debugLogger.console("New Offhand: NONE");
         }
         
-        // Now let's set new armor if specified, otherwise keep the existing armor
-        if (newHelmet != null) {
-            debugLogger.console("[PlayerInv] Setting helmet to " + newHelmet.getType());
-            inv.setHelmet(newHelmet);
-        } else if (currentHelmet != null && !currentHelmet.getType().isAir()) {
-            debugLogger.console("[PlayerInv] Keeping current helmet: " + currentHelmet.getType());
-            inv.setHelmet(currentHelmet);
+        // STEP 3: COMPLETELY CLEAR the player's inventory (including armor)
+        inv.clear();
+        
+        // STEP 4: Apply armor items first
+        try {
+            if (newHelmet != null) {
+                debugLogger.console("Setting helmet to: " + newHelmet.getType());
+                inv.setHelmet(newHelmet);
+            } else if (originalArmorItems.containsKey(SLOT_HELMET)) {
+                debugLogger.console("Restoring original helmet: " + originalArmorItems.get(SLOT_HELMET).getType());
+                inv.setHelmet(originalArmorItems.get(SLOT_HELMET));
+            }
+            
+            if (newChestplate != null) {
+                debugLogger.console("Setting chestplate to: " + newChestplate.getType());
+                inv.setChestplate(newChestplate);
+            } else if (originalArmorItems.containsKey(SLOT_CHESTPLATE)) {
+                debugLogger.console("Restoring original chestplate: " + originalArmorItems.get(SLOT_CHESTPLATE).getType());
+                inv.setChestplate(originalArmorItems.get(SLOT_CHESTPLATE));
+            }
+            
+            if (newLeggings != null) {
+                debugLogger.console("Setting leggings to: " + newLeggings.getType());
+                inv.setLeggings(newLeggings);
+            } else if (originalArmorItems.containsKey(SLOT_LEGGINGS)) {
+                debugLogger.console("Restoring original leggings: " + originalArmorItems.get(SLOT_LEGGINGS).getType());
+                inv.setLeggings(originalArmorItems.get(SLOT_LEGGINGS));
+            }
+            
+            if (newBoots != null) {
+                debugLogger.console("Setting boots to: " + newBoots.getType());
+                inv.setBoots(newBoots);
+            } else if (originalArmorItems.containsKey(SLOT_BOOTS)) {
+                debugLogger.console("Restoring original boots: " + originalArmorItems.get(SLOT_BOOTS).getType());
+                inv.setBoots(originalArmorItems.get(SLOT_BOOTS));
+            }
+            
+            if (newOffhand != null) {
+                debugLogger.console("Setting offhand to: " + newOffhand.getType());
+                inv.setItemInOffHand(newOffhand);
+            } else if (originalArmorItems.containsKey(SLOT_OFFHAND)) {
+                debugLogger.console("Restoring original offhand: " + originalArmorItems.get(SLOT_OFFHAND).getType());
+                inv.setItemInOffHand(originalArmorItems.get(SLOT_OFFHAND));
+            }
+        } catch (Exception e) {
+            debugLogger.console("Error setting armor: " + e.getMessage());
+            e.printStackTrace();
         }
         
-        if (newChestplate != null) {
-            debugLogger.console("[PlayerInv] Setting chestplate to " + newChestplate.getType());
-            inv.setChestplate(newChestplate);
-        } else if (currentChestplate != null && !currentChestplate.getType().isAir()) {
-            debugLogger.console("[PlayerInv] Keeping current chestplate: " + currentChestplate.getType());
-            inv.setChestplate(currentChestplate);
-        }
-        
-        if (newLeggings != null) {
-            debugLogger.console("[PlayerInv] Setting leggings to " + newLeggings.getType());
-            inv.setLeggings(newLeggings);
-        } else if (currentLeggings != null && !currentLeggings.getType().isAir()) {
-            debugLogger.console("[PlayerInv] Keeping current leggings: " + currentLeggings.getType());
-            inv.setLeggings(currentLeggings);
-        }
-        
-        if (newBoots != null) {
-            debugLogger.console("[PlayerInv] Setting boots to " + newBoots.getType());
-            inv.setBoots(newBoots);
-        } else if (currentBoots != null && !currentBoots.getType().isAir()) {
-            debugLogger.console("[PlayerInv] Keeping current boots: " + currentBoots.getType());
-            inv.setBoots(currentBoots);
-        }
-        
-        if (newOffhand != null) {
-            debugLogger.console("[PlayerInv] Setting offhand to " + newOffhand.getType());
-            inv.setItemInOffHand(newOffhand);
-        } else if (currentOffhand != null && !currentOffhand.getType().isAir()) {
-            debugLogger.console("[PlayerInv] Keeping current offhand: " + currentOffhand.getType());
-            inv.setItemInOffHand(currentOffhand);
-        }
-        
-        // Apply the rest of the items to the inventory
+        // STEP 5: Apply the rest of the items to the inventory slots
         for (Map.Entry<String, ItemStack> entry : slotMap.entrySet()) {
             String slotName = entry.getKey();
             ItemStack item = entry.getValue();
+            
+            if (item == null || item.getType().isAir()) continue;
             
             try {
                 // Handle hotbar slots
@@ -843,6 +932,7 @@ public class PlayerInventoryService implements Listener {
                     int slotIndex = Integer.parseInt(slotName.substring(7));
                     if (slotIndex >= 0 && slotIndex <= 8) {
                         inv.setItem(slotIndex, item);
+                        debugLogger.console("Set hotbar slot " + slotIndex + " to " + item.getType() + " x" + item.getAmount());
                     }
                 }
                 // Handle main inventory slots
@@ -850,19 +940,22 @@ public class PlayerInventoryService implements Listener {
                     int slotIndex = Integer.parseInt(slotName.substring(10));
                     if (slotIndex >= 0 && slotIndex <= 26) {
                         inv.setItem(slotIndex + 9, item); // +9 to account for hotbar slots
+                        debugLogger.console("Set inventory slot " + (slotIndex + 9) + " to " + item.getType() + " x" + item.getAmount());
                     }
                 }
                 // Any leftovers - put in any available slot
                 else {
                     inv.addItem(item);
+                    debugLogger.console("Added leftover item " + item.getType() + " x" + item.getAmount());
                 }
             } catch (Exception e) {
-                debugLogger.console("[PlayerInv] Error setting slot " + slotName + ": " + e.getMessage());
+                debugLogger.console("Error setting slot " + slotName + ": " + e.getMessage());
                 // Try to add the item to any available slot
                 inv.addItem(item);
             }
         }
         
+        // STEP 6: Log final armor state
         debugLogger.console("Final armor state:");
         debugLogger.console("Helmet: " + (inv.getHelmet() == null ? "NONE" : inv.getHelmet().getType()));
         debugLogger.console("Chestplate: " + (inv.getChestplate() == null ? "NONE" : inv.getChestplate().getType()));
@@ -901,46 +994,7 @@ public class PlayerInventoryService implements Listener {
             );
     }
     
-    /**
-     * Get the category of a material (HELMET, CHESTPLATE, etc.)
-     */
-    private String getMaterialCategory(Material material) {
-        String name = material.name();
-        
-        if (name.endsWith("_HELMET") || name.equals("TURTLE_SHELL")) {
-            return "HELMET";
-        } else if (name.endsWith("_CHESTPLATE")) {
-            return "CHESTPLATE";
-        } else if (name.endsWith("_LEGGINGS")) {
-            return "LEGGINGS";
-        } else if (name.endsWith("_BOOTS")) {
-            return "BOOTS";
-        } else if (name.equals("SHIELD")) {
-            return "OFFHAND";
-        } else {
-            return "OTHER";
-        }
-    }
-    
-    /**
-     * Get the category of a slot (what types of items it can hold)
-     */
-    private String getSlotCategory(String slotName) {
-        switch (slotName) {
-            case SLOT_HELMET:
-                return "HELMET";
-            case SLOT_CHESTPLATE:
-                return "CHESTPLATE";
-            case SLOT_LEGGINGS:
-                return "LEGGINGS";
-            case SLOT_BOOTS:
-                return "BOOTS";
-            case SLOT_OFFHAND:
-                return "ANY"; // Offhand can hold anything
-            default:
-                return "ANY";
-        }
-    }
+
 
     /**
      * Force a sort of the player's inventory without cooldown check
