@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./bukkit-plugin.schema.json
+name: SmartSort
+main: smartsort.SmartSortPlugin
+version: 1.3.10
+api-version: "1.21"
+description: AI-driven inventory organizer plugin
+author: nickp
+commands:
+  smartsort:
+    description: AI-powered inventory organization plugin
+    usage: /smartsort [debug|console|test|playerinv|fastmode|now|help]
+    permission: smartsort.admin
+permissions:
+  smartsort.admin:
+    description: Access to SmartSort admin commands
+    default: op
+  smartsort.admin.console:
+    description: Ability to toggle console logging
+    default: op
+  smartsort.test:
+    description: Access to test chest generation
+    default: op
+  smartsort.player:
+    description: Access to player inventory sorting
+    default: true
