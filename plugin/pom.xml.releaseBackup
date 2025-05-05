@@ -3,7 +3,7 @@
 
   <groupId>com.nickp.plugins</groupId>
   <artifactId>smartsort</artifactId>
-  <version>1.3.10-SNAPSHOT</version>
+  <version>1.3.11-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>SmartSort</name>
