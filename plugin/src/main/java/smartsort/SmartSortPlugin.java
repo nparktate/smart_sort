@@ -1,24 +1,39 @@
 package smartsort;
 
+import java.util.List;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import smartsort.ai.AIService;
-import smartsort.command.*;
-import smartsort.sorting.InventorySorter;
-import smartsort.sorting.PlayerInventoryService;
+import smartsort.api.openai.OpenAIResponseParser;
+import smartsort.api.openai.OpenAIService;
+import smartsort.commands.*;
+import smartsort.containers.ContainerExtractor;
+import smartsort.containers.ContainerSortApplier;
+import smartsort.containers.ContainerSorter;
+import smartsort.players.PlayerInventorySorter;
+import smartsort.players.inventory.PlayerInventoryApplier;
+import smartsort.players.inventory.PlayerInventoryExtractor;
+import smartsort.players.inventory.PlayerInventoryResponseParser;
+import smartsort.players.ui.SortButtonManager;
+import smartsort.util.AsyncTaskManager;
 import smartsort.util.DebugLogger;
+import smartsort.util.InventoryChangeTracker;
 import smartsort.util.PlayerPreferenceManager;
 import smartsort.util.TickSoundManager;
+import smartsort.util.VersionedCache;
 
 public final class SmartSortPlugin extends JavaPlugin {
 
     private static SmartSortPlugin instance;
     private ServiceContainer services;
-    private AIService aiService;
-    private InventorySorter sorter;
-    private PlayerInventoryService playerInventoryService;
+    private OpenAIService aiService;
+    private ContainerSorter sorter;
+    private PlayerInventorySorter playerInventoryService;
     private TickSoundManager tickSoundManager;
     private DebugLogger debug;
     private PlayerPreferenceManager preferenceManager;
+    private InventoryChangeTracker changeTracker;
+    private VersionedCache<String, List<ItemStack>> versionedCache;
+    private AsyncTaskManager asyncTaskManager;
 
     public static SmartSortPlugin get() {
         return instance;
@@ -38,8 +53,8 @@ public final class SmartSortPlugin extends JavaPlugin {
         debug.initialize(); // Start message queue processing
         services.register(DebugLogger.class, debug);
 
-        aiService = new AIService(this, debug);
-        services.register(AIService.class, aiService);
+        aiService = new OpenAIService(this, debug);
+        services.register(OpenAIService.class, aiService);
 
         tickSoundManager = new TickSoundManager(this);
         services.register(TickSoundManager.class, tickSoundManager);
@@ -49,19 +64,80 @@ public final class SmartSortPlugin extends JavaPlugin {
         preferenceManager.loadAllPreferences();
         services.register(PlayerPreferenceManager.class, preferenceManager);
 
-        // Create remaining components
-        sorter = new InventorySorter(this, aiService, tickSoundManager, debug);
-        services.register(InventorySorter.class, sorter);
+        // Initialize inventory change tracker
+        changeTracker = new InventoryChangeTracker(debug);
+        services.register(InventoryChangeTracker.class, changeTracker);
+        getServer().getPluginManager().registerEvents(changeTracker, this);
 
-        // Initialize player inventory service
-        playerInventoryService = new PlayerInventoryService(
+        // Initialize versioned cache
+        versionedCache = new VersionedCache<>(
+            getConfig().getInt("performance.cache_size", 500),
+            debug
+        );
+        services.register(VersionedCache.class, versionedCache);
+
+        // Initialize async task manager
+        asyncTaskManager = new AsyncTaskManager(
+            this,
+            debug,
+            getConfig().getInt("performance.async_thread_pool_size", 2),
+            getConfig().getInt("performance.batch_period_millis", 250)
+        );
+        services.register(AsyncTaskManager.class, asyncTaskManager);
+
+        // Initialize container components
+        ContainerExtractor containerExtractor = new ContainerExtractor(debug);
+        ContainerSortApplier containerSortApplier = new ContainerSortApplier(
+            debug,
+            tickSoundManager
+        );
+
+        // Create inventory sorter with new dependencies
+        sorter = new ContainerSorter(
             this,
             aiService,
             tickSoundManager,
             debug,
+            changeTracker,
+            versionedCache,
+            containerExtractor,
+            containerSortApplier
+        );
+        services.register(ContainerSorter.class, sorter);
+
+        // Initialize AIResponseParser
+        OpenAIResponseParser responseParser = new OpenAIResponseParser(debug);
+        services.register(OpenAIResponseParser.class, responseParser);
+
+        // Initialize player inventory components
+        PlayerInventoryExtractor playerExtractor = new PlayerInventoryExtractor(
+            debug
+        );
+        PlayerInventoryResponseParser playerResponseParser =
+            new PlayerInventoryResponseParser(debug);
+        PlayerInventoryApplier playerApplier = new PlayerInventoryApplier(
+            debug
+        );
+        SortButtonManager uiManager = new SortButtonManager(
+            this,
+            debug,
             preferenceManager
         );
-        services.register(PlayerInventoryService.class, playerInventoryService);
+
+        // Initialize player inventory service with new components
+        playerInventoryService = new PlayerInventorySorter(
+            this,
+            aiService,
+            tickSoundManager,
+            debug,
+            preferenceManager,
+            playerExtractor,
+            playerResponseParser,
+            playerApplier,
+            uiManager,
+            changeTracker
+        );
+        services.register(PlayerInventorySorter.class, playerInventoryService);
 
         // listeners
         getServer().getPluginManager().registerEvents(sorter, this);
@@ -88,6 +164,8 @@ public final class SmartSortPlugin extends JavaPlugin {
         debug.shutdown(); // Add shutdown call to properly cancel processing task
         tickSoundManager.shutdown();
         aiService.shutdown();
+        asyncTaskManager.shutdown(); // Shutdown async task manager
+        versionedCache.shutdown(); // Shutdown versioned cache
 
         if (playerInventoryService != null) {
             playerInventoryService.shutdown();
@@ -115,5 +193,21 @@ public final class SmartSortPlugin extends JavaPlugin {
             saveConfig();
             getLogger().info("Updated config to version 2");
         }
+
+        // Add performance settings if missing
+        if (!getConfig().contains("performance.async_thread_pool_size")) {
+            getConfig().set("performance.async_thread_pool_size", 2);
+        }
+        if (!getConfig().contains("performance.batch_period_millis")) {
+            getConfig().set("performance.batch_period_millis", 250);
+        }
+        if (
+            !getConfig().contains("performance.cache_cleanup_interval_minutes")
+        ) {
+            getConfig().set("performance.cache_cleanup_interval_minutes", 30);
+        }
+
+        // Save if any changes were made
+        saveConfig();
     }
 }

@@ -25,6 +25,9 @@ performance:
   per_seconds: 2
   cache_size: 500
   skip_small_containers: true
+  async_thread_pool_size: 2
+  batch_period_millis: 250
+  cache_cleanup_interval_minutes: 30
 
 logging:
   console_debug: false

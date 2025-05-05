@@ -1141,3 +1141,1087 @@ INFO22:30:06
 [SmartSort]: [CACHE] Using cached sorting for world:6:40:-25
 22:30:15
 [SmartSort]: [CACHE] Using cached sorting for world:6:40:-25
+01:50:03
+Stopping server
+[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
+Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
+5/5/2025
+WARN01:50:03
+[SmartSort]: Failed to save preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f: plugins/SmartSort/playerdata/3f5f600e-d22e-4073-ab80-c7dd22756f5f.json
+INFO01:50:03
+Saving players
+Bzzk lost connection: Server closed
+Bzzk left the game
+01:50:04
+Saving worlds
+Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
+[ChunkHolderManager]: Halted chunk system for world 'world'
+[ChunkHolderManager]: Saving all chunkholders for world 'world'
+[ChunkHolderManager]: Saved 1 block chunks, 134 entity chunks, 0 poi chunks in world 'world' in 0.03s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world'
+Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
+[ChunkHolderManager]: Halted chunk system for world 'world_nether'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
+[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
+Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
+[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
+ThreadedAnvilChunkStorage (world): All chunks are saved
+ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+ThreadedAnvilChunkStorage: All dimensions are saved
+Waiting for I/O tasks to complete...
+All I/O tasks to complete
+[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
+[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
+Console01:50:07
+Starting org.bukkit.craftbukkit.Main
+*** Warning, you've not updated in a while! ***
+*** Please download a new build from https://papermc.io/downloads/paper ***
+01:50:08
+2025-05-05T05:50:08.052320952Z ServerMain WARN Advanced terminal features are not available in this environment
+INFO01:50:08
+[bootstrap]: Running Java 21 (OpenJDK 64-Bit Server VM 21.0.4+7-LTS; Eclipse Adoptium Temurin-21.0.4+7) on Linux 6.1.0-33-cloud-amd64 (amd64)
+[bootstrap]: Loading Paper 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) for Minecraft 1.21.4
+[PluginInitializerManager]: Initializing plugins...
+[PluginRemapper]: Remapping plugin 'plugins/smartsort-1.3.11-SNAPSHOT.jar'...
+01:50:09
+[PluginRemapper]: Done remapping plugin 'plugins/smartsort-1.3.11-SNAPSHOT.jar' in 1221ms.
+[PluginInitializerManager]: Initialized 3 plugins
+[PluginInitializerManager]: Bukkit plugins (3):
+Console01:50:09
+ - SmartSort (1.3.11-SNAPSHOT), ViaVersion (5.3.3-SNAPSHOT), WorldEdit (7.3.12-beta-02+ac380ad)
+INFO01:50:13
+Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+01:50:14
+Loaded 1370 recipes
+Loaded 1481 advancements
+[MCTypeRegistry]: Initialising converters for DataConverter...
+[MCTypeRegistry]: Finished initialising converters for DataConverter in 182.7ms
+Starting minecraft server version 1.21.4
+Loading properties
+This server is running Paper version 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[spark]: This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+Server Ping Player Sample Count: 12
+Using 4 threads for Netty based IO
+01:50:15
+[MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
+[ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
+01:50:17
+Default game type: SURVIVAL
+Generating keypair
+Starting Minecraft server on 0.0.0.0:25566
+Using epoll channel type
+Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
+01:50:18
+[ViaVersion]: Loading block connection mappings ...
+[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
+[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
+Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@1cbd0e19]
+[SmartSort]: Loading server plugin SmartSort v1.3.11-SNAPSHOT
+Server permissions file permissions.yml is empty, ignoring it
+[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
+Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+WEPIF: Using the Bukkit Permissions API.
+Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
+01:50:19
+Preparing level "world"
+01:50:20
+Preparing start region for dimension minecraft:overworld
+Preparing spawn area: 61%
+Time elapsed: 590 ms
+Preparing start region for dimension minecraft:the_nether
+Preparing spawn area: 0%
+01:50:21
+Time elapsed: 142 ms
+Preparing start region for dimension minecraft:the_end
+Time elapsed: 30 ms
+[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
+[SmartSort]: Enabling SmartSort v1.3.11-SNAPSHOT
+[SmartSort]: SmartSort 1.3.11-SNAPSHOT enabled
+[spark]: Starting background profiler...
+Done preparing level "world" (1.925s)
+Running delayed init tasks
+Done (14.052s)! For help, type "help"
+[ViaVersion]: Finished mapping loading, shutting down loader executor.
+[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
+01:50:28
+UUID of player Bzzk is 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+01:50:29
+Bzzk joined the game
+Bzzk[/24.218.16.94:63028]: logged in with entity id 18 at ([world]6.02477425625857, 40.0, -25.982079268902485)
+01:50:33
+Bzzk issued server command: /smartsort debug
+01:50:38
+Bzzk issued server command: /smartsort console
+01:50:42
+Bzzk issued server command: /smartsort fastmode
+01:50:44
+[SmartSort]: [ContainerExtractor] Extracted 26 items from container at world:6:40:-25
+[SmartSort]: [VersionedCache] Cache miss for key: 1xCHAINMAIL_HELMET,1xDIAMOND_PICKAXE,4xEMERALD,10xFEATHER,5xGLOWSTONE_DUST,1xGOLDEN_SHOVEL,12xGOLD_NUGGET,4xLEATHER,11xLEATHER_BOOTS,1xLEATHER_CHESTPLATE,1xLEATHER_LEGGINGS,1xPUMPKIN_PIE,1xRABBIT_STEW,3xSANDSTONE,63xSANDSTONE_STAIRS,4xSTRING
+Console01:50:44
+RULES:
+1. Expert Minecraft inventory organization
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO01:50:44
+[SmartSort]: [AI] Using model gpt-4o for 26 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 0 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 1)
+[SmartSort]: [AI] Using model: gpt-4o for 26 items
+WARN01:50:46
+Exception in thread "OkHttp Dispatcher" java.lang.NullPointerException: Cannot invoke "smartsort.util.AsyncTaskManager.runOnMainThread(java.lang.Runnable)" because "this.this$0.asyncTaskManager" is null
+	at smartsort-1.3.11-SNAPSHOT.jar//smartsort.api.openai.OpenAIService$1.onResponse(OpenAIService.java:290)
+	at smartsort-1.3.11-SNAPSHOT.jar//okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:519)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+INFO01:51:21
+[SmartSort]: [VersionedCache] Cleaned up cache. Before: 0, After: 0, Removed: 0 entries
+01:51:24
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+01:51:29
+[SmartSort]: [ContainerExtractor] Extracted 8 items from container at world:7:40:-30
+[SmartSort]: [VersionedCache] Cache miss for key: 1xANDESITE,1xCRIMSON_NYLIUM,2xDRIPSTONE_BLOCK,1xGRASS_BLOCK,1xMOSS_BLOCK,2xMYCELIUM,1xPALE_HANGING_MOSS,1xROOTED_DIRT
+Console01:51:29
+RULES:
+1. Expert Minecraft inventory organization
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO01:51:29
+[SmartSort]: [AI] Using model gpt-3.5-turbo for 8 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 2)
+[SmartSort]: [AI] Using model: gpt-3.5-turbo for 8 items
+WARN01:51:30
+Exception in thread "OkHttp Dispatcher" java.lang.NullPointerException: Cannot invoke "smartsort.util.AsyncTaskManager.runOnMainThread(java.lang.Runnable)" because "this.this$0.asyncTaskManager" is null
+	at smartsort-1.3.11-SNAPSHOT.jar//smartsort.api.openai.OpenAIService$1.onResponse(OpenAIService.java:290)
+	at smartsort-1.3.11-SNAPSHOT.jar//okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:519)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+INFO01:51:33
+[SmartSort]: [ChangeTracker] Recorded container change for world:7:40:-30
+01:51:39
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+01:51:44
+Bzzk issued server command: /smartsort playerinv
+[SmartSort]: [PlayerInvExtractor] Extracted HELMET: DIAMOND_HELMET x1
+[SmartSort]: [PlayerInvExtractor] Extracted CHESTPLATE: DIAMOND_CHESTPLATE x1
+[SmartSort]: [PlayerInvExtractor] Extracted LEGGINGS: NETHERITE_LEGGINGS x1
+[SmartSort]: [PlayerInvExtractor] Extracted BOOTS: IRON_BOOTS x1
+[SmartSort]: [PlayerInvExtractor] Extracted 22 items from Bzzk's inventory
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 3)
+[SmartSort]: [AI] Using forced model: gpt-4o
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+01:51:47
+[SmartSort]: [PlayerInvExtractor] Extracted HELMET: DIAMOND_HELMET x1
+[SmartSort]: [PlayerInvExtractor] Extracted CHESTPLATE: DIAMOND_CHESTPLATE x1
+[SmartSort]: [PlayerInvExtractor] Extracted LEGGINGS: NETHERITE_LEGGINGS x1
+[SmartSort]: [PlayerInvExtractor] Extracted BOOTS: IRON_BOOTS x1
+[SmartSort]: [PlayerInvExtractor] Extracted 22 items from Bzzk's inventory
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 4)
+[SmartSort]: [AI] Using forced model: gpt-4o
+01:51:49
+[SmartSort]: Original Helmet: DIAMOND_HELMET
+[SmartSort]: New Helmet: DIAMOND_HELMET
+[SmartSort]: Original Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Original Leggings: NETHERITE_LEGGINGS
+[SmartSort]: New Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Original Boots: IRON_BOOTS
+[SmartSort]: New Boots: IRON_BOOTS
+[SmartSort]: Original Offhand: NONE
+[SmartSort]: New Offhand: TORCH
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Setting offhand to: TORCH
+[SmartSort]: Set hotbar slot 1 to TORCH x32
+[SmartSort]: Set hotbar slot 3 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 5 to STONE x64
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to REDSTONE_BLOCK x4
+[SmartSort]: Set hotbar slot 8 to COOKED_CHICKEN x1
+[SmartSort]: Set inventory slot 10 to BREAD x1
+[SmartSort]: Set inventory slot 11 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set inventory slot 9 to APPLE x5
+[SmartSort]: Set hotbar slot 0 to STONE_AXE x1
+[SmartSort]: Set inventory slot 14 to FLINT_AND_STEEL x1
+[SmartSort]: Set inventory slot 15 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 12 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 13 to SUSPICIOUS_STEW x1
+[SmartSort]: Set inventory slot 18 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 19 to WATER_BUCKET x1
+[SmartSort]: Set inventory slot 16 to LEVER x3
+[SmartSort]: Set inventory slot 17 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+01:51:51
+[SmartSort]: New Helmet: DIAMOND_HELMET
+[SmartSort]: Original Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Original Leggings: NETHERITE_LEGGINGS
+[SmartSort]: New Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Original Boots: IRON_BOOTS
+[SmartSort]: New Boots: IRON_BOOTS
+[SmartSort]: Original Offhand: NONE
+[SmartSort]: New Offhand: TORCH
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Setting offhand to: TORCH
+[SmartSort]: Set hotbar slot 1 to TORCH x32
+[SmartSort]: Set hotbar slot 3 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 4 to FLINT_AND_STEEL x1
+[SmartSort]: Set hotbar slot 5 to STONE x64
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to REDSTONE_BLOCK x4
+[SmartSort]: Set hotbar slot 8 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set inventory slot 10 to APPLE x5
+[SmartSort]: Set inventory slot 11 to BREAD x1
+[SmartSort]: Set inventory slot 9 to SUSPICIOUS_STEW x1
+[SmartSort]: Set hotbar slot 0 to STONE_AXE x1
+[SmartSort]: Set inventory slot 14 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 15 to LEVER x3
+[SmartSort]: Set inventory slot 12 to COOKED_CHICKEN x1
+[SmartSort]: Set inventory slot 13 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 18 to WATER_BUCKET x1
+[SmartSort]: Set inventory slot 16 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Set inventory slot 17 to REDSTONE_TORCH x6
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+01:51:52
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+01:51:58
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+01:51:59
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+01:52:01
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+01:52:04
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+01:52:05
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+01:52:06
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+01:52:11
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [PlayerInvExtractor] Extracted HELMET: DIAMOND_HELMET x1
+[SmartSort]: [PlayerInvExtractor] Extracted CHESTPLATE: DIAMOND_CHESTPLATE x1
+[SmartSort]: [PlayerInvExtractor] Extracted OFFHAND: TORCH x1
+[SmartSort]: [PlayerInvExtractor] Extracted 23 items from Bzzk's inventory
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 5)
+[SmartSort]: [AI] Using forced model: gpt-4o
+01:52:15
+[SmartSort]: New Helmet: DIAMOND_HELMET
+[SmartSort]: Original Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Original Leggings: NONE
+[SmartSort]: New Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Original Boots: NONE
+[SmartSort]: New Boots: IRON_BOOTS
+[SmartSort]: Original Offhand: TORCH
+[SmartSort]: New Offhand: TORCH
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Setting offhand to: TORCH
+[SmartSort]: Set hotbar slot 1 to STONE_AXE x1
+[SmartSort]: Set hotbar slot 2 to FLINT_AND_STEEL x1
+[SmartSort]: Set hotbar slot 3 to STONE x64
+[SmartSort]: Set hotbar slot 4 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 5 to REDSTONE_BLOCK x4
+[SmartSort]: Set hotbar slot 6 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set hotbar slot 7 to GOLDEN_APPLE x3
+[SmartSort]: Set hotbar slot 8 to APPLE x5
+[SmartSort]: Set inventory slot 10 to SUSPICIOUS_STEW x1
+[SmartSort]: Set inventory slot 11 to COOKED_CHICKEN x1
+[SmartSort]: Set hotbar slot 0 to NETHERITE_HOE x1
+[SmartSort]: Set inventory slot 9 to WATER_BUCKET x1
+[SmartSort]: Set inventory slot 14 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Set inventory slot 15 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 12 to BREAD x1
+[SmartSort]: Set inventory slot 13 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 18 to TORCH x31
+[SmartSort]: Set inventory slot 16 to LEVER x3
+[SmartSort]: Set inventory slot 17 to TORCH x1
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+01:52:18
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+01:52:20
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+01:52:22
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+01:52:23
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+01:52:26
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+01:52:27
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+01:52:28
+[SmartSort]: [ChangeTracker] Recorded container change for world:-2:40:-27
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+01:52:36
+[SmartSort]: Original Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Original Leggings: NETHERITE_LEGGINGS
+[SmartSort]: New Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Original Boots: IRON_BOOTS
+[SmartSort]: New Boots: IRON_BOOTS
+[SmartSort]: Original Offhand: TORCH
+[SmartSort]: New Offhand: NONE
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Restoring original offhand: TORCH
+[SmartSort]: Set hotbar slot 3 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 5 to STONE x64
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to REDSTONE_BLOCK x4
+[SmartSort]: Set hotbar slot 8 to SUSPICIOUS_STEW x1
+[SmartSort]: Set inventory slot 10 to LEVER x3
+[SmartSort]: Set inventory slot 11 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Set inventory slot 9 to FLINT_AND_STEEL x1
+[SmartSort]: Set hotbar slot 0 to STONE_AXE x1
+[SmartSort]: Set inventory slot 14 to WATER_BUCKET x1
+[SmartSort]: Set inventory slot 15 to APPLE x5
+[SmartSort]: Set inventory slot 12 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 13 to TORCH x33
+[SmartSort]: Set inventory slot 18 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set inventory slot 20 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 19 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 16 to BREAD x1
+[SmartSort]: Set inventory slot 17 to COOKED_CHICKEN x1
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+01:52:39
+[SmartSort]: [ChangeTracker] Recorded container change for world:0:40:-27
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+02:05:40
+Stopping server
+[SmartSort]: Disabling SmartSort v1.3.11-SNAPSHOT
+WARN02:05:40
+[SmartSort]: Failed to save preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f: plugins/SmartSort/playerdata/3f5f600e-d22e-4073-ab80-c7dd22756f5f.json
+INFO02:05:40
+[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
+Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+Saving players
+Bzzk lost connection: Server closed
+Bzzk left the game
+Saving worlds
+Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
+[ChunkHolderManager]: Halted chunk system for world 'world'
+[ChunkHolderManager]: Saving all chunkholders for world 'world'
+[ChunkHolderManager]: Saved 0 block chunks, 131 entity chunks, 0 poi chunks in world 'world' in 0.03s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world'
+Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
+[ChunkHolderManager]: Halted chunk system for world 'world_nether'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
+[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
+Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
+[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
+ThreadedAnvilChunkStorage (world): All chunks are saved
+ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+ThreadedAnvilChunkStorage: All dimensions are saved
+Waiting for I/O tasks to complete...
+All I/O tasks to complete
+[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
+[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
+Console02:05:41
+Starting org.bukkit.craftbukkit.Main
+*** Warning, you've not updated in a while! ***
+*** Please download a new build from https://papermc.io/downloads/paper ***
+02:05:42
+2025-05-05T06:05:42.106071473Z ServerMain WARN Advanced terminal features are not available in this environment
+INFO02:05:42
+[bootstrap]: Running Java 21 (OpenJDK 64-Bit Server VM 21.0.4+7-LTS; Eclipse Adoptium Temurin-21.0.4+7) on Linux 6.1.0-33-cloud-amd64 (amd64)
+[bootstrap]: Loading Paper 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) for Minecraft 1.21.4
+[PluginInitializerManager]: Initializing plugins...
+[PluginRemapper]: Remapping plugin 'plugins/smartsort-1.3.11-SNAPSHOT.jar'...
+02:05:43
+[PluginRemapper]: Done remapping plugin 'plugins/smartsort-1.3.11-SNAPSHOT.jar' in 1251ms.
+[PluginInitializerManager]: Initialized 3 plugins
+[PluginInitializerManager]: Bukkit plugins (3):
+Console02:05:43
+ - SmartSort (1.3.11-SNAPSHOT), ViaVersion (5.3.3-SNAPSHOT), WorldEdit (7.3.12-beta-02+ac380ad)
+INFO02:05:47
+Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+02:05:48
+Loaded 1370 recipes
+Loaded 1481 advancements
+[MCTypeRegistry]: Initialising converters for DataConverter...
+[MCTypeRegistry]: Finished initialising converters for DataConverter in 170.1ms
+Starting minecraft server version 1.21.4
+Loading properties
+This server is running Paper version 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[spark]: This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+Server Ping Player Sample Count: 12
+Using 4 threads for Netty based IO
+02:05:49
+[MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
+[ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
+Default game type: SURVIVAL
+Generating keypair
+Starting Minecraft server on 0.0.0.0:25566
+Using epoll channel type
+Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
+02:05:50
+[ViaVersion]: Loading block connection mappings ...
+[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
+[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
+Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@563fbf6a]
+[SmartSort]: Loading server plugin SmartSort v1.3.11-SNAPSHOT
+Server permissions file permissions.yml is empty, ignoring it
+[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
+Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+WEPIF: Using the Bukkit Permissions API.
+02:05:51
+Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
+Preparing level "world"
+02:05:52
+Preparing start region for dimension minecraft:overworld
+Preparing spawn area: 69%
+Time elapsed: 542 ms
+Preparing start region for dimension minecraft:the_nether
+Preparing spawn area: 0%
+02:05:53
+Time elapsed: 214 ms
+Preparing start region for dimension minecraft:the_end
+Time elapsed: 42 ms
+[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
+[SmartSort]: Enabling SmartSort v1.3.11-SNAPSHOT
+[SmartSort]: SmartSort 1.3.11-SNAPSHOT enabled
+[spark]: Starting background profiler...
+Done preparing level "world" (1.858s)
+Running delayed init tasks
+Done (11.956s)! For help, type "help"
+[ViaVersion]: Finished mapping loading, shutting down loader executor.
+[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
+02:06:05
+UUID of player Bzzk is 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+Bzzk joined the game
+Bzzk[/24.218.16.94:63195]: logged in with entity id 17 at ([world]0.3212815212828134, 40.0, -26.5393032950512)
+02:06:10
+Bzzk issued server command: /smartsort debug
+02:06:12
+Bzzk issued server command: /smartsort console
+02:06:15
+Bzzk issued server command: /smartsort fastmode
+02:06:21
+[SmartSort]: INVENTORY_24: [empty]
+[SmartSort]: INVENTORY_25: [empty]
+[SmartSort]: INVENTORY_26: [empty]
+[SmartSort]: --- ARMOR SLOTS ---
+[SmartSort]: HELMET: DIAMOND_HELMET x1
+[SmartSort]: CHESTPLATE: DIAMOND_CHESTPLATE x1
+[SmartSort]: LEGGINGS: NETHERITE_LEGGINGS x1
+[SmartSort]: BOOTS: IRON_BOOTS x1
+[SmartSort]: --- OFFHAND SLOT ---
+[SmartSort]: OFFHAND: TORCH x1
+[SmartSort]: --- BEFORE SORTING ITEM COUNT SUMMARY ---
+[SmartSort]: COOKED_CHICKEN: 1 total
+[SmartSort]: REDSTONE_TORCH: 6 total
+[SmartSort]: NETHERITE_HOE: 1 total
+[SmartSort]: DIAMOND_HELMET: 1 total
+[SmartSort]: BREAD: 1 total
+[SmartSort]: DIAMOND_CHESTPLATE: 1 total
+[SmartSort]: REDSTONE_BLOCK: 4 total
+[SmartSort]: STONE_AXE: 1 total
+[SmartSort]: TORCH: 34 total
+[SmartSort]: MOSSY_STONE_BRICK_WALL: 6 total
+[SmartSort]: IRON_BOOTS: 1 total
+[SmartSort]: APPLE: 5 total
+[SmartSort]: WATER_BUCKET: 1 total
+[SmartSort]: FLINT_AND_STEEL: 1 total
+[SmartSort]: STONE: 64 total
+[SmartSort]: SUSPICIOUS_STEW: 1 total
+[SmartSort]: GOLDEN_APPLE: 3 total
+[SmartSort]: NETHERITE_LEGGINGS: 1 total
+[SmartSort]: GUARDIAN_SPAWN_EGG: 5 total
+[SmartSort]: ENCHANTED_GOLDEN_APPLE: 2 total
+[SmartSort]: LEVER: 3 total
+[SmartSort]: SMOOTH_RED_SANDSTONE: 64 total
+[SmartSort]: Total unique items: 22
+[SmartSort]: Total item stacks: 23
+[SmartSort]: === END INVENTORY BEFORE SORTING ===
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 0 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 1)
+[SmartSort]: [AI] Using forced model: gpt-4o
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+02:06:26
+[SmartSort]: INVENTORY_22: [empty]
+[SmartSort]: INVENTORY_23: [empty]
+[SmartSort]: INVENTORY_24: [empty]
+[SmartSort]: INVENTORY_25: [empty]
+[SmartSort]: INVENTORY_26: [empty]
+[SmartSort]
+Console02:06:26
+--- SLOT ASSIGNMENT COMPARISON ---
+INFO02:06:26
+[SmartSort]
+Console02:06:26
+--- FINAL ARMOR STATE ---
+INFO02:06:26
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: --- AFTER SORTING ITEM COUNT SUMMARY ---
+[SmartSort]: REDSTONE_TORCH: 6 total
+[SmartSort]: COOKED_CHICKEN: 1 total
+[SmartSort]: NETHERITE_HOE: 1 total
+[SmartSort]: DIAMOND_HELMET: 1 total
+[SmartSort]: BREAD: 1 total
+[SmartSort]: DIAMOND_CHESTPLATE: 1 total
+[SmartSort]: REDSTONE_BLOCK: 4 total
+[SmartSort]: STONE_AXE: 1 total
+[SmartSort]: MOSSY_STONE_BRICK_WALL: 6 total
+[SmartSort]: TORCH: 34 total
+[SmartSort]: IRON_BOOTS: 1 total
+[SmartSort]: APPLE: 5 total
+[SmartSort]: WATER_BUCKET: 1 total
+[SmartSort]: FLINT_AND_STEEL: 1 total
+[SmartSort]: STONE: 64 total
+[SmartSort]: SUSPICIOUS_STEW: 1 total
+[SmartSort]: GOLDEN_APPLE: 3 total
+[SmartSort]: NETHERITE_LEGGINGS: 1 total
+[SmartSort]: GUARDIAN_SPAWN_EGG: 5 total
+[SmartSort]: LEVER: 3 total
+[SmartSort]: ENCHANTED_GOLDEN_APPLE: 2 total
+[SmartSort]: SMOOTH_RED_SANDSTONE: 64 total
+[SmartSort]: Total unique items: 22
+[SmartSort]: Total items: 207
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+02:06:30
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:0:40:-27
+02:06:31
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:0:40:-27
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:0:40:-27
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:0:40:-27
+02:06:32
+[SmartSort]: [ChangeTracker] Recorded container change for world:0:40:-27
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+02:06:39
+[SmartSort]: [ChangeTracker] Recorded container change for world:2:40:-26
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+02:06:41
+[SmartSort]: INVENTORY_24: [empty]
+[SmartSort]: INVENTORY_25: [empty]
+[SmartSort]: INVENTORY_26: [empty]
+[SmartSort]: --- ARMOR SLOTS ---
+[SmartSort]: HELMET: [empty]
+[SmartSort]: CHESTPLATE: [empty]
+[SmartSort]: LEGGINGS: [empty]
+[SmartSort]: BOOTS: [empty]
+[SmartSort]: --- OFFHAND SLOT ---
+[SmartSort]: OFFHAND: TORCH x1
+[SmartSort]: --- BEFORE SORTING ITEM COUNT SUMMARY ---
+[SmartSort]: REDSTONE_TORCH: 6 total
+[SmartSort]: COOKED_CHICKEN: 1 total
+[SmartSort]: NETHERITE_HOE: 1 total
+[SmartSort]: DIAMOND_HELMET: 1 total
+[SmartSort]: BREAD: 1 total
+[SmartSort]: DIAMOND_CHESTPLATE: 1 total
+[SmartSort]: REDSTONE_BLOCK: 4 total
+[SmartSort]: STONE_AXE: 1 total
+[SmartSort]: MOSSY_STONE_BRICK_WALL: 6 total
+[SmartSort]: TORCH: 34 total
+[SmartSort]: IRON_BOOTS: 1 total
+[SmartSort]: APPLE: 5 total
+[SmartSort]: WATER_BUCKET: 1 total
+[SmartSort]: FLINT_AND_STEEL: 1 total
+[SmartSort]: STONE: 64 total
+[SmartSort]: SUSPICIOUS_STEW: 1 total
+[SmartSort]: GOLDEN_APPLE: 3 total
+[SmartSort]: NETHERITE_LEGGINGS: 1 total
+[SmartSort]: GUARDIAN_SPAWN_EGG: 5 total
+[SmartSort]: LEVER: 3 total
+[SmartSort]: ENCHANTED_GOLDEN_APPLE: 2 total
+[SmartSort]: SMOOTH_RED_SANDSTONE: 64 total
+[SmartSort]: Total unique items: 22
+[SmartSort]: Total item stacks: 24
+[SmartSort]: === END INVENTORY BEFORE SORTING ===
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 2)
+[SmartSort]: [AI] Using forced model: gpt-4o
+02:06:45
+[SmartSort]: INVENTORY_22: [empty]
+[SmartSort]: INVENTORY_23: [empty]
+[SmartSort]: INVENTORY_24: [empty]
+[SmartSort]: INVENTORY_25: [empty]
+[SmartSort]: INVENTORY_26: [empty]
+[SmartSort]
+Console02:06:45
+--- SLOT ASSIGNMENT COMPARISON ---
+INFO02:06:45
+[SmartSort]
+Console02:06:45
+--- FINAL ARMOR STATE ---
+INFO02:06:45
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: --- AFTER SORTING ITEM COUNT SUMMARY ---
+[SmartSort]: REDSTONE_TORCH: 6 total
+[SmartSort]: COOKED_CHICKEN: 1 total
+[SmartSort]: NETHERITE_HOE: 1 total
+[SmartSort]: DIAMOND_HELMET: 1 total
+[SmartSort]: BREAD: 1 total
+[SmartSort]: DIAMOND_CHESTPLATE: 1 total
+[SmartSort]: REDSTONE_BLOCK: 4 total
+[SmartSort]: STONE_AXE: 1 total
+[SmartSort]: MOSSY_STONE_BRICK_WALL: 6 total
+[SmartSort]: TORCH: 34 total
+[SmartSort]: IRON_BOOTS: 1 total
+[SmartSort]: WATER_BUCKET: 1 total
+[SmartSort]: APPLE: 5 total
+[SmartSort]: FLINT_AND_STEEL: 1 total
+[SmartSort]: STONE: 64 total
+[SmartSort]: SUSPICIOUS_STEW: 1 total
+[SmartSort]: GOLDEN_APPLE: 3 total
+[SmartSort]: NETHERITE_LEGGINGS: 1 total
+[SmartSort]: GUARDIAN_SPAWN_EGG: 5 total
+[SmartSort]: LEVER: 3 total
+[SmartSort]: ENCHANTED_GOLDEN_APPLE: 2 total
+[SmartSort]: SMOOTH_RED_SANDSTONE: 64 total
+[SmartSort]: Total unique items: 22
+[SmartSort]: Total items: 207
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+02:06:47
+[SmartSort]: [ChangeTracker] Recorded container change for world:2:40:-26
+[SmartSort]: [SortButtonManager] Added sort button to Bzzk's inventory
+02:06:52
+[SmartSort]: [ContainerExtractor] Extracted 26 items from container at world:6:40:-25
+[SmartSort]: [VersionedCache] Cache miss for key: 1xCHAINMAIL_HELMET,1xDIAMOND_PICKAXE,4xEMERALD,10xFEATHER,5xGLOWSTONE_DUST,1xGOLDEN_SHOVEL,12xGOLD_NUGGET,4xLEATHER,11xLEATHER_BOOTS,1xLEATHER_CHESTPLATE,1xLEATHER_LEGGINGS,1xPUMPKIN_PIE,1xRABBIT_STEW,3xSANDSTONE,63xSANDSTONE_STAIRS,4xSTRING
+Console02:06:52
+RULES:
+1. Expert Minecraft inventory organization
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO02:06:52
+[SmartSort]: [AI] Using model gpt-4o for 26 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 3)
+[SmartSort]: [AI] Using model: gpt-4o for 26 items
+02:06:53
+[SmartSort]: [VersionedCache] Cleaned up cache. Before: 0, After: 0, Removed: 0 entries
+[SmartSort]: [AI] Response code: 200
+[SmartSort]: [AI reply]
+Console02:06:53
+63xSANDSTONE_STAIRS
+3xSANDSTONE
+1xCHAINMAIL_HELMET
+1xDIAMOND_PICKAXE
+1xGOLDEN_SHOVEL
+1xLEATHER_CHESTPLATE
+1xLEATHER_LEGGINGS
+11xLEATHER_BOOTS
+4xLEATHER
+4xSTRING
+4xEMERALD
+12xGOLD_NUGGET
+5xGLOWSTONE_DUST
+10xFEATHER
+1xPUMPKIN_PIE
+1xRABBIT_STEW
+INFO02:06:53
+[SmartSort]: [VersionedCache] Added entry for key: 1xCHAINMAIL_HELMET,1xDIAMOND_PICKAXE,4xEMERALD,10xFEATHER,5xGLOWSTONE_DUST,1xGOLDEN_SHOVEL,12xGOLD_NUGGET,4xLEATHER,11xLEATHER_BOOTS,1xLEATHER_CHESTPLATE,1xLEATHER_LEGGINGS,1xPUMPKIN_PIE,1xRABBIT_STEW,3xSANDSTONE,63xSANDSTONE_STAIRS,4xSTRING with version: 1746425212049
+[SmartSort]: [ContainerApplier] Successfully applied 26 item stacks to container
+02:06:58
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+02:06:59
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+02:07:00
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+02:07:01
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+02:07:02
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+02:07:10
+[SmartSort]: [AI reply]
+Console02:07:10
+63xSANDSTONE_STAIRS
+3xSANDSTONE
+5xGLOWSTONE_DUST
+12xGOLD_NUGGET
+4xEMERALD
+10xFEATHER
+4xSTRING
+4xLEATHER
+11xLEATHER_BOOTS
+1xLEATHER_CHESTPLATE
+1xLEATHER_LEGGINGS
+1xCHAINMAIL_HELMET
+1xDIAMOND_PICKAXE
+1xGOLDEN_SHOVEL
+1xPUMPKIN_PIE
+1xRABBIT_STEW
+INFO02:07:10
+[SmartSort]: [VersionedCache] Added entry for key: 1xCHAINMAIL_HELMET,1xDIAMOND_PICKAXE,4xEMERALD,10xFEATHER,5xGLOWSTONE_DUST,1xGOLDEN_SHOVEL,12xGOLD_NUGGET,4xLEATHER,11xLEATHER_BOOTS,1xLEATHER_CHESTPLATE,1xLEATHER_LEGGINGS,1xPUMPKIN_PIE,1xRABBIT_STEW,3xSANDSTONE,63xSANDSTONE_STAIRS,4xSTRING with version: 1746425228915
+[SmartSort]: [ContainerApplier] Successfully applied 26 item stacks to container
+02:07:11
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+02:07:26
+Bzzk issued server command: /smartsort test mining_trip
+[SmartSort]: [TestChest] Player Bzzk generating chests with theme: mining_trip
+[SmartSort]: [TestChest] Generating chests at 2,40,-31
+[SmartSort]: [TestChest] Created chest #1 at 2,40,-31
+[SmartSort]: [TestChest] Sending prompt to AI for chest #1
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 5)
+[SmartSort]: [AI] Using model: gpt-3.5-turbo for 0 items
+02:07:27
+[SmartSort]: [AI] Response code: 200
+[SmartSort]: [TestChest] Received AI reply: 144 chars
+[SmartSort]: [TestChest] Parsing AI reply with 12 lines
+[SmartSort]: [TestChest] Invalid material name: NETHER_QUARTZ
+[SmartSort]: [TestChest] Successfully parsed 11 item stacks
+[SmartSort]: [TestChest] Populating chest with 11 items
+[SmartSort]: [TestChest] Chest creation complete: mining_trip
+02:07:29
+[SmartSort]: [TestChest] Created chest #2 at 4,40,-31
+[SmartSort]: [TestChest] Sending prompt to AI for chest #2
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 6)
+[SmartSort]: [AI] Using model: gpt-3.5-turbo for 0 items
+02:08:17
+[SmartSort]: [AI] Using model gpt-3.5-turbo for 12 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 13)
+[SmartSort]: [AI] Using model: gpt-3.5-turbo for 12 items
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+02:08:18
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+[SmartSort]: [AI] Response code: 200
+[SmartSort]: [AI reply]
+Console02:08:18
+10xEMERALD
+20xREDSTONE
+16xLAPIS_LAZULI
+12xIRON_ORE
+8xCOAL_ORE
+5xGOLD_ORE
+1xANCIENT_DEBRIS
+3xDIAMOND_ORE
+1xGLOWSTONE_DUST
+1xGOLD_INGOT
+1xNETHERITE_SCRAP
+1xOBSIDIAN
+INFO02:08:18
+[SmartSort]: [SORT] Container changed during sorting - aborted
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+02:08:19
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+02:08:20
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+02:08:21
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+[SmartSort]: [ChangeTracker] Recorded container change for world:4:40:-29
+02:09:26
+[SmartSort]: --- BEFORE SORTING ITEM COUNT SUMMARY ---
+[SmartSort]: COOKED_CHICKEN: 1 total
+[SmartSort]: OBSIDIAN: 1 total
+[SmartSort]: COAL_ORE: 8 total
+[SmartSort]: EMERALD: 10 total
+[SmartSort]: DIAMOND_PICKAXE: 1 total
+[SmartSort]: NETHERITE_HOE: 1 total
+[SmartSort]: REDSTONE_BLOCK: 4 total
+[SmartSort]: APPLE: 5 total
+[SmartSort]: FLINT_AND_STEEL: 1 total
+[SmartSort]: GOLD_ORE: 5 total
+[SmartSort]: GOLDEN_APPLE: 3 total
+[SmartSort]: NETHERITE_LEGGINGS: 1 total
+[SmartSort]: GUARDIAN_SPAWN_EGG: 5 total
+[SmartSort]: ENCHANTED_GOLDEN_APPLE: 2 total
+[SmartSort]: LEVER: 3 total
+[SmartSort]: SMOOTH_RED_SANDSTONE: 64 total
+[SmartSort]: GOLD_INGOT: 1 total
+[SmartSort]: REDSTONE_TORCH: 6 total
+[SmartSort]: REDSTONE: 20 total
+[SmartSort]: IRON_ORE: 12 total
+[SmartSort]: NETHERITE_SCRAP: 1 total
+[SmartSort]: DIAMOND_HELMET: 1 total
+[SmartSort]: BREAD: 1 total
+[SmartSort]: DIAMOND_CHESTPLATE: 1 total
+[SmartSort]: STONE_AXE: 1 total
+[SmartSort]: TORCH: 34 total
+[SmartSort]: MOSSY_STONE_BRICK_WALL: 6 total
+[SmartSort]: IRON_BOOTS: 1 total
+[SmartSort]: WATER_BUCKET: 1 total
+[SmartSort]: STONE: 64 total
+[SmartSort]: SUSPICIOUS_STEW: 1 total
+[SmartSort]: LAPIS_LAZULI: 16 total
+[SmartSort]: Total unique items: 32
+[SmartSort]: Total item stacks: 32
+[SmartSort]: === END INVENTORY BEFORE SORTING ===
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 2 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 18)
+[SmartSort]: [AI] Using forced model: gpt-4o
+02:10:24
+[SmartSort]: Offhand: TORCH
+[SmartSort]: --- AFTER SORTING ITEM COUNT SUMMARY ---
+[SmartSort]: COOKED_CHICKEN: 1 total
+[SmartSort]: DIAMOND_LEGGINGS: 1 total
+[SmartSort]: OBSIDIAN: 1 total
+[SmartSort]: EMERALD: 10 total
+[SmartSort]: COAL_ORE: 8 total
+[SmartSort]: DIAMOND_PICKAXE: 1 total
+[SmartSort]: NETHERITE_HOE: 1 total
+[SmartSort]: REDSTONE_BLOCK: 4 total
+[SmartSort]: FLINT_AND_STEEL: 1 total
+[SmartSort]: APPLE: 5 total
+[SmartSort]: GOLDEN_APPLE: 3 total
+[SmartSort]: GOLD_ORE: 5 total
+[SmartSort]: NETHERITE_LEGGINGS: 1 total
+[SmartSort]: GUARDIAN_SPAWN_EGG: 5 total
+[SmartSort]: ENCHANTED_GOLDEN_APPLE: 2 total
+[SmartSort]: LEVER: 3 total
+[SmartSort]: SMOOTH_RED_SANDSTONE: 64 total
+[SmartSort]: GOLD_INGOT: 1 total
+[SmartSort]: REDSTONE_TORCH: 6 total
+[SmartSort]: REDSTONE: 20 total
+[SmartSort]: IRON_ORE: 12 total
+[SmartSort]: NETHERITE_SCRAP: 1 total
+[SmartSort]: DIAMOND_HELMET: 1 total
+[SmartSort]: BREAD: 1 total
+[SmartSort]: DIAMOND_CHESTPLATE: 1 total
+[SmartSort]: STONE_AXE: 1 total
+[SmartSort]: TORCH: 35 total
+[SmartSort]: MOSSY_STONE_BRICK_WALL: 6 total
+[SmartSort]: IRON_BOOTS: 1 total
+[SmartSort]: WATER_BUCKET: 1 total
+[SmartSort]: STONE: 64 total
+[SmartSort]: SUSPICIOUS_STEW: 1 total
+[SmartSort]: DIAMOND_BOOTS: 1 total
+[SmartSort]: LAPIS_LAZULI: 16 total
+[SmartSort]: Total unique items: 34
+[SmartSort]: Total items: 285
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+02:10:29
+[SmartSort]: [ChangeTracker] Recorded container change for world:1:40:-37
+Console02:11:22
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO02:11:22
+[SmartSort]: [AI] Using model gpt-4o for 33 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 27)
+[SmartSort]: [AI] Using model: gpt-4o for 33 items
+02:11:23
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+02:11:25
+[SmartSort]: [AI] Response code: 200
+[SmartSort]: [AI reply]
+Console02:11:25
+20xREDSTONE
+4xREDSTONE_BLOCK
+6xREDSTONE_TORCH
+5xGLOWSTONE_DUST
+4xEMERALD
+4xSTRING
+12xGOLD_NUGGET
+1xGOLD_INGOT
+3xGOLDEN_APPLE
+1xGOLDEN_SHOVEL
+1xCHAINMAIL_HELMET
+11xLEATHER_BOOTS
+1xLEATHER_CHESTPLATE
+1xLEATHER_LEGGINGS
+4xLEATHER
+6xMOSSY_STONE_BRICK_WALL
+3xSANDSTONE
+1xSTONE_AXE
+10xFEATHER
+1xTORCH
+1xBREAD
+1xPUMPKIN_PIE
+1xRABBIT_STEW
+INFO02:11:25
+[SmartSort]: [SORT] Container changed during sorting - aborted
+[SmartSort]: [ContainerExtractor] Extracted 33 items from container at world:6:40:-25
+02:11:28
+[SmartSort]: [ChangeTracker] Recorded player inventory change for 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-27
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
+02:11:46
+[SmartSort]: [VersionedCache] Cache miss for key: 1xBREAD,1xCHAINMAIL_HELMET,1xDIAMOND_PICKAXE,4xEMERALD,5xGLOWSTONE_DUST,3xGOLDEN_APPLE,1xGOLDEN_SHOVEL,1xGOLD_INGOT,12xGOLD_NUGGET,12xIRON_ORE,4xLEATHER,6xLEATHER_BOOTS,1xLEATHER_CHESTPLATE,6xMOSSY_STONE_BRICK_WALL,1xNETHERITE_SCRAP,1xPUMPKIN_PIE,1xRABBIT_STEW,4xREDSTONE_BLOCK,6xREDSTONE_TORCH,3xSANDSTONE,1xSTONE_AXE,4xSTRING,1xTORCH
+Console02:11:46
+RULES:
+1. Expert Minecraft inventory organization
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO02:11:46
+[SmartSort]: [AI] Using model gpt-4o for 28 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 32)
+[SmartSort]: [AI] Using model: gpt-4o for 28 items
+02:11:49
+[SmartSort]: [AI] Response code: 200
+02:11:50
+[SmartSort]: [AI reply]
+Console02:11:50
+12xIRON_ORE
+4xREDSTONE_BLOCK
+6xREDSTONE_TORCH
+5xGLOWSTONE_DUST
+6xMOSSY_STONE_BRICK_WALL
+3xSANDSTONE
+1xSTONE_AXE
+1xDIAMOND_PICKAXE
+1xGOLDEN_SHOVEL
+1xCHAINMAIL_HELMET
+1xLEATHER_CHESTPLATE
+6xLEATHER_BOOTS
+4xLEATHER
+3xGOLDEN_APPLE
+1xNETHERITE_SCRAP
+1xGOLD_INGOT
+12xGOLD_NUGGET
+4xEMERALD
+4xSTRING
+1xTORCH
+1xBREAD
+1xPUMPKIN_PIE
+1xRABBIT_STEW
+INFO02:11:50
+[SmartSort]: [VersionedCache] Added entry for key: 1xBREAD,1xCHAINMAIL_HELMET,1xDIAMOND_PICKAXE,4xEMERALD,5xGLOWSTONE_DUST,3xGOLDEN_APPLE,1xGOLDEN_SHOVEL,1xGOLD_INGOT,12xGOLD_NUGGET,12xIRON_ORE,4xLEATHER,6xLEATHER_BOOTS,1xLEATHER_CHESTPLATE,6xMOSSY_STONE_BRICK_WALL,1xNETHERITE_SCRAP,1xPUMPKIN_PIE,1xRABBIT_STEW,4xREDSTONE_BLOCK,6xREDSTONE_TORCH,3xSANDSTONE,1xSTONE_AXE,4xSTRING,1xTORCH with version: 1746425506265
+[SmartSort]: [ContainerApplier] Successfully applied 28 item stacks to container
+02:11:54
+[SmartSort]: [ChangeTracker] Recorded container change for world:6:40:-25
