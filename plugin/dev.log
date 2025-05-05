@@ -222,3 +222,922 @@ INFO11:42:20
 [SmartSort]: Boots: LEATHER_BOOTS
 [SmartSort]: Offhand: AIR
 [SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+11:43:52
+Bzzk lost connection: Disconnected
+Bzzk left the game
+11:44:22
+Server empty for 30 seconds, pausing
+20:01:09
+[Not Secure]: [Server] Restarting in 20 seconds...
+20:01:19
+[Not Secure]: [Server] Restarting in 10 seconds...
+20:01:29
+Stopping the server
+Stopping server
+[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
+Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
+Saving players
+Saving worlds
+Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
+[ChunkHolderManager]: Halted chunk system for world 'world'
+[ChunkHolderManager]: Saving all chunkholders for world 'world'
+[ChunkHolderManager]: Saved 0 block chunks, 124 entity chunks, 0 poi chunks in world 'world' in 0.03s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world'
+Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
+[ChunkHolderManager]: Halted chunk system for world 'world_nether'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
+[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
+Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
+[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
+ThreadedAnvilChunkStorage (world): All chunks are saved
+ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+ThreadedAnvilChunkStorage: All dimensions are saved
+Waiting for I/O tasks to complete...
+All I/O tasks to complete
+[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
+[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
+20:01:39
+Default game type: SURVIVAL
+Generating keypair
+Starting Minecraft server on 0.0.0.0:25566
+Using epoll channel type
+Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[SmartSort]: Loading server plugin SmartSort v1.3.10-SNAPSHOT
+[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
+20:01:40
+[ViaVersion]: Loading block connection mappings ...
+[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
+[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
+Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@31abdd4f]
+Server permissions file permissions.yml is empty, ignoring it
+[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
+Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+20:01:41
+WEPIF: Using the Bukkit Permissions API.
+Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
+20:01:42
+Preparing level "world"
+Preparing start region for dimension minecraft:overworld
+20:01:43
+Preparing spawn area: 46%
+Time elapsed: 631 ms
+Preparing start region for dimension minecraft:the_nether
+Preparing spawn area: 0%
+Time elapsed: 147 ms
+Preparing start region for dimension minecraft:the_end
+Time elapsed: 36 ms
+[SmartSort]: Enabling SmartSort v1.3.10-SNAPSHOT
+[SmartSort]: Loaded preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+[SmartSort]: SmartSort 1.3.10-SNAPSHOT enabled
+[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
+[spark]: Starting background profiler...
+20:01:44
+Done preparing level "world" (2.083s)
+Running delayed init tasks
+[ViaVersion]: Finished mapping loading, shutting down loader executor.
+[SmartSort]: [RateLimiter] Initialized with 3 requests per 2 seconds
+Done (11.576s)! For help, type "help"
+[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
+20:02:14
+Server empty for 30 seconds, pausing
+18:16:56
+Stopping the server
+18:16:57
+Stopping server
+[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
+Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
+5/4/2025
+WARN18:16:57
+[SmartSort]: Failed to save preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f: plugins/SmartSort/playerdata/3f5f600e-d22e-4073-ab80-c7dd22756f5f.json
+INFO18:16:57
+Saving players
+Saving worlds
+Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
+[ChunkHolderManager]: Halted chunk system for world 'world'
+[ChunkHolderManager]: Saving all chunkholders for world 'world'
+[ChunkHolderManager]: Saved 0 block chunks, 2 entity chunks, 0 poi chunks in world 'world' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world'
+Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
+[ChunkHolderManager]: Halted chunk system for world 'world_nether'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
+[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
+Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
+[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
+ThreadedAnvilChunkStorage (world): All chunks are saved
+ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+ThreadedAnvilChunkStorage: All dimensions are saved
+Waiting for I/O tasks to complete...
+All I/O tasks to complete
+[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
+[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
+Console18:17:01
+Starting org.bukkit.craftbukkit.Main
+*** Warning, you've not updated in a while! ***
+*** Please download a new build from https://papermc.io/downloads/paper ***
+2025-05-04T22:17:01.603597354Z ServerMain WARN Advanced terminal features are not available in this environment
+INFO18:17:01
+[bootstrap]: Running Java 21 (OpenJDK 64-Bit Server VM 21.0.4+7-LTS; Eclipse Adoptium Temurin-21.0.4+7) on Linux 6.1.0-33-cloud-amd64 (amd64)
+[bootstrap]: Loading Paper 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) for Minecraft 1.21.4
+18:17:02
+[PluginInitializerManager]: Initializing plugins...
+[PluginRemapper]: Remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar'...
+18:17:03
+[PluginRemapper]: Done remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar' in 1253ms.
+[PluginInitializerManager]: Initialized 3 plugins
+[PluginInitializerManager]: Bukkit plugins (3):
+Console18:17:03
+ - SmartSort (1.3.10-SNAPSHOT), ViaVersion (5.3.3-SNAPSHOT), WorldEdit (7.3.12-beta-02+ac380ad)
+INFO18:17:06
+Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+18:17:07
+Loaded 1370 recipes
+Loaded 1481 advancements
+[MCTypeRegistry]: Initialising converters for DataConverter...
+18:17:08
+[MCTypeRegistry]: Finished initialising converters for DataConverter in 167.9ms
+Starting minecraft server version 1.21.4
+Loading properties
+This server is running Paper version 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[spark]: This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+Server Ping Player Sample Count: 12
+Using 4 threads for Netty based IO
+18:17:09
+[MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
+[ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
+Default game type: SURVIVAL
+Generating keypair
+Starting Minecraft server on 0.0.0.0:25566
+Using epoll channel type
+Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+18:17:10
+[SmartSort]: Loading server plugin SmartSort v1.3.10-SNAPSHOT
+[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
+[ViaVersion]: Loading block connection mappings ...
+[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
+[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
+18:17:11
+Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@1ce97371]
+Server permissions file permissions.yml is empty, ignoring it
+[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
+Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+WEPIF: Using the Bukkit Permissions API.
+Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
+18:17:12
+Preparing level "world"
+Preparing start region for dimension minecraft:overworld
+18:17:13
+Preparing spawn area: 51%
+Time elapsed: 547 ms
+Preparing start region for dimension minecraft:the_nether
+Preparing spawn area: 0%
+Time elapsed: 175 ms
+Preparing start region for dimension minecraft:the_end
+Time elapsed: 34 ms
+[SmartSort]: Enabling SmartSort v1.3.10-SNAPSHOT
+[SmartSort]: SmartSort 1.3.10-SNAPSHOT enabled
+[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
+18:17:14
+[spark]: Starting background profiler...
+Done preparing level "world" (1.908s)
+Running delayed init tasks
+Done (13.109s)! For help, type "help"
+[ViaVersion]: Finished mapping loading, shutting down loader executor.
+[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
+18:17:44
+Server empty for 30 seconds, pausing
+18:18:03
+UUID of player Bzzk is 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+Bzzk joined the game
+Bzzk[/24.218.16.94:59357]: logged in with entity id 27 at ([world]12.314623941629717, 40.0, -22.556632310136873)
+18:18:10
+Bzzk issued server command: /smartsort debug
+18:18:12
+Bzzk issued server command: /smartsort console
+18:18:15
+Bzzk issued server command: /smartsort fastmode
+18:18:28
+Bzzk issued server command: /smartsort playerinv
+[SmartSort]: [PlayerInv] Extracted HELMET: IRON_HELMET x1
+[SmartSort]: [PlayerInv] Extracted CHESTPLATE: DIAMOND_CHESTPLATE x1
+[SmartSort]: [PlayerInv] Extracted BOOTS: LEATHER_BOOTS x1
+[SmartSort]: [PlayerInv] Extracted 33 items from Bzzk's inventory
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 0 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 1)
+[SmartSort]: [AI] Using forced model: gpt-4o
+18:18:31
+[SmartSort]: New Leggings: LEATHER_LEGGINGS
+[SmartSort]: New Boots: LEATHER_BOOTS
+[SmartSort]: New Offhand: NONE
+[SmartSort]: Setting helmet to: IRON_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: LEATHER_LEGGINGS
+[SmartSort]: Setting boots to: LEATHER_BOOTS
+[SmartSort]: Set inventory slot 23 to LEATHER_LEGGINGS x1
+[SmartSort]: Set inventory slot 22 to LEATHER_LEGGINGS x1
+[SmartSort]: Set inventory slot 21 to LEATHER_LEGGINGS x1
+[SmartSort]: Set inventory slot 20 to LEATHER_BOOTS x1
+[SmartSort]: Set inventory slot 19 to LEATHER_BOOTS x1
+[SmartSort]: Set hotbar slot 1 to WOODEN_SWORD x1
+[SmartSort]: Set hotbar slot 2 to IRON_SHOVEL x1
+[SmartSort]: Set hotbar slot 3 to OAK_LOG x7
+[SmartSort]: Set hotbar slot 4 to STONE x9
+[SmartSort]: Set hotbar slot 5 to COBBLESTONE x30
+[SmartSort]: Set hotbar slot 6 to ROTTEN_FLESH x11
+[SmartSort]: Set hotbar slot 7 to SPIDER_EYE x2
+[SmartSort]: Set hotbar slot 8 to ENCHANTED_BOOK x1
+[SmartSort]: Set inventory slot 10 to BONE x3
+[SmartSort]: Set inventory slot 11 to GOLD_INGOT x1
+[SmartSort]: Set hotbar slot 0 to IRON_SWORD x1
+[SmartSort]: Set inventory slot 9 to IRON_HELMET x1
+[SmartSort]: Set inventory slot 14 to RED_SANDSTONE x1
+[SmartSort]: Set inventory slot 15 to LEATHER_BOOTS x1
+[SmartSort]: Set inventory slot 12 to GRANITE x1
+[SmartSort]: Set inventory slot 13 to ICE x1
+[SmartSort]: Set inventory slot 18 to LEATHER_BOOTS x1
+[SmartSort]: Set inventory slot 16 to LEATHER_BOOTS x1
+[SmartSort]: Set inventory slot 17 to LEATHER_BOOTS x1
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: IRON_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: LEATHER_LEGGINGS
+[SmartSort]: Boots: LEATHER_BOOTS
+[SmartSort]: Offhand: AIR
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+18:19:08
+Bzzk issued server command: /gamemode creative
+[Bzzk: Set own game mode to Creative Mode]
+18:20:22
+Bzzk has completed the challenge [Serious Dedication]
+18:20:56
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Set inventory slot 24 to LEVER x3
+[SmartSort]: Set inventory slot 23 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 22 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 21 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set inventory slot 20 to RABBIT_STEW x1
+[SmartSort]: Set inventory slot 19 to PUMPKIN_PIE x1
+[SmartSort]: Set inventory slot 28 to SANDSTONE x3
+[SmartSort]: Set inventory slot 27 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 26 to REDSTONE_BLOCK x4
+[SmartSort]: Set inventory slot 25 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Set hotbar slot 1 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 4 to STONE x64
+[SmartSort]: Set hotbar slot 5 to SANDSTONE_STAIRS x63
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to TORCH x31
+[SmartSort]: Set hotbar slot 8 to APPLE x5
+[SmartSort]: Set inventory slot 10 to GOLDEN_SHOVEL x1
+[SmartSort]: Set inventory slot 11 to SUSPICIOUS_STEW x1
+[SmartSort]: Set hotbar slot 0 to DIAMOND_SWORD x1
+[SmartSort]: Set inventory slot 9 to FLINT_AND_STEEL x1
+[SmartSort]: Set inventory slot 14 to LEATHER_CHESTPLATE x1
+[SmartSort]: Set inventory slot 15 to LEATHER_LEGGINGS x1
+[SmartSort]: Set inventory slot 12 to WATER_BUCKET x1
+[SmartSort]: Set inventory slot 13 to CHAINMAIL_HELMET x1
+[SmartSort]: Set inventory slot 18 to COOKED_CHICKEN x1
+[SmartSort]: Set inventory slot 30 to STONE_AXE x1
+[SmartSort]: Set inventory slot 16 to LEATHER_BOOTS x1
+[SmartSort]: Set inventory slot 29 to DIAMOND_PICKAXE x1
+[SmartSort]: Set inventory slot 17 to BREAD x1
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: AIR
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+18:22:19
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Restoring original offhand: TORCH
+[SmartSort]: Set inventory slot 24 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Set inventory slot 23 to LEVER x3
+[SmartSort]: Set inventory slot 22 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 21 to BREAD x1
+[SmartSort]: Set inventory slot 20 to SUSPICIOUS_STEW x1
+[SmartSort]: Set inventory slot 19 to RABBIT_STEW x1
+[SmartSort]: Set inventory slot 28 to SANDSTONE_STAIRS x63
+[SmartSort]: Set inventory slot 27 to SANDSTONE x3
+[SmartSort]: Set inventory slot 26 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 25 to REDSTONE_BLOCK x4
+[SmartSort]: Set hotbar slot 2 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 4 to FLINT_AND_STEEL x1
+[SmartSort]: Set hotbar slot 5 to STONE x64
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to TORCH x31
+[SmartSort]: Set hotbar slot 8 to APPLE x5
+[SmartSort]: Set inventory slot 10 to LEATHER_CHESTPLATE x1
+[SmartSort]: Set inventory slot 11 to LEATHER_LEGGINGS x1
+[SmartSort]: Set hotbar slot 0 to DIAMOND_SWORD x1
+[SmartSort]: Set inventory slot 9 to CHAINMAIL_HELMET x1
+[SmartSort]: Set inventory slot 14 to WATER_BUCKET x1
+[SmartSort]: Set inventory slot 15 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set inventory slot 12 to LEATHER_BOOTS x1
+[SmartSort]: Set inventory slot 13 to GOLDEN_SHOVEL x1
+[SmartSort]: Set inventory slot 18 to PUMPKIN_PIE x1
+[SmartSort]: Set inventory slot 30 to STONE_AXE x1
+[SmartSort]: Set inventory slot 16 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 29 to DIAMOND_PICKAXE x1
+[SmartSort]: Set inventory slot 17 to COOKED_CHICKEN x1
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+18:22:37
+[SmartSort]: [AI reply]
+Console18:22:37
+10xFEATHER
+10xLEATHER_BOOTS
+12xGOLD_NUGGET
+5xGLOWSTONE_DUST
+4xEMERALD
+4xLEATHER
+4xSTRING
+INFO18:22:40
+[SmartSort]: [CACHE] Using cached sorting for world:6:40:-25
+Console18:22:45
+RULES:
+1. Expert Minecraft inventory organization
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO18:22:45
+[SmartSort]: [AI] Using model gpt-4o for 26 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 7)
+[SmartSort]: [AI] Using model: gpt-4o for 26 items
+18:22:52
+[SmartSort]: [AI] Response code: 200
+[SmartSort]: [AI reply]
+Console18:22:52
+63xSANDSTONE_STAIRS
+3xSANDSTONE
+1xCHAINMAIL_HELMET
+1xDIAMOND_PICKAXE
+1xGOLDEN_SHOVEL
+1xLEATHER_CHESTPLATE
+1xLEATHER_LEGGINGS
+11xLEATHER_BOOTS
+1xPUMPKIN_PIE
+1xRABBIT_STEW
+4xEMERALD
+12xGOLD_NUGGET
+5xGLOWSTONE_DUST
+4xLEATHER
+4xSTRING
+10xFEATHER
+INFO18:23:12
+Bzzk lost connection: Disconnected
+Bzzk left the game
+18:23:42
+Server empty for 30 seconds, pausing
+18:34:10
+Stopping the server
+Stopping server
+[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
+18:34:11
+Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
+WARN18:34:11
+[SmartSort]: Failed to save preferences for player 3f5f600e-d22e-4073-ab80-c7dd22756f5f: plugins/SmartSort/playerdata/3f5f600e-d22e-4073-ab80-c7dd22756f5f.json
+INFO18:34:11
+Saving players
+Saving worlds
+Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
+[ChunkHolderManager]: Halted chunk system for world 'world'
+[ChunkHolderManager]: Saving all chunkholders for world 'world'
+[ChunkHolderManager]: Saved 0 block chunks, 127 entity chunks, 0 poi chunks in world 'world' in 0.02s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world'
+Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
+[ChunkHolderManager]: Halted chunk system for world 'world_nether'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
+[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
+Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
+[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
+ThreadedAnvilChunkStorage (world): All chunks are saved
+ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+ThreadedAnvilChunkStorage: All dimensions are saved
+Waiting for I/O tasks to complete...
+All I/O tasks to complete
+[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
+[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
+Console18:34:12
+Starting org.bukkit.craftbukkit.Main
+*** Warning, you've not updated in a while! ***
+*** Please download a new build from https://papermc.io/downloads/paper ***
+2025-05-04T22:34:12.683151752Z ServerMain WARN Advanced terminal features are not available in this environment
+INFO18:34:12
+[bootstrap]: Running Java 21 (OpenJDK 64-Bit Server VM 21.0.4+7-LTS; Eclipse Adoptium Temurin-21.0.4+7) on Linux 6.1.0-33-cloud-amd64 (amd64)
+[bootstrap]: Loading Paper 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) for Minecraft 1.21.4
+18:34:13
+[PluginInitializerManager]: Initializing plugins...
+[PluginRemapper]: Remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar'...
+18:34:14
+[PluginRemapper]: Done remapping plugin 'plugins/smartsort-1.3.10-SNAPSHOT.jar' in 1379ms.
+[PluginInitializerManager]: Initialized 3 plugins
+[PluginInitializerManager]: Bukkit plugins (3):
+Console18:34:14
+ - SmartSort (1.3.10-SNAPSHOT), ViaVersion (5.3.3-SNAPSHOT), WorldEdit (7.3.12-beta-02+ac380ad)
+INFO18:34:18
+Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+18:34:19
+Loaded 1370 recipes
+Loaded 1481 advancements
+[MCTypeRegistry]: Initialising converters for DataConverter...
+[MCTypeRegistry]: Finished initialising converters for DataConverter in 173.7ms
+Starting minecraft server version 1.21.4
+Loading properties
+This server is running Paper version 1.21.4-225-main@0767902 (2025-04-11T21:49:39Z) (Implementing API version 1.21.4-R0.1-SNAPSHOT)
+[spark]: This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+Server Ping Player Sample Count: 12
+Using 4 threads for Netty based IO
+18:34:20
+[MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
+[ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
+Default game type: SURVIVAL
+Generating keypair
+Starting Minecraft server on 0.0.0.0:25566
+Using epoll channel type
+Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[SmartSort]: Loading server plugin SmartSort v1.3.10-SNAPSHOT
+[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
+18:34:21
+[ViaVersion]: Loading block connection mappings ...
+[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
+[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
+18:34:22
+Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@4d043607]
+Server permissions file permissions.yml is empty, ignoring it
+[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
+Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+WEPIF: Using the Bukkit Permissions API.
+Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
+18:34:23
+Preparing level "world"
+Preparing start region for dimension minecraft:overworld
+18:34:24
+Preparing spawn area: 46%
+Time elapsed: 628 ms
+Preparing start region for dimension minecraft:the_nether
+Preparing spawn area: 0%
+Time elapsed: 212 ms
+Preparing start region for dimension minecraft:the_end
+Time elapsed: 36 ms
+[SmartSort]: Enabling SmartSort v1.3.10-SNAPSHOT
+[SmartSort]: SmartSort 1.3.10-SNAPSHOT enabled
+[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
+[spark]: Starting background profiler...
+Done preparing level "world" (1.938s)
+Running delayed init tasks
+Done (12.707s)! For help, type "help"
+18:34:25
+[ViaVersion]: Finished mapping loading, shutting down loader executor.
+[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
+18:34:54
+Server empty for 30 seconds, pausing
+20:01:09
+[Not Secure]: [Server] Restarting in 20 seconds...
+20:01:19
+[Not Secure]: [Server] Restarting in 10 seconds...
+20:01:29
+Stopping the server
+Stopping server
+[WorldEdit]: Disabling WorldEdit v7.3.12-beta-02+ac380ad
+Unregistering com.sk89q.worldedit.bukkit.BukkitServerInterface from WorldEdit
+[ViaVersion]: Disabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion has been disabled; uninjected the platform and shut down the scheduler.
+[SmartSort]: Disabling SmartSort v1.3.10-SNAPSHOT
+Saving players
+Saving worlds
+Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world'
+[ChunkHolderManager]: Halted chunk system for world 'world'
+[ChunkHolderManager]: Saving all chunkholders for world 'world'
+[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world'
+Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_nether'
+[ChunkHolderManager]: Halted chunk system for world 'world_nether'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_nether'
+[ChunkHolderManager]: Saved 0 block chunks, 3 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_nether'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_nether'
+Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
+[ChunkHolderManager]: Waiting 60s for chunk system to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted chunk system for world 'world_the_end'
+[ChunkHolderManager]: Saving all chunkholders for world 'world_the_end'
+[ChunkHolderManager]: Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
+[ChunkHolderManager]: Waiting 60s for chunk I/O to halt for world 'world_the_end'
+[ChunkHolderManager]: Halted I/O scheduler for world 'world_the_end'
+ThreadedAnvilChunkStorage (world): All chunks are saved
+ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+ThreadedAnvilChunkStorage: All dimensions are saved
+Waiting for I/O tasks to complete...
+All I/O tasks to complete
+[MoonriseCommon]: Awaiting termination of worker pool for up to 60s...
+[MoonriseCommon]: Awaiting termination of I/O pool for up to 60s...
+20:01:38
+[MoonriseCommon]: Paper is using 2 worker threads, 1 I/O threads
+[ChunkTaskScheduler]: Chunk system is using population gen parallelism: true
+Default game type: SURVIVAL
+Generating keypair
+Starting Minecraft server on 0.0.0.0:25566
+Using epoll channel type
+Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+20:01:39
+[SmartSort]: Loading server plugin SmartSort v1.3.10-SNAPSHOT
+[ViaVersion]: Loading server plugin ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion 5.3.3-SNAPSHOT is now loaded. Registering protocol transformers and injecting...
+[ViaVersion]: Loading block connection mappings ...
+[ViaVersion]: Using FastUtil Long2ObjectOpenHashMap for block connections
+20:01:40
+[WorldEdit]: Loading server plugin WorldEdit v7.3.12-beta-02+ac380ad
+Got request to register class com.sk89q.worldedit.bukkit.BukkitServerInterface with WorldEdit [com.sk89q.worldedit.extension.platform.PlatformManager@31abdd4f]
+Server permissions file permissions.yml is empty, ignoring it
+[WorldEdit]: Enabling WorldEdit v7.3.12-beta-02+ac380ad
+Registering commands with com.sk89q.worldedit.bukkit.BukkitServerInterface
+WEPIF: Using the Bukkit Permissions API.
+Using com.sk89q.worldedit.bukkit.adapter.impl.v1_21_4.PaperweightAdapter as the Bukkit adapter
+20:01:41
+Preparing level "world"
+Preparing start region for dimension minecraft:overworld
+20:01:42
+Preparing spawn area: 48%
+Time elapsed: 606 ms
+Preparing start region for dimension minecraft:the_nether
+Preparing spawn area: 0%
+Time elapsed: 150 ms
+Preparing start region for dimension minecraft:the_end
+Time elapsed: 39 ms
+[SmartSort]: Enabling SmartSort v1.3.10-SNAPSHOT
+20:01:43
+[SmartSort]: SmartSort 1.3.10-SNAPSHOT enabled
+[ViaVersion]: Enabling ViaVersion v5.3.3-SNAPSHOT
+[ViaVersion]: ViaVersion detected server version: 1.21.4 (769)
+[spark]: Starting background profiler...
+Done preparing level "world" (1.959s)
+Running delayed init tasks
+Done (11.424s)! For help, type "help"
+[ViaVersion]: Finished mapping loading, shutting down loader executor.
+[ViaVersion]: You are running a development version of the plugin, please report any bugs to GitHub.
+20:02:13
+Server empty for 30 seconds, pausing
+22:26:59
+UUID of player Bzzk is 3f5f600e-d22e-4073-ab80-c7dd22756f5f
+Bzzk joined the game
+Bzzk[/24.218.16.94:61667]: logged in with entity id 44 at ([world]7.515400908203325, 40.0, -26.61528459353712)
+22:27:14
+Bzzk issued server command: /smartsort debug
+22:27:19
+Bzzk issued server command: /smartsort console
+22:27:24
+Bzzk issued server command: /smartsort fastmode
+22:28:04
+[SmartSort]: Original Chestplate: NONE
+[SmartSort]: Original Leggings: NONE
+[SmartSort]: Original Boots: NONE
+[SmartSort]: Original Offhand: TORCH
+[SmartSort]: New Helmet: DIAMOND_HELMET
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Leggings: NETHERITE_LEGGINGS
+[SmartSort]: New Boots: IRON_BOOTS
+[SmartSort]: New Offhand: NONE
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Restoring original offhand: TORCH
+[SmartSort]: Set hotbar slot 1 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 2 to STONE_AXE x1
+[SmartSort]: Set hotbar slot 3 to FLINT_AND_STEEL x1
+[SmartSort]: Set hotbar slot 4 to TORCH x32
+[SmartSort]: Set hotbar slot 5 to STONE x64
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to REDSTONE_BLOCK x4
+[SmartSort]: Set hotbar slot 8 to APPLE x5
+[SmartSort]: Set inventory slot 10 to COOKED_CHICKEN x1
+[SmartSort]: Set inventory slot 11 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set hotbar slot 0 to DIAMOND_SWORD x1
+[SmartSort]: Set inventory slot 9 to BREAD x1
+[SmartSort]: Set inventory slot 14 to WATER_BUCKET x1
+[SmartSort]: Set inventory slot 15 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 12 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 13 to SUSPICIOUS_STEW x1
+[SmartSort]: Set inventory slot 18 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 16 to LEVER x3
+[SmartSort]: Set inventory slot 17 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+22:28:40
+[SmartSort]: Original Chestplate: NONE
+[SmartSort]: Original Leggings: NONE
+[SmartSort]: Original Boots: NONE
+[SmartSort]: Original Offhand: TORCH
+[SmartSort]: New Helmet: DIAMOND_HELMET
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Leggings: NETHERITE_LEGGINGS
+[SmartSort]: New Boots: IRON_BOOTS
+[SmartSort]: New Offhand: NONE
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Restoring original offhand: TORCH
+[SmartSort]: Set hotbar slot 1 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 2 to STONE_AXE x1
+[SmartSort]: Set hotbar slot 3 to FLINT_AND_STEEL x1
+[SmartSort]: Set hotbar slot 4 to WATER_BUCKET x1
+[SmartSort]: Set hotbar slot 5 to STONE x64
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to TORCH x33
+[SmartSort]: Set hotbar slot 8 to APPLE x5
+[SmartSort]: Set inventory slot 10 to COOKED_CHICKEN x1
+[SmartSort]: Set inventory slot 11 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set hotbar slot 0 to DIAMOND_SWORD x1
+[SmartSort]: Set inventory slot 9 to BREAD x1
+[SmartSort]: Set inventory slot 14 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 15 to LEVER x3
+[SmartSort]: Set inventory slot 12 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 13 to SUSPICIOUS_STEW x1
+[SmartSort]: Set inventory slot 18 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 16 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Set inventory slot 17 to REDSTONE_BLOCK x4
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+Console22:29:00
+RULES:
+1. Expert Minecraft inventory organization
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO22:29:00
+[SmartSort]: [AI] Using model gpt-4o for 26 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 4)
+[SmartSort]: [AI] Using model: gpt-4o for 26 items
+22:29:02
+[SmartSort]: [AI] Response code: 200
+[SmartSort]: [AI reply]
+Console22:29:02
+63xSANDSTONE_STAIRS
+3xSANDSTONE
+1xCHAINMAIL_HELMET
+1xDIAMOND_PICKAXE
+1xGOLDEN_SHOVEL
+1xLEATHER_CHESTPLATE
+1xLEATHER_LEGGINGS
+11xLEATHER_BOOTS
+4xLEATHER
+1xPUMPKIN_PIE
+1xRABBIT_STEW
+4xSTRING
+4xEMERALD
+5xGLOWSTONE_DUST
+12xGOLD_NUGGET
+10xFEATHER
+22:29:04
+RULES:
+1. Expert Minecraft inventory organization
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO22:29:04
+[SmartSort]: [AI] Using model gpt-3.5-turbo for 8 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 5)
+[SmartSort]: [AI] Using model: gpt-3.5-turbo for 8 items
+22:29:05
+[SmartSort]: [AI] Response code: 200
+[SmartSort]: [AI reply]
+Console22:29:05
+2xDRIPSTONE_BLOCK
+1xANDESITE
+1xCRIMSON_NYLIUM
+1xGRASS_BLOCK
+1xMOSS_BLOCK
+2xMYCELIUM
+1xPALE_HANGING_MOSS
+1xROOTED_DIRT
+INFO22:29:30
+[SmartSort]: [PlayerInv] Extracted HELMET: DIAMOND_HELMET x1
+[SmartSort]: [PlayerInv] Extracted CHESTPLATE: DIAMOND_CHESTPLATE x1
+[SmartSort]: [PlayerInv] Extracted LEGGINGS: NETHERITE_LEGGINGS x1
+[SmartSort]: [PlayerInv] Extracted BOOTS: IRON_BOOTS x1
+[SmartSort]: [PlayerInv] Extracted OFFHAND: TORCH x1
+[SmartSort]: [PlayerInv] Extracted 24 items from Bzzk's inventory
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 6)
+[SmartSort]: [AI] Using forced model: gpt-4o
+22:29:34
+[SmartSort]: Original Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Original Boots: IRON_BOOTS
+[SmartSort]: Original Offhand: TORCH
+[SmartSort]: New Helmet: DIAMOND_HELMET
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Leggings: NETHERITE_LEGGINGS
+[SmartSort]: New Boots: IRON_BOOTS
+[SmartSort]: New Offhand: TORCH
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Setting offhand to: TORCH
+[SmartSort]: Set inventory slot 19 to TORCH x1
+[SmartSort]: Set hotbar slot 1 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 2 to STONE_AXE x1
+[SmartSort]: Set hotbar slot 3 to FLINT_AND_STEEL x1
+[SmartSort]: Set hotbar slot 4 to WATER_BUCKET x1
+[SmartSort]: Set hotbar slot 5 to STONE x64
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to REDSTONE_BLOCK x4
+[SmartSort]: Set hotbar slot 8 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set inventory slot 10 to APPLE x5
+[SmartSort]: Set inventory slot 11 to BREAD x1
+[SmartSort]: Set hotbar slot 0 to DIAMOND_SWORD x1
+[SmartSort]: Set inventory slot 9 to TORCH x32
+[SmartSort]: Set inventory slot 14 to SUSPICIOUS_STEW x1
+[SmartSort]: Set inventory slot 15 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 12 to COOKED_CHICKEN x1
+[SmartSort]: Set inventory slot 13 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 18 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 16 to LEVER x3
+[SmartSort]: Set inventory slot 17 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+22:29:40
+[SmartSort]: [PlayerInv] Extracted HELMET: DIAMOND_HELMET x1
+[SmartSort]: [PlayerInv] Extracted CHESTPLATE: DIAMOND_CHESTPLATE x1
+[SmartSort]: [PlayerInv] Extracted LEGGINGS: NETHERITE_LEGGINGS x1
+[SmartSort]: [PlayerInv] Extracted BOOTS: IRON_BOOTS x1
+[SmartSort]: [PlayerInv] Extracted OFFHAND: TORCH x1
+[SmartSort]: [PlayerInv] Extracted 25 items from Bzzk's inventory
+[SmartSort]: [PlayerInv] Sending prompt for Bzzk
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 7)
+[SmartSort]: [AI] Using forced model: gpt-4o
+22:29:51
+[SmartSort]: Original Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Original Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Original Boots: IRON_BOOTS
+[SmartSort]: Original Offhand: TORCH
+[SmartSort]: New Helmet: DIAMOND_HELMET
+[SmartSort]: New Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: New Leggings: NETHERITE_LEGGINGS
+[SmartSort]: New Boots: IRON_BOOTS
+[SmartSort]: New Offhand: TORCH
+[SmartSort]: Setting helmet to: DIAMOND_HELMET
+[SmartSort]: Setting chestplate to: DIAMOND_CHESTPLATE
+[SmartSort]: Setting leggings to: NETHERITE_LEGGINGS
+[SmartSort]: Setting boots to: IRON_BOOTS
+[SmartSort]: Setting offhand to: TORCH
+[SmartSort]: Set hotbar slot 1 to NETHERITE_HOE x1
+[SmartSort]: Set hotbar slot 2 to STONE_AXE x1
+[SmartSort]: Set hotbar slot 3 to FLINT_AND_STEEL x1
+[SmartSort]: Set hotbar slot 4 to WATER_BUCKET x1
+[SmartSort]: Set hotbar slot 5 to STONE x64
+[SmartSort]: Set hotbar slot 6 to SMOOTH_RED_SANDSTONE x64
+[SmartSort]: Set hotbar slot 7 to TORCH x33
+[SmartSort]: Set hotbar slot 8 to ENCHANTED_GOLDEN_APPLE x2
+[SmartSort]: Set inventory slot 10 to APPLE x5
+[SmartSort]: Set inventory slot 11 to BREAD x1
+[SmartSort]: Set hotbar slot 0 to DIAMOND_SWORD x1
+[SmartSort]: Set inventory slot 14 to SUSPICIOUS_STEW x1
+[SmartSort]: Set inventory slot 15 to GUARDIAN_SPAWN_EGG x5
+[SmartSort]: Set inventory slot 12 to COOKED_CHICKEN x1
+[SmartSort]: Set inventory slot 13 to GOLDEN_APPLE x3
+[SmartSort]: Set inventory slot 18 to REDSTONE_BLOCK x4
+[SmartSort]: Set inventory slot 19 to REDSTONE_TORCH x6
+[SmartSort]: Set inventory slot 16 to LEVER x3
+[SmartSort]: Set inventory slot 17 to MOSSY_STONE_BRICK_WALL x6
+[SmartSort]: Final armor state:
+[SmartSort]: Helmet: DIAMOND_HELMET
+[SmartSort]: Chestplate: DIAMOND_CHESTPLATE
+[SmartSort]: Leggings: NETHERITE_LEGGINGS
+[SmartSort]: Boots: IRON_BOOTS
+[SmartSort]: Offhand: TORCH
+[SmartSort]: ==== FINISHED INVENTORY APPLICATION FOR Bzzk ====
+22:29:57
+[SmartSort]: [CACHE] Using cached sorting for world:6:40:-25
+Console22:30:01
+RULES:
+1. Expert Minecraft inventory organization
+2. Group similar items (blocks, tools, resources)
+3. Put common items at top/beginning
+4. Stack items fully
+5. Output ONLY lines like "12xSTONE" with no explanations
+6. Be quick but thorough
+INFO22:30:01
+[SmartSort]: [AI] Using model gpt-4o for 27 items
+[SmartSort]: [RateLimiter] Period reset. Refilled 1 tokens. Now at max capacity: 3
+[SmartSort]: [RateLimiter] Request allowed. Remaining tokens: 2 (Total allowed: 8)
+[SmartSort]: [AI] Using model: gpt-4o for 27 items
+22:30:02
+[SmartSort]: [AI] Response code: 200
+[SmartSort]: [AI reply]
+Console22:30:02
+63xSANDSTONE_STAIRS
+3xSANDSTONE
+1xCHAINMAIL_HELMET
+1xDIAMOND_PICKAXE
+1xDIAMOND_SWORD
+1xGOLDEN_SHOVEL
+1xLEATHER_CHESTPLATE
+1xLEATHER_LEGGINGS
+11xLEATHER_BOOTS
+4xLEATHER
+1xRABBIT_STEW
+1xPUMPKIN_PIE
+4xEMERALD
+12xGOLD_NUGGET
+5xGLOWSTONE_DUST
+10xFEATHER
+4xSTRING
+INFO22:30:06
+[SmartSort]: [CACHE] Using cached sorting for world:6:40:-25
+22:30:09
+[SmartSort]: [CACHE] Using cached sorting for world:6:40:-25
+22:30:15
+[SmartSort]: [CACHE] Using cached sorting for world:6:40:-25

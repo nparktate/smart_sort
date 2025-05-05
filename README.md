@@ -40,7 +40,15 @@ SmartSort is a Minecraft plugin that uses OpenAI's GPT-4o to intelligently organ
 Simply open a chest, barrel, or shulker box. SmartSort will automatically detect the contents and organize them intelligently based on Minecraft gameplay logic.
 
 ### Player Inventory Sorting
-Toggle automatic player inventory sorting with `/smartsort playerinv`. When enabled, your inventory will be organized with weapons in hotbar slots 1-2, tools in slots 3-5, blocks in slots 6-9, and armor items in their appropriate slots.
+Toggle automatic player inventory sorting with `/smartsort playerinv`. When enabled, your inventory will be intelligently organized by the AI with:
+- Weapons placed in hotbar slots 1-2
+- Tools placed in slots 3-5
+- Building blocks in slots 6-9
+- Food items on the right side of hotbar
+- Armor items equipped automatically in their proper slots
+- Similar items grouped together for easy access
+
+Admins can also adjust sorting speed with `/smartsort fastmode` (toggles between 30s and 3s cooldown), and any player can force an immediate sort with `/smartsort now`.
 
 ### Commands
 - `/smartsort help` - Show all available commands
@@ -49,6 +57,8 @@ Toggle automatic player inventory sorting with `/smartsort playerinv`. When enab
 - `/smartsort test` - View available chest themes
 - `/smartsort test <theme>` - Generate themed test chests (try "random" for a surprise!)
 - `/smartsort playerinv` - Toggle player inventory auto-sorting
+- `/smartsort fastmode` - Toggle fast/normal sorting speed (admin only)
+- `/smartsort now` - Sort inventory immediately (bypasses cooldown)
 
 ### Permissions
 - `smartsort.admin` - Access to plugin management commands
@@ -149,14 +159,17 @@ Use `/smartsort debug` to see detailed logs in your chat, which can help identif
 
 ## Changelog
 
-### 1.3.10 (2023-07-12)
-- Added player inventory sorting with professional placement logic
-- Implements smart allocation of weapons, tools, and armor to optimal slots
-- Optimized model selection for faster sorting of large inventories
-- Added persistent player preferences for auto-sorting
-- Enhanced AI prompts for more efficient sorting
+### 1.3.10 (2025-05-07)
+- Fixed player inventory sorting with enhanced armor handling
+- Implemented intelligent item placement based on Minecraft pro gameplay patterns
+- Fixed armor duplication and inventory item handling issues
+- Improved AI prompting for more consistent and intuitive sorting
+- Added sorting feedback with clear visual and audio cues
+- Added fast mode toggle for player inventory sorting speed
+- Added immediate sorting command for bypassing cooldown
+- Enhanced code for better performance and stability
 
-### 1.3.9 (2023-06-15)
+### 1.3.9 (2025-04-15)
 - Unified all commands under `/smartsort` for better user experience
 - Added predefined test chest themes for more consistent results
 - Improved random theme selection to use a curated list

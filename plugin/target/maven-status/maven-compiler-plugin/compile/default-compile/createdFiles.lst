@@ -11,6 +11,7 @@ smartsort/command/TestChestCommand.class
 smartsort/event/SortCompletedEvent.class
 smartsort/util/TickSoundManager.class
 smartsort/util/TickSoundManager$1.class
+smartsort/sorting/PlayerInventoryService$AISlotAssignment.class
 smartsort/event/InventorySortEvent.class
 smartsort/util/DebugLogger.class
 smartsort/ai/AIPromptBuilder.class

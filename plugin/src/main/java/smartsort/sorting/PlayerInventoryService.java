@@ -512,221 +512,192 @@ public class PlayerInventoryService implements Listener {
         List<ItemStack> originalItems
     ) {
         Map<String, ItemStack> slotMap = new HashMap<>();
-        Map<Material, Queue<ItemStack>> materialMap = new HashMap<>();
         
-        // Track special slots to ensure we don't duplicate armor
-        Set<String> armorSlots = new HashSet<>(Arrays.asList(
-            SLOT_HELMET, SLOT_CHESTPLATE, SLOT_LEGGINGS, SLOT_BOOTS, SLOT_OFFHAND
-        ));
-        Set<String> usedArmorSlots = new HashSet<>();
-
-        // Group original items by material for easier access
-        debugLogger.console("[AI] Organizing " + originalItems.size() + " items by material");
+        // Step 1: Create a deep copy of original items to work with
+        List<ItemStack> availableItems = new ArrayList<>();
         for (ItemStack item : originalItems) {
             if (item != null && !item.getType().isAir()) {
-                materialMap
-                    .computeIfAbsent(item.getType(), k -> new LinkedList<>())
-                    .add(item.clone());
+                availableItems.add(item.clone());
             }
         }
-
-        // Log the full AI response for debugging
-        debugLogger.console("[AI] Full AI response:\n" + response);
         
-        // First pass: process special armor slots to ensure we handle them correctly
-        List<SlotAssignment> armorAssignments = new ArrayList<>();
-        List<SlotAssignment> regularAssignments = new ArrayList<>();
+        debugLogger.console("[AI] Original inventory contains " + availableItems.size() + " items");
+        // Log just the first 10 lines of the AI response to avoid cluttering the logs
+        String responsePreview = response.length() > 500 ? response.substring(0, 500) + "..." : response;
+        debugLogger.console("[AI] AI response preview:\n" + responsePreview);
         
-        // Process each line of the AI response
+        // Step 2: Parse the AI response into slot assignments
+        List<AISlotAssignment> assignments = new ArrayList<>();
+        
         for (String line : response.split("\n")) {
             line = line.trim();
-            // Skip empty lines
             if (line.isEmpty()) continue;
-
-            // Match pattern like "12xSTONE:SLOT_3" or similar with the slot specifier
-            if (
-                !line.matches(
-                    "(?i)\\d+\\s*[xX]\\s*[A-Z0-9_]+\\s*:\\s*[A-Z0-9_]+"
-                )
-            ) {
-                debugLogger.console(
-                    "[AI] Skipping invalid line: " + line
-                );
+            
+            // Parse assignment line (format: "12xSTONE:SLOT_3")
+            if (!line.matches("(?i)\\d+\\s*[xX]\\s*[A-Z0-9_]+\\s*:\\s*[A-Z0-9_]+")) {
+                debugLogger.console("[AI] Skipping invalid line: " + line);
                 continue;
             }
-
+            
             try {
-                // Parse amount, material, and slot
+                // Extract amount, material name, and slot
                 String[] parts = line.split("(?i)\\s*[xX]\\s*");
                 int requestedAmount = Integer.parseInt(parts[0]);
-
+                
                 String[] materialAndSlot = parts[1].split("\\s*:\\s*");
                 String materialName = materialAndSlot[0].trim();
                 String slotName = materialAndSlot[1].trim();
-
+                
                 Material material = Material.matchMaterial(materialName);
                 if (material == null || material.isAir()) {
-                    debugLogger.console(
-                        "[AI] Invalid material: " + materialName
-                    );
+                    debugLogger.console("[AI] Invalid material: " + materialName);
                     continue;
                 }
                 
-                // Create slot assignment
-                SlotAssignment assignment = new SlotAssignment(
-                    material, requestedAmount, slotName
-                );
-                
-                // Separate armor/special slot assignments from regular inventory
-                if (armorSlots.contains(slotName)) {
-                    armorAssignments.add(assignment);
-                } else {
-                    regularAssignments.add(assignment);
-                }
+                // Add to assignments list with priority based on slot type
+                int priority = getSlotPriority(slotName);
+                assignments.add(new AISlotAssignment(material, requestedAmount, slotName, priority));
             } catch (Exception e) {
-                debugLogger.console(
-                    "[AI] Error parsing line: " + line + " - " + e.getMessage()
-                );
+                debugLogger.console("[AI] Error parsing line: " + line + " - " + e.getMessage());
             }
         }
         
-        // Process armor assignments first (ensuring only one item per slot)
-        for (SlotAssignment assignment : armorAssignments) {
-            // Skip if we've already used this armor slot
-            if (usedArmorSlots.contains(assignment.slotName)) {
-                debugLogger.console("[AI] Armor slot " + assignment.slotName + " already assigned, skipping");
-                continue;
-            }
-            
-            // Get item queue for this material
-            Queue<ItemStack> itemQueue = materialMap.get(assignment.material);
-            if (itemQueue == null || itemQueue.isEmpty()) {
-                debugLogger.console("[AI] No items of material " + assignment.material + " available");
-                continue;
-            }
-            
-            // Take one item for this armor slot (ignore requested amount for armor)
-            ItemStack item = itemQueue.poll();
-            // Always use just 1 item for armor slots
-            ItemStack armorItem = item.clone();
-            armorItem.setAmount(1);
-            
-            // If we didn't use all of the stack, put remainder back
-            if (item.getAmount() > 1) {
-                item.setAmount(item.getAmount() - 1);
-                itemQueue.add(item);
-            }
-            
-            // Store assignment
-            slotMap.put(assignment.slotName, armorItem);
-            usedArmorSlots.add(assignment.slotName);
-            debugLogger.console("[AI] Assigned " + assignment.material + " to armor slot " + assignment.slotName);
-        }
+        // Step 3: Sort assignments by priority (armor first, then hotbar, then inventory)
+        assignments.sort(Comparator.comparingInt(a -> a.priority));
         
-        // Process regular inventory assignments
-        for (SlotAssignment assignment : regularAssignments) {
-            // Get item queue for this material
-            Queue<ItemStack> itemQueue = materialMap.get(assignment.material);
-            if (itemQueue == null || itemQueue.isEmpty()) {
-                debugLogger.console("[AI] No more items of material " + assignment.material + " available");
+        // Step 4: Process assignments in priority order
+        Set<String> usedSlots = new HashSet<>();
+        
+        for (AISlotAssignment assignment : assignments) {
+            // Skip if slot already used
+            if (usedSlots.contains(assignment.slotName)) {
+                debugLogger.console("[AI] Slot " + assignment.slotName + " already assigned, skipping");
                 continue;
             }
             
-            // Take items up to requested amount or available amount
-            int remainingAmount = assignment.amount;
-            List<ItemStack> collectedItems = new ArrayList<>();
+            // Find matching items in available items
+            List<Integer> matchingIndices = new ArrayList<>();
+            for (int i = 0; i < availableItems.size(); i++) {
+                if (availableItems.get(i).getType() == assignment.material) {
+                    matchingIndices.add(i);
+                }
+            }
             
-            while (remainingAmount > 0 && !itemQueue.isEmpty()) {
-                ItemStack item = itemQueue.poll();
-                int takeAmount = Math.min(remainingAmount, item.getAmount());
+            if (matchingIndices.isEmpty()) {
+                debugLogger.console("[AI] No available items of type " + assignment.material);
+                continue;
+            }
+            
+            // For armor slots, we want exactly one item
+            if (isArmorSlot(assignment.slotName)) {
+                // Get the first matching item
+                int index = matchingIndices.get(0);
+                ItemStack originalItem = availableItems.get(index);
                 
-                if (takeAmount < item.getAmount()) {
-                    // If we're not taking all the item, put the remainder back
-                    ItemStack remainder = item.clone();
-                    remainder.setAmount(item.getAmount() - takeAmount);
-                    itemQueue.add(remainder);
+                // Create a copy with amount=1 for the armor slot
+                ItemStack armorItem = originalItem.clone();
+                armorItem.setAmount(1);
+                
+                // Add to slot map
+                slotMap.put(assignment.slotName, armorItem);
+                usedSlots.add(assignment.slotName);
+                
+                // Update or remove the original item
+                if (originalItem.getAmount() > 1) {
+                    originalItem.setAmount(originalItem.getAmount() - 1);
+                } else {
+                    availableItems.remove(index);
+                }
+            }
+            // For regular slots, try to match the requested amount
+            else {
+                int remainingAmount = assignment.requestedAmount;
+                List<ItemStack> collectedItems = new ArrayList<>();
+                
+                // Use a copy of matchingIndices to avoid ConcurrentModificationException
+                List<Integer> indicesToRemove = new ArrayList<>();
+                
+                for (int index : matchingIndices) {
+                    if (remainingAmount <= 0) break;
+                    
+                    ItemStack item = availableItems.get(index);
+                    int takeAmount = Math.min(remainingAmount, item.getAmount());
+                    
+                    // Create a copy for the collected items
+                    ItemStack takenItem = item.clone();
+                    takenItem.setAmount(takeAmount);
+                    collectedItems.add(takenItem);
+                    
+                    // Update or mark for removal
+                    if (item.getAmount() > takeAmount) {
+                        item.setAmount(item.getAmount() - takeAmount);
+                    } else {
+                        indicesToRemove.add(index);
+                    }
+                    
+                    remainingAmount -= takeAmount;
                 }
                 
-                // Create the item to add to the slot map
-                ItemStack slotItem = item.clone();
-                slotItem.setAmount(takeAmount);
-                collectedItems.add(slotItem);
+                // Remove items marked for removal (in reverse order to avoid index shifting)
+                indicesToRemove.sort(Collections.reverseOrder());
+                for (int index : indicesToRemove) {
+                    availableItems.remove(index);
+                }
                 
-                remainingAmount -= takeAmount;
-            }
-            
-            // Combine collected items up to max stack size
-            if (!collectedItems.isEmpty()) {
-                // We might need to split across multiple slots if amount exceeds max stack size
-                List<ItemStack> finalStacks = combineStacks(collectedItems, assignment.material.getMaxStackSize());
+                // Combine collected items up to max stack size
+                List<ItemStack> stacks = combineItems(collectedItems);
                 
-                // Assign to requested slot or find alternatives
-                boolean firstStack = true;
-                for (ItemStack stack : finalStacks) {
-                    if (firstStack) {
-                        slotMap.put(assignment.slotName, stack);
-                        firstStack = false;
-                    } else {
-                        // For additional stacks, find an unused inventory slot
-                        String newSlot = findAvailableSlot(slotMap);
-                        if (newSlot != null) {
-                            slotMap.put(newSlot, stack);
+                // Add first stack to the requested slot
+                if (!stacks.isEmpty()) {
+                    slotMap.put(assignment.slotName, stacks.get(0));
+                    usedSlots.add(assignment.slotName);
+                    
+                    // Put any additional stacks in available slots
+                    for (int i = 1; i < stacks.size(); i++) {
+                        String availableSlot = findAvailableSlot(usedSlots);
+                        if (availableSlot != null) {
+                            slotMap.put(availableSlot, stacks.get(i));
+                            usedSlots.add(availableSlot);
                         } else {
-                            // If no slots available, add to extra items
-                            debugLogger.console("[AI] No available slot for extra " + stack.getType() + " x" + stack.getAmount());
+                            debugLogger.console("[AI] No available slot for extra stack of " + stacks.get(i).getType());
+                            break;
                         }
                     }
                 }
             }
         }
-
-        // Add any remaining items from material map to available slots
-        for (Queue<ItemStack> queue : materialMap.values()) {
-            while (!queue.isEmpty()) {
-                ItemStack item = queue.poll();
-                String slot = findAvailableSlot(slotMap);
-                if (slot != null) {
-                    slotMap.put(slot, item);
-                    debugLogger.console("[AI] Assigned leftover " + item.getType() + " x" + item.getAmount() + " to " + slot);
-                } else {
-                    debugLogger.console("[AI] Couldn't find slot for leftover " + item.getType() + " x" + item.getAmount());
-                    // If we run out of slots, just stop (shouldn't happen with normal inventory sizes)
-                    break;
-                }
+        
+        // Step 5: Place remaining items in available slots
+        for (ItemStack item : availableItems) {
+            String availableSlot = findAvailableSlot(usedSlots);
+            if (availableSlot != null) {
+                slotMap.put(availableSlot, item);
+                usedSlots.add(availableSlot);
+            } else {
+                debugLogger.console("[AI] WARNING: No available slot for item " + item.getType());
             }
         }
-
-        // Log final slot map state
-        debugLogger.console("[AI] Final slot assignments:");
-        slotMap.forEach((slot, item) -> 
-            debugLogger.console("- " + slot + ": " + item.getType() + " x" + item.getAmount())
-        );
         
         return slotMap;
     }
     
     /**
-     * Combine item stacks up to max stack size
+     * Combine items into optimal stacks
      */
-    private List<ItemStack> combineStacks(List<ItemStack> items, int maxStackSize) {
-        List<ItemStack> result = new ArrayList<>();
-        int totalAmount = 0;
-        Material material = null;
+    private List<ItemStack> combineItems(List<ItemStack> items) {
+        if (items.isEmpty()) return items;
         
-        // Calculate total amount and verify all items are same material
+        Material material = items.get(0).getType();
+        int maxStackSize = material.getMaxStackSize();
+        int totalAmount = 0;
+        
+        // Calculate total amount
         for (ItemStack item : items) {
-            if (material == null) {
-                material = item.getType();
-            } else if (material != item.getType()) {
-                debugLogger.console("[WARNING] Attempting to combine different materials");
-                return items; // Return original if materials don't match
-            }
             totalAmount += item.getAmount();
         }
         
-        if (material == null) return result; // Empty input
-        
-        // Create optimally sized stacks
+        // Create optimal stacks
+        List<ItemStack> result = new ArrayList<>();
         while (totalAmount > 0) {
             int stackSize = Math.min(totalAmount, maxStackSize);
             ItemStack stack = new ItemStack(material, stackSize);
@@ -738,42 +709,79 @@ public class PlayerInventoryService implements Listener {
     }
     
     /**
-     * Find an available inventory slot
+     * Check if a slot name is an armor slot
      */
-    private String findAvailableSlot(Map<String, ItemStack> slotMap) {
-        // Try inventory slots first
-        for (int i = 0; i < 27; i++) {
-            String slot = "INVENTORY_" + i;
-            if (!slotMap.containsKey(slot)) {
-                return slot;
-            }
-        }
-        
-        // Then try hotbar slots
-        for (int i = 0; i < 9; i++) {
-            String slot = "HOTBAR_" + i;
-            if (!slotMap.containsKey(slot)) {
-                return slot;
-            }
-        }
-        
-        return null; // No available slots
+    private boolean isArmorSlot(String slotName) {
+        return slotName.equals(SLOT_HELMET) || 
+               slotName.equals(SLOT_CHESTPLATE) || 
+               slotName.equals(SLOT_LEGGINGS) || 
+               slotName.equals(SLOT_BOOTS) || 
+               slotName.equals(SLOT_OFFHAND);
     }
     
     /**
-     * Helper class to store slot assignments from AI response
+     * Get priority for a slot (lower number = higher priority)
      */
-    private static class SlotAssignment {
-        final Material material;
-        final int amount;
-        final String slotName;
+    private int getSlotPriority(String slotName) {
+        // Armor slots have highest priority
+        if (isArmorSlot(slotName)) {
+            return 0;
+        }
         
-        SlotAssignment(Material material, int amount, String slotName) {
+        // Hotbar slots have next priority
+        if (slotName.startsWith("HOTBAR_")) {
+            return 10;
+        }
+        
+        // Regular inventory slots have lowest priority
+        return 20;
+    }
+    
+    /**
+     * Find an available slot (not in the used slots set)
+     */
+    private String findAvailableSlot(Set<String> usedSlots) {
+        // Try hotbar slots first
+        for (int i = 0; i < 9; i++) {
+            String slot = "HOTBAR_" + i;
+            if (!usedSlots.contains(slot)) {
+                return slot;
+            }
+        }
+        
+        // Then try inventory slots
+        for (int i = 0; i < 27; i++) {
+            String slot = "INVENTORY_" + i;
+            if (!usedSlots.contains(slot)) {
+                return slot;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Helper class to store AI slot assignments with priority
+     */
+    private static class AISlotAssignment {
+        final Material material;
+        final int requestedAmount;
+        final String slotName;
+        final int priority;
+        
+        AISlotAssignment(Material material, int requestedAmount, String slotName, int priority) {
             this.material = material;
-            this.amount = amount;
+            this.requestedAmount = requestedAmount;
             this.slotName = slotName;
+            this.priority = priority;
         }
     }
+    
+
+    
+
+    
+
 
     /**
      * Apply the slot map to the player's inventory
